@@ -1,100 +1,136 @@
-"""Campo de corrente de vazante ilustrativo na Bacia 1 / Berço 2 (ZP-21).
+"""Corrente de vazante junto ao cais da Bacia 1 / Berço 2 (ZP-21).
 
-ATENÇÃO: o campo de velocidades abaixo é um modelo cinemático analítico,
-NÃO o resultado de um modelo hidrodinâmico nem de medições. Serve para
-visualização didática do efeito de borda junto ao cais.
+Modelo físico: equação de quantidade de movimento integrada na vertical,
+com atrito de fundo e viscosidade turbulenta lateral (método de Shiono &
+Knight, SKM), para profundidade H constante e cais retilíneo vertical:
 
-O campo deriva de uma função de corrente
+    rho*g*H*S0 - rho*(f/8)*U^2 + d/dy[ rho*lambda*H^2*(f/8)^(1/2) * U * dU/dy ] = 0
 
-    psi(x, y) = v_nom * [ y - A * L * (1 - exp(-y/L)) * sin(pi*x/C) ]
-    u =  d(psi)/dy = v_nom * [1 - A * exp(-y/L) * sin(pi*x/C)]
-    v = -d(psi)/dx = v_nom * A * L * (pi/C) * (1 - exp(-y/L)) * cos(pi*x/C)
+Com U = 0 no cais (não-deslizamento) e U -> U_inf longe dele, a solução
+analítica exata é
 
-o que garante, por construção:
-  - continuidade (du/dx + dv/dy = 0, escoamento incompressível 2D);
-  - impermeabilidade no cais: psi(x, 0) = 0, logo v(x, 0) = 0.
-A componente transversal não é livre: decorre do déficit de u junto ao cais.
+    U(y) = U_inf * sqrt(1 - exp(-gamma*y)),   gamma = sqrt(2/lambda)*(f/8)^(1/4)/H
+    U_inf = sqrt(8*g*S0*H/f)                  (equilíbrio declividade x atrito de fundo)
 
-Limitações conhecidas:
-  - não há condição de não-deslizamento: u no cais vale (1 - A) * v_nom;
-  - A e L são escolhas arbitrárias, não calibradas;
-  - a borda do canal (y = 100 m) é aberta, não uma parede.
+Referências: Shiono & Knight (1991), J. Fluid Mech. 222; Tang & Knight
+(2015), J. Hydro-environment Research (expressões de gamma e k conferidas).
+
+O que a solução satisfaz exatamente:
+  - continuidade (função de corrente psi = integral de U dy);
+  - impermeabilidade (v = 0) e não-deslizamento (U = 0) no cais;
+  - quantidade de movimento longitudinal (balanço acima) e transversal
+    (escoamento paralelo: termos advectivos nulos, pressão uniforme em y);
+  - tensão cisalhante finita na parede.
+
+Idealizações que restam (todas listadas para calibração/refino posterior):
+  - cais retilíneo e profundidade uniforme: por isso o escoamento é paralelo
+    ao cais e não há ângulo de ataque. Variações ao longo do cais exigem a
+    geometria real (batimetria, recesso do berço, navio atracado);
+  - escoamento permanente (quase-estático frente ao período da maré);
+  - escoamento secundário desprezado (Gamma = 0 no SKM);
+  - modelo 2D na horizontal (sem perfil vertical de velocidade);
+  - perto da parede (centímetros) a lei de parede real é logarítmica; aqui
+    U ~ sqrt(y), com dU/dy -> infinito em y = 0 (a tensão permanece finita).
+Parâmetros H, f e lambda abaixo são valores de partida, a calibrar.
 """
 
 import numpy as np
 import plotly.figure_factory as ff
 import plotly.graph_objects as go
 
+# --- Constantes físicas -----------------------------------------------------
+G = 9.81  # m/s²
+RHO = 1025.0  # kg/m³, água do mar
 NO_PARA_MS = 1852 / 3600  # 1 nó = 0,514444 m/s
-C_CAIS = 300.0  # m, comprimento do trecho de cais modelado
-A_DEFICIT = 0.3  # fração de redução de u no cais, no centro do trecho
-L_CISALHAMENTO = 30.0  # m, decaimento do déficit de u a partir do cais
 
-# Velocidades de vazante a testar (0,5 a 2,5 nós)
-velocidades_nos = np.arange(0.5, 2.6, 0.5)
+# --- Parâmetros a calibrar --------------------------------------------------
+H = 14.0  # m, profundidade junto ao berço (valor de partida)
+F_DARCY = 0.02  # fator de atrito de Darcy-Weisbach do fundo
+LAMBDA = 0.07  # viscosidade turbulenta adimensional do SKM
+
+# --- Domínio ----------------------------------------------------------------
+C_CAIS = 300.0  # m, trecho de cais representado
+B_CANAL = 100.0  # m, distância ao cais representada (borda aberta)
+
+GAMMA = np.sqrt(2 / LAMBDA) * (F_DARCY / 8) ** 0.25 / H  # 1/m
+
+velocidades_nos = np.arange(0.5, 2.6, 0.5)  # vazante longe do cais (U_inf)
 velocidades_ms = velocidades_nos * NO_PARA_MS
 
 
-def funcao_corrente(X, Y, v_nom):
-    """psi (m²/s); as linhas de psi constante são as linhas de corrente."""
-    s = np.sin(np.pi * X / C_CAIS)
-    return v_nom * (Y - A_DEFICIT * L_CISALHAMENTO * (1 - np.exp(-Y / L_CISALHAMENTO)) * s)
+def velocidade(Y, u_inf):
+    """U(y) do SKM; v = 0 (escoamento paralelo ao cais)."""
+    return u_inf * np.sqrt(1 - np.exp(-GAMMA * Y))
 
 
-def campo(X, Y, v_nom):
-    """Velocidades (u, v) = (dpsi/dy, -dpsi/dx), derivadas analiticamente."""
-    k = np.pi / C_CAIS
-    u = v_nom * (1 - A_DEFICIT * np.exp(-Y / L_CISALHAMENTO) * np.sin(k * X))
-    v = v_nom * A_DEFICIT * L_CISALHAMENTO * k * (1 - np.exp(-Y / L_CISALHAMENTO)) * np.cos(k * X)
-    return u, v
+def funcao_corrente(Y, u_inf):
+    """psi(y) = integral de 0 a y de U dy (m²/s), forma fechada."""
+    s = np.sqrt(1 - np.exp(-GAMMA * Y))
+    return u_inf * (2 / GAMMA) * (np.arctanh(np.minimum(s, 1 - 1e-15)) - s)
 
 
-# Malha grossa para as setas e malha fina para o mapa de |V| ao fundo
-xs, ys = np.meshgrid(np.linspace(0, C_CAIS, 30), np.linspace(0, 100, 11))
-xf_1d, yf_1d = np.linspace(0, C_CAIS, 151), np.linspace(0, 100, 51)
+def tensao_lateral(Y, u_inf):
+    """tau_yx = rho*lambda*H*(f/8)^(1/2) * U dU/dy (Pa); finita no cais."""
+    return RHO * LAMBDA * H * np.sqrt(F_DARCY / 8) * 0.5 * u_inf**2 * GAMMA * np.exp(-GAMMA * Y)
+
+
+def declividade(u_inf):
+    """S0 implícito pelo equilíbrio atrito de fundo x gravidade."""
+    return F_DARCY * u_inf**2 / (8 * G * H)
+
+
+# Malha grossa para setas; malha fina (refinada no cais) para os mapas
+xs, ys = np.meshgrid(np.linspace(0, C_CAIS, 30), np.linspace(0, B_CANAL, 11))
+xf_1d = np.linspace(0, C_CAIS, 61)
+yf_1d = B_CANAL * np.linspace(0, 1, 201) ** 2  # pontos concentrados junto ao cais
 xf, yf = np.meshgrid(xf_1d, yf_1d)
 
-# Escalas FIXAS entre os passos do slider, para que 0,5 kn e 2,5 kn
-# sejam visualmente comparáveis (cor e comprimento das setas).
-v_max = max(np.hypot(*campo(xf, yf, v)).max() for v in velocidades_ms)
+v_max = velocidades_ms.max()  # U < U_inf em todo o domínio
 dx = xs[0, 1] - xs[0, 0]
 escala_seta = 0.9 * dx / v_max  # seta mais longa ~ 0,9 espaçamento da malha
 
 fig = go.Figure()
-for i, v_nom in enumerate(velocidades_ms):
-    uf, vf = campo(xf, yf, v_nom)
+for i, u_inf in enumerate(velocidades_ms):
+    U = velocidade(yf, u_inf)
+    tau = tensao_lateral(yf, u_inf)
     fig.add_trace(
         go.Heatmap(
-            x=xf_1d, y=yf_1d, z=np.hypot(uf, vf),
+            x=xf_1d, y=yf_1d, z=U,
+            customdata=tau,
             colorscale='Viridis', zmin=0, zmax=v_max,
             colorbar=dict(title='|V| (m/s)'),
             visible=(i == 0),
             hovertemplate=(
-                'X: %{x:.0f} m<br>Y: %{y:.0f} m<br>'
-                '|V|: %{z:.2f} m/s<extra></extra>'
+                'X: %{x:.0f} m<br>Y: %{y:.1f} m<br>'
+                'U: %{z:.2f} m/s<br>τ lateral: %{customdata:.2f} Pa<extra></extra>'
             ),
         )
     )
-    u, v = campo(xs, ys, v_nom)
     seta = ff.create_quiver(
-        xs, ys, u, v, scale=escala_seta, arrow_scale=0.3,
+        xs, ys, velocidade(ys, u_inf), np.zeros_like(ys),
+        scale=escala_seta, arrow_scale=0.3,
         line=dict(color='white', width=1.2),
     ).data[0]
     seta.update(visible=(i == 0), hoverinfo='skip', showlegend=False)
     fig.add_trace(seta)
-    # Linhas de corrente = isolinhas de psi; a de psi = 0 coincide com o cais.
+    # Linhas de corrente = isolinhas de psi (vazão de 10 m x U_inf entre elas)
     fig.add_trace(
         go.Contour(
-            x=xf_1d, y=yf_1d, z=funcao_corrente(xf, yf, v_nom),
-            contours=dict(coloring='none', start=0, end=v_nom * 100, size=v_nom * 10),
+            x=xf_1d, y=yf_1d, z=funcao_corrente(yf, u_inf),
+            contours=dict(coloring='none', start=0, end=u_inf * B_CANAL, size=u_inf * 10),
             line=dict(color='rgba(0,0,0,0.45)', width=1, dash='dot'),
             showscale=False, showlegend=False, hoverinfo='skip', visible=(i == 0),
         )
     )
 
 
-def titulo(nos):
-    return f'Campo de corrente na Bacia 1 (ZP-21) — vazante de {nos:.1f} nós'
+def titulo(nos, u_inf):
+    return (
+        f'Corrente junto ao cais, Bacia 1 (ZP-21) — vazante de {nos:.1f} nós'
+        f'<br><sup>τ na parede = {tensao_lateral(0.0, u_inf):.2f} Pa · '
+        f'S₀ implícito = {declividade(u_inf):.1e} · '
+        f'camada de cisalhamento ≈ {3 / GAMMA:.0f} m (3/γ)</sup>'
+    )
 
 
 n = len(velocidades_nos)
@@ -103,20 +139,20 @@ steps = [
         method='update',
         args=[
             {'visible': [j // 3 == i for j in range(3 * n)]},  # 3 traços por passo
-            {'title': {'text': titulo(nos)}},
+            {'title': {'text': titulo(nos, u)}},
         ],
         label=f'{nos:.1f} kn',
     )
-    for i, nos in enumerate(velocidades_nos)
+    for i, (nos, u) in enumerate(zip(velocidades_nos, velocidades_ms))
 ]
 
 fig.update_layout(
-    title={'text': titulo(velocidades_nos[0])},
+    title={'text': titulo(velocidades_nos[0], velocidades_ms[0])},
     showlegend=False,
     xaxis=dict(title='Eixo longitudinal do cais (m)', range=[0, C_CAIS], constrain='domain'),
     yaxis=dict(
-        title='Distância do cais (m)', range=[0, 100],
-        scaleanchor='x', scaleratio=1,  # escala real 300 m x 100 m
+        title='Distância do cais (m)', range=[0, B_CANAL],
+        scaleanchor='x', scaleratio=1,  # escala real
     ),
     shapes=[dict(  # linha do cais
         type='line', x0=0, x1=C_CAIS, y0=0, y1=0, line=dict(color='black', width=4),
