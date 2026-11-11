@@ -13,7 +13,8 @@ analítica exata é
     U_inf = sqrt(8*g*S0*H/f)                  (equilíbrio declividade x atrito de fundo)
 
 Referências: Shiono & Knight (1991), J. Fluid Mech. 222; Tang & Knight
-(2015), J. Hydro-environment Research (expressões de gamma e k conferidas).
+(2015), J. Hydro-environment Research (expressões de gamma e k conferidas);
+Knight (1999) para valores típicos de lambda.
 
 O que a solução satisfaz exatamente:
   - continuidade (função de corrente psi = integral de U dy);
@@ -46,7 +47,10 @@ NO_PARA_MS = 1852 / 3600  # 1 nó = 0,514444 m/s
 # --- Parâmetros a calibrar --------------------------------------------------
 H = 14.0  # m, profundidade junto ao berço (valor de partida)
 F_DARCY = 0.02  # fator de atrito de Darcy-Weisbach do fundo
-LAMBDA = 0.07  # viscosidade turbulenta adimensional do SKM
+# Viscosidade turbulenta adimensional do SKM. Knight (1999, Int. J. Sediment
+# Res. 14(2):217-236), citado por Khatua et al. (2016): faixa 0,07-0,50;
+# 0,067 camadas-limite, 0,13 canais abertos, 0,16 seções trapezoidais.
+LAMBDA = 0.13
 
 # --- Domínio ----------------------------------------------------------------
 C_CAIS = 300.0  # m, trecho de cais representado
