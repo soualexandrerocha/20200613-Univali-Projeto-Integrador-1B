@@ -12,11 +12,11 @@ náuticas e da Tábua das Marés.
 
 Origem das constantes
 ---------------------
-A DHN/CHM prevê a maré de Itajaí com 77 componentes harmônicas (análise de
-01/04/2010 a 01/04/2011, ficha F-41 da estação 60235), mas não publica a
-tabela de constantes. Elas são reconstruídas aqui por mínimos quadrados a
-partir da própria previsão oficial: os 1800 extremos (preamares e baixa-mares)
-da Tábua das Marés de 2024 do Porto de Itajaí (dados/tabua_mare_itajai_2024.csv).
+A DHN/CHM prevê a maré de Itajaí com 77 (2024) ou 78 (2025, 2026)
+componentes harmônicas, mas não publica a tabela de constantes. Elas são
+reconstruídas aqui por mínimos quadrados a partir da própria previsão
+oficial: os 5422 extremos (preamares e baixa-mares) das Tábuas das Marés de
+2024, 2025 e 2026 do Porto de Itajaí (dados/tabua_mare_itajai_AAAA.csv).
 Cada extremo fornece duas equações lineares nos mesmos coeficientes:
 
     h(t_i) = altura tabelada     e     dh/dt(t_i) = 0  (é um extremo)
@@ -25,10 +25,10 @@ A segunda usa a informação de horário da tábua; sem ela o erro de horário
 dobra. Correções nodais e argumentos astronômicos (f, u, V0) vêm do UTide
 (Codiga 2011), de modo que as constantes valem para qualquer ano.
 
-Validação (ver README): reproduz a tábua com erro RMS de altura de ~3 cm
-(o arredondamento da tábua a 0,1 m já impõe ~2,9 cm) e erro mediano de
-horário de ~7 min. Em estofos rasos (preamar ou baixa-mar quase planas) o
-horário do extremo é mal definido por natureza e o erro pode passar de 30 min.
+Validação (ver README): ajustado só com 2024 e 2025, previu a tábua oficial
+de 2026 com erro RMS de altura de 2,9 cm e erro mediano de horário de 6 min
+(90 % dentro de 17 min). Em estofos rasos (preamar ou baixa-mar quase planas)
+o horário do extremo é mal definido por natureza e o erro pode passar de 30 min.
 
 Limitações: é a maré ASTRONÔMICA. Vento, maré meteorológica e vazão do rio
 Itajaí-Açu podem alterar o nível observado em dezenas de centímetros.
@@ -46,13 +46,13 @@ from utide._time_conversion import _normalize_time
 from utide.harmonics import FUV
 
 AQUI = os.path.dirname(os.path.abspath(__file__))
-ARQ_TABUA = os.path.join(AQUI, 'dados', 'tabua_mare_itajai_2024.csv')
+ARQ_TABUAS = [os.path.join(AQUI, 'dados', f'tabua_mare_itajai_{ano}.csv') for ano in (2024, 2025, 2026)]
 ARQ_CONST = os.path.join(AQUI, 'dados', 'constantes_harmonicas_itajai.csv')
 
 LAT = -26.91  # Porto de Itajaí (tábua: 26°54,6' S, 048°39,2' W)
 FUSO = dt.timedelta(hours=-3)  # hora legal = UTC - 3 h
 MIN = np.timedelta64(1, 'm')
-Z0_OFICIAL = 0.59  # m, nível médio acima do NR (tábua 2024; F-41: 59,4 cm)
+Z0_OFICIAL = 0.60  # m, nível médio acima do NR (tábuas 2025-2026; 2024: 0,59; F-41: 59,4 cm)
 
 # Escolhidos por validação cruzada (ver README)
 RAYLEIGH_MIN = 1.0  # critério de Rayleigh na seleção automática de componentes
@@ -74,16 +74,17 @@ def utc64_para_local(t):
 class Mare:
     """h(t) = Z0 + sum_k f_k(t) [a_k cos(V_k+u_k) + b_k sin(V_k+u_k)],  A = |a+ib|, g = arg."""
 
-    def __init__(self, arq_tabua=ARQ_TABUA):
+    def __init__(self, arq_tabuas=ARQ_TABUAS):
         t_loc, h = [], []
-        with open(arq_tabua, newline='') as f:
-            for linha in csv.DictReader(f):
-                t_loc.append(dt.datetime.strptime(linha['data_hora_local'], '%Y-%m-%d %H:%M'))
-                h.append(float(linha['altura_m']))
+        for arq in arq_tabuas:
+            with open(arq, newline='') as f:
+                for linha in csv.DictReader(f):
+                    t_loc.append(dt.datetime.strptime(linha['data_hora_local'], '%Y-%m-%d %H:%M'))
+                    h.append(float(linha['altura_m']))
         self.t_tabua = local_para_utc64(t_loc)
         self.h_tabua = np.array(h)
 
-        # Seleção de componentes resolvíveis em 1 ano (Rayleigh), como no UTide
+        # Seleção de componentes resolvíveis no período (critério de Rayleigh), como no UTide
         sel = utide.solve(
             self.t_tabua.astype('datetime64[m]'), self.h_tabua, lat=LAT, method='ols',
             conf_int='none', trend=False, Rayleigh_min=RAYLEIGH_MIN, verbose=False,
@@ -190,7 +191,7 @@ def grafico(mare, instante, dias=2.0):
     fig.update_layout(
         title=dict(text=(f'Maré astronômica — Porto de Itajaí · {t0.astype(dt.datetime):%d/%m/%Y %H:%M} '
                          f'(UTC−3): {h0:.2f} m<br><sup>Alturas acima do NR da DHN · '
-                         f'{len(mare.nomes)} componentes ajustadas à Tábua das Marés 2024 (CHM) · '
+                         f'{len(mare.nomes)} componentes ajustadas às Tábuas das Marés 2024–2026 (CHM) · '
                          'não inclui efeitos meteorológicos nem vazão do rio</sup>')),
         xaxis=dict(title='Hora legal (UTC−3)', tickformat='%d/%m\n%H:%M'),
         yaxis=dict(title='Altura (m acima do NR)'),

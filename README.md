@@ -13,18 +13,19 @@ python mare_itajai.py "2026-11-12 14:30" --dias 5   # janela maior no gráfico
 python mare_itajai.py --constantes                  # regrava dados/constantes_harmonicas_itajai.csv
 ```
 
-Saída de exemplo:
+Saída de exemplo (tábua oficial de 2026 para o mesmo dia: PM 03:34 1,02 ·
+BM 07:47 0,31 · PM 15:59 0,81 · BM 21:19 0,13):
 
 ```
 Porto de Itajaí — 12/11/2026 14:30 (UTC-3)
-  altura: 0.79 m acima do NR  (enchendo, +9 cm/h)
+  altura: 0.75 m acima do NR  (enchendo, +8 cm/h)
 Extremos anteriores:
-  PM  12/11 03:29   1.06 m
-  BM  12/11 07:43   0.38 m
+  PM  12/11 03:28   1.03 m
+  BM  12/11 07:43   0.34 m
 Próximos extremos:
-  PM  12/11 15:55   0.88 m
-  BM  12/11 21:20   0.18 m
-  PM  13/11 04:10   1.00 m
+  PM  12/11 15:55   0.83 m
+  BM  12/11 21:19   0.15 m
+  PM  13/11 04:08   0.97 m
 ```
 
 Em código: `Mare().altura(datetime)`, `Mare().extremos(ini, fim)`, `grafico(...)`.
@@ -48,61 +49,66 @@ python ferramentas/testar_pagina.py   # confere o JavaScript contra o Python (pr
 
 ### De onde vêm as constantes
 
-A DHN/CHM prevê a maré do Porto de Itajaí com 77 componentes (análise
-harmônica de 01/04/2010 a 01/04/2011, estação 60235, ficha F-41), mas não
-publica a tabela de constantes. Aqui elas são **reconstruídas a partir da
-previsão oficial**: os 1800 extremos da Tábua das Marés de 2024
-(`dados/tabua_mare_porto_itajai_2024_CHM.pdf`, extraídos para
-`dados/tabua_mare_itajai_2024.csv` por `ferramentas/extrair_tabua_chm.py`).
+A DHN/CHM prevê a maré do Porto de Itajaí com 77 (tábua de 2024) ou 78
+(2025 e 2026) componentes, mas não publica a tabela de constantes. Aqui elas
+são **reconstruídas a partir da previsão oficial**: os 5422 extremos das
+Tábuas das Marés de 2024, 2025 e 2026 (`dados/tabua_mare_porto_itajai_AAAA_CHM.pdf`,
+extraídos para `dados/tabua_mare_itajai_AAAA.csv` por
+`ferramentas/extrair_tabua_chm.py`). As tábuas de 2025 e 2026 trazem alturas
+em centímetros; a de 2024, em decímetros.
 
 Mínimos quadrados com duas equações por extremo: `h(tᵢ) = altura tabelada`
 e `dh/dt(tᵢ) = 0`. A segunda aproveita o horário da tábua e reduz o erro de
 horário à metade. Componentes escolhidas pelo critério de Rayleigh (UTide) →
-67 componentes; correções nodais e argumentos astronômicos do UTide, de modo
+68 componentes; correções nodais e argumentos astronômicos do UTide, de modo
 que as constantes servem para qualquer ano. Resultado em
-`dados/constantes_harmonicas_itajai.csv` (M2 = 25,0 cm, S2 = 17,1 cm,
-O1 = 10,8 cm, M4 = 6,6 cm, …).
+`dados/constantes_harmonicas_itajai.csv` (M2 = 25,4 cm, S2 = 17,2 cm,
+O1 = 10,7 cm, M4 = 6,4 cm, …). Nível médio ajustado: 0,596 m (oficial:
+0,6 m nas tábuas de 2025–2026; 59,4 cm na F-41), sem ter sido imposto.
 
-### Validação (validação cruzada: 4 grupos de semanas alternadas de 2024)
+### Validação entre anos (`ferramentas/validar_anos.py`)
 
-| Grandeza | Resultado |
-|---|---|
-| Erro RMS de altura | 3,3 cm (o arredondamento da tábua a 0,1 m sozinho dá ~2,9 cm) |
-| Horário de PM/BM bem marcadas (variação ≥ 20 cm) | mediana 7 min, 90 % ≤ 19 min |
-| Horário de PM/BM em estofos rasos (< 20 cm) | mediana 13 min, 90 % ≤ 43 min |
-| Ajuste em jan–ago, teste em set–dez | RMS 3,4 cm; horário mediana 7 min |
-| Nível médio Z0 | 0,593 m (oficial: 0,59 m na tábua, 59,4 cm na F-41) — não imposto |
+Ajusta com algumas tábuas oficiais e mede o erro na tábua de um ano que ficou
+de fora. "Bem marcados" = extremos com variação ≥ 20 cm.
+
+| Ajuste → ano testado | Altura (RMS) | Horário, bem marcados |
+|---|---|---|
+| 2024 → 2026 | 5,0 cm | mediana 6 min, 90 % ≤ 18 min |
+| 2025 → 2026 | 3,8 cm | mediana 5 min, 90 % ≤ 16 min |
+| **2024 + 2025 → 2026** | **2,9 cm** | **mediana 6 min, 90 % ≤ 17 min** |
+| 2025 + 2026 → 2024 | 5,7 cm | mediana 5 min, 90 % ≤ 14 min |
+
+Mais anos melhoram a altura; o horário fica em ~5–6 min em todos os casos.
+A tábua de 2024 vem de uma análise anterior (77 componentes, posição da
+estação um pouco diferente) e discorda das de 2025–2026 em ~5 cm. O modelo
+publicado usa os três anos. Nos estofos rasos (variação < 20 cm) o horário
+do extremo é mal definido: mediana ~10 min, 90 % ≤ ~30 min.
 
 ### Validação independente: Tábua de Maré 2026 da EPAGRI
 
-Outra fonte (EPAGRI/SC) e outro ano, sem nenhum uso no ajuste
+Outra fonte (EPAGRI/SC), sem nenhum uso no ajuste
 (`dados/tabua_mare_itajai_2026_EPAGRI.pdf`, extraída por
 `ferramentas/extrair_tabua_epagri.py`; comparação em
 `ferramentas/comparar_epagri.py`):
 
 | Grandeza | Resultado |
 |---|---|
-| Altura nos 1760 horários da tábua | RMS 5,1 cm; EPAGRI 2,1 cm acima do modelo, em média |
-| Extremos da EPAGRI com par no modelo (≤ 90 min) | 1728 de 1760; os 32 restantes são oscilações de ~5 cm que o modelo suaviza |
-| Horário, extremos bem marcados (≥ 20 cm) | mediana 8 min, 90 % ≤ 22 min; modelo ~5 min mais tarde, em média |
-| Horário, estofos | mediana 11 min, 90 % ≤ 31 min |
+| Altura nos 1760 horários da tábua | RMS 5,6 cm; EPAGRI 1,9 cm acima do modelo, em média |
+| Extremos da EPAGRI com par no modelo (≤ 90 min) | 1731 de 1760; os restantes são oscilações de ~5 cm que o modelo suaviza |
+| Horário, extremos bem marcados (≥ 20 cm) | mediana 8 min, 90 % ≤ 21 min; modelo ~5 min mais tarde, em média |
+| Horário, estofos | mediana 11 min, 90 % ≤ 28 min |
 
-As duas tábuas oficiais usam análises harmônicas próprias. Sem medições do
-marégrafo não dá para dizer qual das duas está mais perto da maré real. Na
-tábua da EPAGRI, 55 símbolos ▲/▼ contradizem as alturas vizinhas (por
-exemplo, "preamar" de 0,1 m em 27/02 às 18:47).
-
-O modelo também gera alguns extremos minúsculos (mediana 0,7 cm de
-amplitude) que a tábua não lista.
+A EPAGRI usa análise harmônica própria. Sem medições do marégrafo não dá
+para dizer qual das tábuas está mais perto da maré real. Na tábua da EPAGRI,
+55 símbolos ▲/▼ contradizem as alturas vizinhas (por exemplo, "preamar" de
+0,1 m em 27/02 às 18:47).
 
 ### Limitações
 
 - **Maré astronômica apenas.** Vento, maré meteorológica e vazão do
   Itajaí-Açu podem mudar o nível real em dezenas de centímetros e adiantar
   ou atrasar os extremos.
-- As constantes vêm de um único ano de previsões; componentes que exigem mais
-  de um ano para serem separadas (p. ex. Sa) ficam mal determinadas.
-- Validação feita contra previsões oficiais (CHM 2024 e EPAGRI 2026), não
-  contra medições do marégrafo.
+- Validação feita contra previsões oficiais (CHM 2024–2026 e EPAGRI 2026),
+  não contra medições do marégrafo.
 - Alturas referidas ao NR da DHN (zero das cartas), 189,6 cm acima do zero
   da régua da Delegacia da Capitania dos Portos em Itajaí (F-41).
