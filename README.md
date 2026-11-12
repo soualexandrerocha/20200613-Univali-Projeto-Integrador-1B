@@ -122,7 +122,7 @@ Ao rodar, também imprime:
 
 - a vazão equivalente a cada velocidade (largura do rio de 400 m);
 - a corrente ao longo do dia: vazão fluvial (215 m³/s, média) mais a
-  corrente de maré pelo prisma de maré, com a atenuação medida rio acima.
+  corrente de maré pelo método do prisma de maré, com a atenuação medida rio acima.
 
 Com velocidade fixa, a tensão na parede não depende da profundidade; a
 maré só pesa por meio da vazão e da corrente de maré.
@@ -147,7 +147,7 @@ python analise_propagacao_mare.py --so-coletar # só coleta (usado no workflow)
 Página autossuficiente com painéis interativos: maré, corrente e tensão no
 cais ao longo do dia; perfil junto ao cais na hora escolhida; relação entre
 vazão e corrente; e a propagação da maré medida pela Defesa Civil. Data,
-vazão, prisma de maré, profundidade, largura e atrito são ajustáveis, e o
+vazão, trecho de enchimento da maré, profundidade, largura e atrito são ajustáveis, e o
 modelo é recalculado no navegador.
 
 ```bash

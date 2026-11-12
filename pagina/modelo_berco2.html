@@ -148,7 +148,7 @@ a { color: var(--water); }
       <div class="linha"><span class="dica">Média ~215 m³/s; cheia &gt; 4.000</span><button type="button" id="q-media">Média</button></div>
     </div>
     <div class="campo">
-      <div class="linha"><label class="rotulo" for="lef">Prisma de maré (L<sub>ef</sub>)</label><span class="valor" id="lef-val"></span></div>
+      <div class="linha"><label class="rotulo" for="lef">Trecho de enchimento (L<sub>ef</sub>)</label><span class="valor" id="lef-val"></span></div>
       <input type="range" id="lef" min="0" max="90" step="0.1">
       <div class="linha"><span class="dica" id="lef-dica"></span><button type="button" id="lef-medido">Medido</button></div>
     </div>
@@ -208,7 +208,7 @@ a { color: var(--water); }
 
   <section class="painel" aria-labelledby="t-prop">
     <h2 id="t-prop">Propagação medida da maré</h2>
-    <p>Nível medido pela telemetria da Defesa Civil de Itajaí e o ajuste nível = r·maré(t − atraso) + zero da régua + tendência. A razão r e o atraso de DC11 definem o prisma de maré medido.</p>
+    <p>Nível medido pela telemetria da Defesa Civil de Itajaí e o ajuste nível = r·maré(t − atraso) + zero da régua + tendência. A razão r e o atraso de DC11 definem o trecho de enchimento medido.</p>
     <div class="escolha" id="estacoes" role="group" aria-label="Estação"></div>
     <div class="legenda"><span class="pontos" style="color:var(--obs)">medido</span><span class="tracejado" style="color:var(--water)">ajuste pela maré prevista</span></div>
     <svg class="g" id="g-obs" role="img" aria-label="Nível medido e ajustado"></svg>
@@ -220,7 +220,7 @@ a { color: var(--water); }
     <ul>
       <li>Corrente longe do cais: U = (Q<sub>rio</sub> − B·L<sub>ef</sub>·dη/dt) / (H·(B − δ)), com η a maré na foz defasada do atraso do fluxo, H = profundidade no NR + maré e δ = 2(1 − ln 2)/γ.</li>
       <li>Perfil junto ao cais pelo método de Shiono &amp; Knight (SKM): U(y) = U<sub>∞</sub>·√(1 − e<sup>−γy</sup>). Com U<sub>∞</sub> fixo, a tensão na parede não depende da profundidade.</li>
-      <li>O prisma medido (L<sub>ef</sub>) vem de poucos ciclos de maré, usa distância em linha reta e não inclui o Itajaí-Mirim. Trate a corrente de maré como limite inferior, não como valor de projeto.</li>
+      <li>O trecho de enchimento L<sub>ef</sub> é o comprimento de rio que, enchendo em fase com a maré na foz, troca o mesmo volume que o rio real com a maré atenuada e atrasada. O prisma de maré, volume que entra e sai a cada ciclo, sai dele: largura × L<sub>ef</sub> × amplitude. O L<sub>ef</sub> medido vem de poucos ciclos de maré, usa distância em linha reta e não inclui o Itajaí-Mirim. Trate a corrente de maré como limite inferior, não como valor de projeto.</li>
       <li>O modelo usa a média na vertical e ignora a cunha salina, que separa a corrente de superfície da de fundo.</li>
       <li>Maré astronômica de <span class="num">mare_itajai.py</span> (tábuas CHM 2024–2026). Profundidade de 12,8 m no Berço 2 pelo aviso da praticagem válido até 10/12/2026.</li>
     </ul>
@@ -433,7 +433,6 @@ function montarEstacoes() {
 function rotulos() {
   $('q-val').textContent = `${nf(est.q, 0)} m³/s`;
   $('lef-val').textContent = `${nf(est.lef, 1)} km`;
-  $('lef-dica').textContent = `Medido: ${nf(P0.l_ef_km, 1)} km (DC11)`;
   $('atr-val').textContent = `${nf(est.atr, 2)} h`;
 }
 
@@ -443,6 +442,8 @@ function atualizar() {
   if (est.sel == null || est.sel < R.t[0] || est.sel > R.t[R.t.length - 1]) {
     let iv = 0; R.u.forEach((u, i) => { if (u > R.u[iv]) iv = i; }); est.sel = R.t[iv];
   }
+  const amp = R.ext.length > 1 ? Math.max(...R.ext.slice(1).map((e, i) => Math.abs(e.h - R.ext[i].h))) : 0;
+  $('lef-dica').textContent = `Medido: ${nf(P0.l_ef_km, 1)} km · prisma no dia ≈ ${nf(est.larg * est.lef * 1e3 * amp / 1e6, 1)} mi m³`;
   desenharResumo(); desenharSelecao(); desenharVazao();
 }
 

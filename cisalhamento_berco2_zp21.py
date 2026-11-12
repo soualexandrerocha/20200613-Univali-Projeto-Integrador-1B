@@ -57,7 +57,7 @@ corrente de maré não está incluída); Q é o do trecho do porto, não o medid
 em Blumenau (faltam a curva-chave e os afluentes de jusante, como o
 Itajaí-Mirim).
 
-Corrente de maré (prisma de maré com propagação medida): o trecho a
+Corrente de maré (método do prisma de maré, com propagação medida): o trecho a
 montante do berço enche e esvazia pelo berço. Se a maré se atenua e se
 atrasa exponencialmente rio acima, o fluxo no berço equivale ao de um
 trecho de comprimento L_ef com nível em fase, defasado de ATRASO_FLUXO:

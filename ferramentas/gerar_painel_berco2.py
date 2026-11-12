@@ -13,7 +13,7 @@ A página recebe:
     (razão de amplitude, atraso, zero da régua e tendência).
 
 O modelo físico é recalculado no navegador, então os controles da página
-(data, vazão, prisma de maré, profundidade) mudam todos os painéis.
+(data, vazão, trecho de enchimento da maré, profundidade) mudam todos os painéis.
 """
 
 import json
