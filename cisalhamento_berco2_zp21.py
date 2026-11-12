@@ -43,8 +43,19 @@ INSTANTE. Consequência da solução acima: com U_inf fixo, a tensão na parede
 
 NÃO depende de H. A maré só altera a largura da camada de cisalhamento
 (3/gamma, proporcional a H) e a declividade S0 implícita. Ela muda a tensão
-apenas por meio de U_inf, que depende da vazão do rio e da fase da maré e
-ainda é dado de entrada aqui.
+apenas por meio de U_inf.
+
+Vazão do rio: numa seção retangular de largura B_RIO, com um cais e a
+camada de cisalhamento descrita acima,
+
+    Q = U_inf * H * (B_RIO - delta),   delta = 2*(1 - ln 2)/gamma
+
+onde delta é a espessura de deslocamento da camada (integral de 1 - U/U_inf).
+Para Q fixo, U_inf ~ 1/H e tau_parede ~ 1/H^2: a mesma vazão gera mais
+tensão na baixa-mar que na preamar. Limitações: só a vazão fluvial (a
+corrente de maré não está incluída); Q é o do trecho do porto, não o medido
+em Blumenau (faltam a curva-chave e os afluentes de jusante, como o
+Itajaí-Mirim).
 """
 
 from datetime import datetime, timedelta, timezone
@@ -80,7 +91,15 @@ LAMBDA = 0.13
 C_CAIS = 300.0  # m, trecho de cais representado
 B_CANAL = 100.0  # m, distância ao cais representada (borda aberta)
 
-GAMMA = np.sqrt(2 / LAMBDA) * (F_DARCY / 8) ** 0.25 / H  # 1/m
+B_RIO = 400.0  # m, largura do rio no Berço 2
+
+
+def gamma(h):
+    """Inverso da escala da camada de cisalhamento (1/m) para profundidade h."""
+    return np.sqrt(2 / LAMBDA) * (F_DARCY / 8) ** 0.25 / h
+
+
+GAMMA = gamma(H)  # 1/m
 
 velocidades_nos = np.arange(0.5, 2.6, 0.5)  # vazante longe do cais (U_inf)
 velocidades_ms = velocidades_nos * NO_PARA_MS
@@ -100,6 +119,21 @@ def funcao_corrente(Y, u_inf):
 def tensao_lateral(Y, u_inf):
     """tau_yx = rho*lambda*H*(f/8)^(1/2) * U dU/dy (Pa); finita no cais."""
     return RHO * LAMBDA * H * np.sqrt(F_DARCY / 8) * 0.5 * u_inf**2 * GAMMA * np.exp(-GAMMA * Y)
+
+
+def vazao(u_inf, h=H):
+    """Vazão (m³/s) que produz U_inf com profundidade h."""
+    return u_inf * h * (B_RIO - 2 * (1 - np.log(2)) / gamma(h))
+
+
+def u_inf_de_vazao(q, h=H):
+    """U_inf (m/s) produzido pela vazão q (m³/s) com profundidade h."""
+    return q / (h * (B_RIO - 2 * (1 - np.log(2)) / gamma(h)))
+
+
+def tensao_parede(u_inf):
+    """tau na parede (Pa); não depende de H para U_inf dado."""
+    return RHO * np.sqrt(LAMBDA / 2) * (F_DARCY / 8) ** 0.75 * u_inf**2
 
 
 def declividade(u_inf):
@@ -156,6 +190,7 @@ def titulo(nos, u_inf):
     return (
         f'Corrente junto ao cais, Bacia 1 (ZP-21) — vazante de {nos:.1f} nós'
         f'<br><sup>{INSTANTE:%d/%m/%Y %H:%M} (UTC-3): maré {ETA:.2f} m, H = {H:.2f} m · '
+        f'Q equivalente ≈ {vazao(u_inf):.0f} m³/s · '
         f'τ na parede = {tensao_lateral(0.0, u_inf):.2f} Pa · '
         f'S₀ implícito = {declividade(u_inf):.1e} · '
         f'camada de cisalhamento ≈ {3 / GAMMA:.0f} m (3/γ)</sup>'
@@ -189,6 +224,21 @@ fig.update_layout(
     sliders=[dict(active=0, currentvalue={'prefix': 'Vazante: '}, pad={'t': 50}, steps=steps)],
 )
 
+def tabela_vazoes(vazoes=(250, 500, 1000, 2000, 4000)):
+    """U_inf e tau na parede por vazão, na baixa-mar e na preamar do dia do INSTANTE."""
+    from previsao_mare_itajai import extremos
+    dia = INSTANTE.replace(hour=0, minute=0, second=0, microsecond=0)
+    etas = [e[1] for e in extremos(dia)]
+    h_min, h_max = PROF_ZH + min(etas), PROF_ZH + max(etas)
+    print(f'{dia:%d/%m/%Y}: H de {h_min:.2f} m (baixa-mar) a {h_max:.2f} m (preamar), B = {B_RIO:.0f} m')
+    print(f"{'Q (m³/s)':>9} | {'U_inf (nós)':>17} | {'τ parede (Pa)':>17}")
+    for q in vazoes:
+        u1, u2 = u_inf_de_vazao(q, h_min), u_inf_de_vazao(q, h_max)
+        print(f'{q:>9.0f} | {u1 / NO_PARA_MS:>7.2f} a {u2 / NO_PARA_MS:>6.2f} | '
+              f'{tensao_parede(u1):>7.3f} a {tensao_parede(u2):>6.3f}')
+
+
 if __name__ == '__main__':
+    tabela_vazoes()
     fig.write_html('cisalhamento_berco2_zp21.html', include_plotlyjs='cdn')
     fig.show()
