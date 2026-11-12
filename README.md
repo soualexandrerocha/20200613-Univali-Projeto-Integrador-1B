@@ -153,3 +153,6 @@ modelo é recalculado no navegador.
 ```bash
 python ferramentas/gerar_painel_berco2.py   # regenera com as leituras mais recentes
 ```
+
+O workflow de coleta (`.github/workflows/coleta-niveis.yml`) regenera a
+página sempre que há leituras novas, a cada 6 h.

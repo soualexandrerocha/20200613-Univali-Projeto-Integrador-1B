@@ -1,4 +1,5 @@
-# Coleta automática dos níveis da telemetria da Defesa Civil de Itajaí.
+# Coleta automática dos níveis da telemetria da Defesa Civil de Itajaí e
+# regeneração do painel pagina/berco2.html com as leituras novas.
 # O site só publica as últimas 12 h; rodando a cada 6 h, as janelas se
 # sobrepõem e a série em dados/niveis_defesacivil_itajai.csv fica contínua.
 # Agendamentos (schedule) só rodam na branch padrão do repositório.
@@ -22,29 +23,46 @@ concurrency:
 jobs:
   coletar:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 30
     steps:
       - uses: actions/checkout@v5
 
       - uses: actions/setup-python@v6
         with:
           python-version: '3.12'
+          cache: pip
+          cache-dependency-path: .github/workflows/coleta-niveis.yml
 
-      - name: Instalar dependências
+      - name: Instalar dependências da coleta
         run: pip install numpy
 
       - name: Baixar e acumular leituras
-        run: python analise_propagacao_mare.py --so-coletar
-
-      - name: Commitar dados novos
+        id: coleta
         run: |
+          python analise_propagacao_mare.py --so-coletar
           if git diff --quiet -- dados/; then
+            echo "novas=false" >> "$GITHUB_OUTPUT"
             echo "Nenhuma leitura nova."
-            exit 0
+          else
+            echo "novas=true" >> "$GITHUB_OUTPUT"
           fi
+
+      - name: Instalar dependências do painel
+        if: steps.coleta.outputs.novas == 'true'
+        run: pip install utide plotly
+
+      - name: Regenerar o painel do Berço 2
+        if: steps.coleta.outputs.novas == 'true'
+        run: |
+          python ferramentas/gerar_painel_berco2.py
+          rm -f cisalhamento_berco2_zp21.html
+
+      - name: Commitar leituras e painel
+        if: steps.coleta.outputs.novas == 'true'
+        run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add dados/
+          git add dados/ pagina/berco2.html
           git commit -m "Coleta de níveis $(date -u +%Y-%m-%dT%H:%MZ)"
           for i in 1 2 3; do
             git pull --rebase origin "${GITHUB_REF_NAME}" && git push origin "HEAD:${GITHUB_REF_NAME}" && exit 0
