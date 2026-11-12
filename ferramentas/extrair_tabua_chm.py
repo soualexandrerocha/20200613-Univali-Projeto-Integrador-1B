@@ -1,5 +1,7 @@
 """Extrai preamares/baixa-mares da Tábua das Marés (CHM/DHN) em PDF para CSV.
 
+Funciona com as tábuas de 2024 (alturas com 1 casa) e 2025 (2 casas).
+
 Uso:
     python ferramentas/extrair_tabua_chm.py dados/tabua_mare_porto_itajai_2024_CHM.pdf 2024 \
         dados/tabua_mare_itajai_2024.csv
@@ -58,9 +60,9 @@ def extrair(arq_pdf, ano):
             x = hcol['x0']
             abaixo = [w for w in ws if w['top'] > y_cab + 5]
             dias = sorted((w['top'], int(w['text'])) for w in abaixo
-                          if re.fullmatch(r'\d\d', w['text']) and x - 16 <= w['x0'] <= x - 4)
-            horarios = [w for w in abaixo if re.fullmatch(r'\d{4}', w['text']) and x + 12 <= w['x0'] <= x + 26]
-            alturas = [w for w in abaixo if re.fullmatch(r'-?\d\.\d', w['text']) and x + 28 <= w['x0'] <= x + 46]
+                          if re.fullmatch(r'\d\d', w['text']) and x - 18 <= w['x0'] <= x - 4)
+            horarios = [w for w in abaixo if re.fullmatch(r'\d{4}', w['text']) and x - 2 <= w['x0'] <= x + 30]
+            alturas = [w for w in abaixo if re.fullmatch(r'-?\d\.\d{1,2}', w['text']) and x + 15 <= w['x0'] <= x + 50]
             esperado = (list(range(1, 17)) if ic % 2 == 0
                         else list(range(17, calendar.monthrange(ano, mes)[1] + 1)))
             assert [d for _, d in dias] == esperado, (mes, ic, dias)
@@ -83,5 +85,5 @@ if __name__ == '__main__':
         w = csv.writer(f)
         w.writerow(['data_hora_local', 'altura_m'])
         for t, h in dados:
-            w.writerow([t.strftime('%Y-%m-%d %H:%M'), f'{h:.1f}'])
+            w.writerow([t.strftime('%Y-%m-%d %H:%M'), f'{h:g}'])
     print(f'{len(dados)} extremos de {dados[0][0]} a {dados[-1][0]} -> {arq_csv}')
