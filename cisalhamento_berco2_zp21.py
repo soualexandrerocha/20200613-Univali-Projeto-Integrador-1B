@@ -69,7 +69,12 @@ supõe largura constante e nível em fase em todo o estuário, sem a atenuação
 por atrito da maré observada no Itajaí-Açu. Ele é conservador para a tensão.
 Ordem de grandeza conferida com medições de Schettini & Carvalho (1998),
 na barra e 12 km a montante: variação da corrente média na vertical de 77 a
-140 cm/s ao longo do ciclo de maré. O modelo ignora a estratificação da
+140 cm/s ao longo do ciclo de maré. Ressalva: essas medições são de
+1994-95, com o canal a ~8 m (hoje ~13 m). Para a mesma vazão, a seção
+atual reduz a velocidade em ~8/13, o que levaria a faixa para ~0,5 a 0,8 nó
+de amplitude. Já o aprofundamento tende a aumentar o prisma (menos atrito),
+e o efeito líquido é desconhecido. Isso não é validação; falta medição de
+corrente atual. O modelo ignora a estratificação da
 cunha salina, que separa a corrente de superfície (vazante) da de fundo
 (enchente).
 """
