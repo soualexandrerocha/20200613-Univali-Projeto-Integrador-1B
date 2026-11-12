@@ -56,6 +56,22 @@ tensão na baixa-mar que na preamar. Limitações: só a vazão fluvial (a
 corrente de maré não está incluída); Q é o do trecho do porto, não o medido
 em Blumenau (faltam a curva-chave e os afluentes de jusante, como o
 Itajaí-Mirim).
+
+Corrente de maré (modelo de bombeamento, ou prisma de maré): o volume
+entre o berço e o limite da maré enche e esvazia pelo berço, com
+
+    Q_mare(t) = -A_MONTANTE * d(eta)/dt     (positivo = vazante)
+    U_inf(t)  = (Q_RIO + Q_mare(t)) / (H(t) * (B_RIO - delta))
+
+A_MONTANTE é a área da superfície livre a montante do berço. O valor
+adotado, 400 m x 90 km (limite da maré em Indaial), é um limite superior:
+supõe largura constante e nível em fase em todo o estuário, sem a atenuação
+por atrito da maré observada no Itajaí-Açu. Ele é conservador para a tensão.
+Ordem de grandeza conferida com medições de Schettini & Carvalho (1998),
+na barra e 12 km a montante: variação da corrente média na vertical de 77 a
+140 cm/s ao longo do ciclo de maré. O modelo ignora a estratificação da
+cunha salina, que separa a corrente de superfície (vazante) da de fundo
+(enchente).
 """
 
 from datetime import datetime, timedelta, timezone
@@ -92,6 +108,10 @@ C_CAIS = 300.0  # m, trecho de cais representado
 B_CANAL = 100.0  # m, distância ao cais representada (borda aberta)
 
 B_RIO = 400.0  # m, largura do rio no Berço 2
+# Vazão fluvial média do Itajaí-Açu no estuário, ~215 m³/s (Zaleski &
+# Schettini, 2003, Notas Téc. Facimar 7:63-72). Trocar pela vazão do dia.
+Q_RIO = 215.0  # m³/s
+A_MONTANTE = 400.0 * 90e3  # m², limite superior (ver docstring)
 
 
 def gamma(h):
@@ -224,6 +244,32 @@ fig.update_layout(
     sliders=[dict(active=0, currentvalue={'prefix': 'Vazante: '}, pad={'t': 50}, steps=steps)],
 )
 
+def serie_corrente(inicio, horas=24, passo_min=10, q_rio=None, area=A_MONTANTE):
+    """Série temporal no berço: tempos, maré (m), H (m), U_inf (m/s, + vazante), tau (Pa, com sinal)."""
+    q_rio = Q_RIO if q_rio is None else q_rio
+    n = int(horas * 60 / passo_min) + 1
+    tempos = [inicio + timedelta(minutes=passo_min * k) for k in range(n)]
+    eta = np.array([prever_mare_itajai(t) for t in tempos])
+    deta = np.gradient(eta, 60.0 * passo_min)  # m/s
+    h = PROF_ZH + eta
+    u = u_inf_de_vazao(q_rio - area * deta, h)
+    return tempos, eta, h, u, np.sign(u) * tensao_parede(u)
+
+
+def tabela_corrente(inicio=None):
+    """Corrente e tensão de hora em hora no dia do INSTANTE."""
+    inicio = inicio or INSTANTE.replace(hour=0, minute=0, second=0, microsecond=0)
+    tempos, eta, h, u, tau = serie_corrente(inicio)
+    print(f'\nCorrente no berço, {inicio:%d/%m/%Y} (Q_rio = {Q_RIO:.0f} m³/s, '
+          f'A_montante = {A_MONTANTE / 1e6:.0f} km²; + vazante, - enchente)')
+    print(f"{'hora':>5} | {'maré (m)':>8} | {'U (nós)':>8} | {'τ (Pa)':>7}")
+    for k in range(0, len(tempos), 6):
+        print(f'{tempos[k]:%H:%M} | {eta[k]:>8.2f} | {u[k] / NO_PARA_MS:>8.2f} | {tau[k]:>7.3f}')
+    i, j = int(np.argmax(u)), int(np.argmin(u))
+    print(f'máx. vazante {u[i] / NO_PARA_MS:.2f} nós às {tempos[i]:%H:%M} (τ = {tau[i]:.3f} Pa); '
+          f'máx. enchente {-u[j] / NO_PARA_MS:.2f} nós às {tempos[j]:%H:%M} (τ = {tau[j]:.3f} Pa)')
+
+
 def tabela_vazoes(vazoes=(250, 500, 1000, 2000, 4000)):
     """U_inf e tau na parede por vazão, na baixa-mar e na preamar do dia do INSTANTE."""
     from previsao_mare_itajai import extremos
@@ -240,5 +286,6 @@ def tabela_vazoes(vazoes=(250, 500, 1000, 2000, 4000)):
 
 if __name__ == '__main__':
     tabela_vazoes()
+    tabela_corrente()
     fig.write_html('cisalhamento_berco2_zp21.html', include_plotlyjs='cdn')
     fig.show()
