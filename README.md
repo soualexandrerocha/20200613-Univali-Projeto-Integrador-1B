@@ -130,9 +130,11 @@ maré só pesa por meio da vazão e da corrente de maré.
 ## Propagação da maré e coleta de níveis — `analise_propagacao_mare.py`
 
 Baixa as séries de 12 h da telemetria da Defesa Civil de Itajaí
-(monitoramento.defesacivil.itajai.sc.gov.br), acumula em
+(monitoramento.defesacivil.itajai.sc.gov.br) e o nível de 24 h do AlertaBlu
+em Blumenau, acumula em
 `dados/niveis_defesacivil_itajai.csv` e ajusta, para cada estação, a razão
-de amplitude e o atraso da maré em relação à foz. O workflow
+de amplitude e o atraso da maré em relação à foz. Com DC11 e Blumenau, calcula o
+trecho de enchimento do Itajaí-Açu fechado no Salto, onde a maré termina. O workflow
 `.github/workflows/coleta-niveis.yml` roda a coleta a cada 6 h e commita as
 leituras novas, pois o site não guarda histórico.
 
