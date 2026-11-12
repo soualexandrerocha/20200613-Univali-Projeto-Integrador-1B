@@ -71,7 +71,7 @@ def acumular(estacoes):
         novas.append([*chave, e['nome'], e['latitude'], e['longitude'], p['nivel_rio_m']])
   novo_arquivo = not ARQ.exists()
   with ARQ.open('a', newline='') as f:
-    w = csv.writer(f)
+    w = csv.writer(f, lineterminator='\n')
     if novo_arquivo:
       w.writerow(['codigo', 'medido_em', 'nome', 'latitude', 'longitude', 'nivel_rio_m'])
     w.writerows(sorted(novas))
