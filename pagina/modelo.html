@@ -1,0 +1,368 @@
+<title>Maré de Itajaí</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@500;600&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+/* Layout: instrumento de consulta — leitura do instante no topo, curva da maré logo abaixo, tabela do dia e notas por último. */
+:root {
+  --bg: #eef3f5;
+  --surface: #ffffff;
+  --ink: #0f2533;
+  --muted: #566b77;
+  --line: #d3dee4;
+  --water: #1b6890;
+  --water-soft: rgba(27, 104, 144, 0.13);
+  --pm: #b0472f;
+  --bm: #1d7767;
+  --focus: #1b6890;
+  --f-display: "Barlow Semi Condensed", "Arial Narrow", system-ui, sans-serif;
+  --f-body: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --f-data: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0a1820; --surface: #10232f; --ink: #e2ecf1; --muted: #8fa5b1; --line: #213846;
+    --water: #63b2dc; --water-soft: rgba(99, 178, 220, 0.16); --pm: #ec8a6e; --bm: #52c2ab; --focus: #63b2dc;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0a1820; --surface: #10232f; --ink: #e2ecf1; --muted: #8fa5b1; --line: #213846;
+  --water: #63b2dc; --water-soft: rgba(99, 178, 220, 0.16); --pm: #ec8a6e; --bm: #52c2ab; --focus: #63b2dc;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0; background: var(--bg); color: var(--ink);
+  font-family: var(--f-body); font-size: 15px; line-height: 1.5;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 20px 40px;
+}
+main { max-width: 980px; margin: 0 auto; display: flex; flex-direction: column; gap: 18px; }
+header { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 4px 16px; }
+h1 { font-family: var(--f-display); font-weight: 600; font-size: 1.75rem; letter-spacing: 0.01em; margin: 0; text-wrap: balance; }
+.meta { color: var(--muted); font-size: 0.82rem; }
+.num { font-family: var(--f-data); font-variant-numeric: tabular-nums; }
+
+/* Controles */
+.controles { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.controles label { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); width: 100%; }
+input[type="datetime-local"] {
+  font: 500 1rem var(--f-data); color: var(--ink); background: var(--surface);
+  border: 1px solid var(--line); border-radius: 6px; padding: 7px 10px; min-width: 0;
+}
+button {
+  font: 500 0.88rem var(--f-body); color: var(--ink); background: var(--surface);
+  border: 1px solid var(--line); border-radius: 6px; padding: 7px 11px; cursor: pointer;
+}
+button:hover { border-color: var(--water); }
+button[aria-pressed="true"] { background: var(--water); border-color: var(--water); color: var(--surface); }
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+.grupo { display: flex; gap: 4px; }
+
+/* Leitura */
+.leitura { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr) minmax(0, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
+.leitura > div { background: var(--surface); padding: 14px 16px; min-width: 0; }
+.rotulo { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); }
+.grande { font-family: var(--f-display); font-weight: 600; font-size: 3rem; line-height: 1.05; font-variant-numeric: tabular-nums; }
+.grande small { font-size: 1.3rem; font-weight: 500; color: var(--muted); margin-left: 4px; }
+.medio { font-family: var(--f-display); font-weight: 600; font-size: 1.9rem; line-height: 1.1; font-variant-numeric: tabular-nums; }
+.medio small { font-size: 1rem; font-weight: 500; color: var(--muted); margin-left: 6px; }
+.chip { display: inline-flex; align-items: center; gap: 6px; font-size: 0.85rem; font-weight: 500; padding: 2px 9px; border-radius: 99px; margin-top: 6px; border: 1px solid currentColor; }
+.chip.enche { color: var(--water); }
+.chip.vaza { color: var(--muted); }
+.sub { color: var(--muted); font-size: 0.85rem; margin-top: 4px; }
+.pm { color: var(--pm); } .bm { color: var(--bm); }
+
+/* Gráfico */
+.painel { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 12px 12px 8px; }
+.painel-topo { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 8px; padding: 0 4px 6px; }
+#grafico { width: 100%; display: block; touch-action: pan-y; cursor: crosshair; user-select: none; }
+#grafico text { font-family: var(--f-data); font-size: 11px; fill: var(--muted); }
+#grafico .eixo { stroke: var(--line); stroke-width: 1; }
+#grafico .nr { stroke: var(--ink); stroke-width: 1; opacity: 0.5; }
+#grafico .nm { stroke: var(--muted); stroke-dasharray: 3 4; }
+#grafico .curva { fill: none; stroke: var(--water); stroke-width: 2.2; }
+#grafico .agua { fill: var(--water-soft); stroke: none; }
+#grafico .agora { stroke: var(--ink); stroke-width: 1.2; stroke-dasharray: 4 3; }
+#grafico .ponto { fill: var(--ink); stroke: var(--surface); stroke-width: 2; }
+#grafico .mpm { fill: var(--pm); } #grafico .mbm { fill: var(--bm); }
+#grafico text.tpm { fill: var(--pm); } #grafico text.tbm { fill: var(--bm); }
+#grafico .cursor { stroke: var(--muted); stroke-width: 1; }
+#grafico .noite { fill: var(--ink); opacity: 0.04; }
+.dica { color: var(--muted); font-size: 0.78rem; padding: 2px 4px 0; }
+
+/* Tabela do dia */
+.colunas { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr); gap: 18px; align-items: start; }
+h2 { font-family: var(--f-display); font-weight: 600; font-size: 1.2rem; margin: 0 0 8px; }
+table { width: 100%; border-collapse: collapse; }
+td, th { padding: 6px 8px; border-bottom: 1px solid var(--line); text-align: left; }
+th { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); font-weight: 500; }
+td.dir, th.dir { text-align: right; }
+tr.passado td { color: var(--muted); }
+.notas { font-size: 0.85rem; color: var(--muted); max-width: 65ch; }
+.notas p { margin: 0 0 8px; }
+.notas strong { color: var(--ink); font-weight: 600; }
+.aviso { color: var(--pm); font-weight: 500; }
+
+@media (max-width: 720px) {
+  .leitura { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+  .leitura > div:first-child { grid-column: 1 / -1; }
+  .colunas { grid-template-columns: minmax(0, 1fr); }
+  .grande { font-size: 2.6rem; }
+  .medio { font-size: 1.5rem; }
+}
+</style>
+
+<main>
+  <header>
+    <h1>Maré de Itajaí</h1>
+    <span class="meta">Porto de Itajaí · maré astronômica · alturas acima do NR · hora legal (UTC−3)</span>
+  </header>
+
+  <section class="controles" aria-label="Escolher instante">
+    <label for="instante">Instante</label>
+    <input type="datetime-local" id="instante" step="60">
+    <div class="grupo">
+      <button id="menos-dia" type="button" title="Um dia antes">−1 d</button>
+      <button id="menos-hora" type="button" title="Uma hora antes">−1 h</button>
+      <button id="mais-hora" type="button" title="Uma hora depois">+1 h</button>
+      <button id="mais-dia" type="button" title="Um dia depois">+1 d</button>
+    </div>
+    <button id="agora" type="button" aria-pressed="true" title="Acompanhar o relógio">Agora</button>
+  </section>
+
+  <section class="leitura" aria-live="polite">
+    <div>
+      <div class="rotulo" id="rotulo-instante">Altura agora</div>
+      <div class="grande" id="altura">–</div>
+      <span class="chip" id="tendencia">–</span>
+    </div>
+    <div>
+      <div class="rotulo">Próxima preamar</div>
+      <div class="medio pm" id="prox-pm">–</div>
+      <div class="sub" id="prox-pm-sub">–</div>
+    </div>
+    <div>
+      <div class="rotulo">Próxima baixa-mar</div>
+      <div class="medio bm" id="prox-bm">–</div>
+      <div class="sub" id="prox-bm-sub">–</div>
+    </div>
+  </section>
+
+  <section class="painel">
+    <div class="painel-topo">
+      <span class="rotulo">Curva da maré</span>
+      <div class="grupo" role="group" aria-label="Janela do gráfico">
+        <button type="button" class="janela" data-dias="1" aria-pressed="false">1 dia</button>
+        <button type="button" class="janela" data-dias="2" aria-pressed="true">2 dias</button>
+        <button type="button" class="janela" data-dias="4" aria-pressed="false">4 dias</button>
+      </div>
+    </div>
+    <svg id="grafico" role="img" aria-label="Curva da maré em torno do instante escolhido"></svg>
+    <div class="dica">Toque ou clique na curva para escolher outro instante.</div>
+  </section>
+
+  <section class="colunas">
+    <div>
+      <h2 id="titulo-dia">Extremos do dia</h2>
+      <table>
+        <thead><tr><th>Maré</th><th>Hora</th><th class="dir">Altura</th></tr></thead>
+        <tbody id="tabela"></tbody>
+      </table>
+    </div>
+    <div class="notas">
+      <h2>Como ler</h2>
+      <p>Alturas em metros acima do <strong>nível de redução (NR)</strong> da DHN, o mesmo zero das cartas náuticas e da Tábua das Marés. O nível médio fica <span class="num" id="z0">–</span> acima do NR.</p>
+      <p><strong>Precisão.</strong> Ajustado só com as tábuas oficiais (CHM) de 2024 e 2025, o modelo previu a de 2026 com erro de altura de cerca de 3 cm. O horário de preamares e baixa-mares bem marcadas erra tipicamente 6 min, e 9 em cada 10 ficam dentro de 17 min. Em estofos rasos, quando a maré fica quase parada, o horário do extremo pode errar 30 min ou mais. Contra a tábua de 2026 da EPAGRI, a diferença típica é de 8 min no horário e 6 cm na altura.</p>
+      <p class="aviso">Só a maré astronômica. Vento, frentes frias e cheias do Itajaí-Açu podem mudar o nível em dezenas de centímetros.</p>
+      <p>68 componentes harmônicas reconstruídas das Tábuas das Marés 2024–2026 (CHM) do Porto de Itajaí. Cobre <span id="cobertura">2015 a 2050</span>.</p>
+    </div>
+  </section>
+</main>
+
+<script>
+/*NUCLEO*/
+const MARE = criarMare(/*DADOS*/);
+
+const FUSO_MS = 3 * 3600e3, MIN = 60e3, HORA = 3600e3, DIA = 86400e3;
+const $ = id => document.getElementById(id);
+const estado = { t: Date.now(), seguir: true, dias: 2 };
+
+// Hora legal (UTC−3) independente do fuso do aparelho: trabalha com "UTC deslocado".
+const loc = t => new Date(t - FUSO_MS);
+const p2 = x => String(x).padStart(2, '0');
+const hhmm = t => { const d = loc(t); return p2(d.getUTCHours()) + ':' + p2(d.getUTCMinutes()); };
+const DIAS_SEM = ['dom', 'seg', 'ter', 'qua', 'qui', 'sex', 'sáb'];
+const ddmm = t => { const d = loc(t); return p2(d.getUTCDate()) + '/' + p2(d.getUTCMonth() + 1); };
+const dataLonga = t => { const d = loc(t); return DIAS_SEM[d.getUTCDay()] + ' ' + ddmm(t) + '/' + d.getUTCFullYear(); };
+const m2 = h => h.toFixed(2).replace('.', ',');
+const valorInput = t => { const d = loc(t); return d.getUTCFullYear() + '-' + p2(d.getUTCMonth() + 1) + '-' + p2(d.getUTCDate()) + 'T' + p2(d.getUTCHours()) + ':' + p2(d.getUTCMinutes()); };
+const deInput = v => { const m = /^(\d{4})-(\d\d)-(\d\d)T(\d\d):(\d\d)/.exec(v); return m ? Date.UTC(+m[1], m[2] - 1, +m[3], +m[4], +m[5]) + FUSO_MS : NaN; };
+const inicioDia = t => { const d = loc(t); return Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate()) + FUSO_MS; };
+const duracao = ms => { const m = Math.round(ms / MIN), h = Math.floor(m / 60); return h ? h + ' h ' + p2(m % 60) + ' min' : m + ' min'; };
+
+function limitar(t) { return Math.min(Math.max(t, MARE.ini + DIA * 3), MARE.fim - DIA * 3); }
+
+function atualizar() {
+  const t = estado.seguir ? Date.now() : estado.t;
+  estado.t = t;
+  const fora = t < MARE.ini + DIA * 3 || t > MARE.fim - DIA * 3;
+  if (document.activeElement !== $('instante')) $('instante').value = valorInput(t);
+  $('agora').setAttribute('aria-pressed', String(estado.seguir));
+  if (fora) {
+    $('altura').textContent = '–';
+    $('tendencia').textContent = 'Fora do período coberto (2015–2050)';
+    return;
+  }
+  const h = MARE.altura(t);
+  const taxa = (MARE.altura(t + 5 * MIN) - MARE.altura(t - 5 * MIN)) / (10 / 60) * 100; // cm/h
+  $('rotulo-instante').textContent = estado.seguir ? 'Altura agora · ' + hhmm(t) : 'Altura em ' + ddmm(t) + ' ' + hhmm(t);
+  $('altura').innerHTML = m2(h) + '<small>m</small>';
+  const tend = $('tendencia');
+  const parada = Math.abs(taxa) < 1;
+  tend.className = 'chip ' + (taxa > 0 ? 'enche' : 'vaza');
+  tend.textContent = parada ? 'Quase parada (estofo)' : (taxa > 0 ? '↑ Enchendo ' : '↓ Vazando ') + Math.abs(taxa).toFixed(0) + ' cm/h';
+
+  const prox = MARE.extremos(t, t + 2 * DIA);
+  for (const tipo of ['PM', 'BM']) {
+    const e = prox.find(x => x.tipo === tipo && x.t > t);
+    const id = tipo === 'PM' ? 'prox-pm' : 'prox-bm';
+    if (e) {
+      $(id).innerHTML = hhmm(e.t) + '<small>' + m2(e.h) + ' m</small>';
+      $(id + '-sub').textContent = (loc(e.t).getUTCDate() !== loc(t).getUTCDate() ? ddmm(e.t) + ' · ' : '') + 'daqui a ' + duracao(e.t - t);
+    }
+  }
+  tabela(t);
+  desenhar(t);
+}
+
+function tabela(t) {
+  const d0 = inicioDia(t);
+  const ext = MARE.extremos(d0, d0 + DIA - MIN);
+  $('titulo-dia').textContent = 'Extremos de ' + dataLonga(t);
+  $('tabela').innerHTML = ext.map(e =>
+    '<tr class="' + (e.t < t ? 'passado' : '') + '"><td class="' + (e.tipo === 'PM' ? 'pm' : 'bm') + '">' +
+    (e.tipo === 'PM' ? 'Preamar' : 'Baixa-mar') + '</td><td class="num">' + hhmm(e.t) +
+    '</td><td class="num dir">' + m2(e.h) + ' m</td></tr>').join('');
+}
+
+// --- Gráfico SVG -------------------------------------------------------------
+const NS = 'http://www.w3.org/2000/svg';
+let escala = null;
+function el(tag, at, pai) { const e = document.createElementNS(NS, tag); for (const k in at) e.setAttribute(k, at[k]); pai.appendChild(e); return e; }
+
+function desenhar(t) {
+  const svg = $('grafico');
+  const W = Math.max(320, svg.clientWidth || svg.parentNode.clientWidth - 24);
+  const H = W < 560 ? 260 : 320;
+  const m = { e: 38, d: 12, s: 34, i: 34 };
+  svg.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
+  svg.setAttribute('height', H);
+  svg.innerHTML = '';
+  const meia = estado.dias * DIA / 2, t0 = t - meia, t1 = t + meia;
+  const passo = estado.dias <= 1 ? 5 * MIN : 10 * MIN;
+  const pts = [];
+  for (let x = t0; x <= t1; x += passo) pts.push([x, MARE.altura(x)]);
+  const ext = MARE.extremos(t0, t1);
+  let ymin = Math.min(0, ...pts.map(p => p[1])), ymax = Math.max(...pts.map(p => p[1]));
+  ymin = Math.floor(ymin * 5) / 5; ymax = Math.ceil((ymax + 0.05) * 5) / 5;
+  const X = x => m.e + (x - t0) / (t1 - t0) * (W - m.e - m.d);
+  const Y = y => m.s + (ymax - y) / (ymax - ymin) * (H - m.s - m.i);
+  escala = { t0, t1, X, Y, m, W };
+
+  // noites (18h–6h) como faixas tênues
+  for (let d = inicioDia(t0) - DIA; d < t1; d += DIA) {
+    const a = Math.max(d + 18 * HORA, t0), b = Math.min(d + 30 * HORA, t1);
+    if (b > a) el('rect', { x: X(a), y: m.s, width: X(b) - X(a), height: H - m.s - m.i, class: 'noite' }, svg);
+  }
+  // grade horizontal
+  for (let y = ymin; y <= ymax + 1e-9; y += 0.2) {
+    el('line', { x1: m.e, x2: W - m.d, y1: Y(y), y2: Y(y), class: 'eixo' }, svg);
+    const tx = el('text', { x: m.e - 6, y: Y(y) + 4, 'text-anchor': 'end' }, svg); tx.textContent = m2(y).replace(',00', ',0');
+  }
+  // grade vertical: a cada 6 h (1–2 dias) ou 12 h (4 dias)
+  const pxPorHora = (W - m.e - m.d) / (estado.dias * 24);
+  const gradeH = [3, 6, 12, 24].find(g => g * pxPorHora >= 44) || 24;  // rótulos sem colidir
+  for (let g = inicioDia(t0); g <= t1; g += gradeH * HORA) {
+    if (g < t0) continue;
+    el('line', { x1: X(g), x2: X(g), y1: m.s, y2: H - m.i, class: 'eixo' }, svg);
+    const meiaNoite = loc(g).getUTCHours() === 0;
+    const tx = el('text', { x: X(g), y: H - m.i + 15, 'text-anchor': 'middle' }, svg);
+    tx.textContent = hhmm(g);
+    if (meiaNoite) { const t2 = el('text', { x: X(g), y: H - m.i + 28, 'text-anchor': 'middle' }, svg); t2.textContent = ddmm(g); t2.style.fill = 'var(--ink)'; }
+  }
+  // NR e nível médio
+  el('line', { x1: m.e, x2: W - m.d, y1: Y(0), y2: Y(0), class: 'nr' }, svg);
+  el('line', { x1: m.e, x2: W - m.d, y1: Y(MARE.z0), y2: Y(MARE.z0), class: 'nm' }, svg);
+  const tnm = el('text', { x: W - m.d - 2, y: Y(MARE.z0) - 4, 'text-anchor': 'end' }, svg); tnm.textContent = 'nível médio';
+  const tnr = el('text', { x: W - m.d - 2, y: Y(0) - 4, 'text-anchor': 'end' }, svg); tnr.textContent = 'NR';
+
+  // água e curva
+  const d = pts.map((p, i) => (i ? 'L' : 'M') + X(p[0]).toFixed(1) + ' ' + Y(p[1]).toFixed(1)).join('');
+  el('path', { d: d + 'L' + X(t1).toFixed(1) + ' ' + Y(ymin) + 'L' + X(t0).toFixed(1) + ' ' + Y(ymin) + 'Z', class: 'agua' }, svg);
+  el('path', { d, class: 'curva' }, svg);
+
+  // extremos (rótulos só nos que mudam a maré em ≥ 3 cm, para não poluir)
+  ext.forEach((e, i) => {
+    const viz = [ext[i - 1], ext[i + 1]].filter(Boolean).map(v => Math.abs(v.h - e.h));
+    const relevante = !viz.length || Math.min(...viz) >= 0.03;
+    const pm = e.tipo === 'PM';
+    el('circle', { cx: X(e.t), cy: Y(e.h), r: relevante ? 4 : 2.5, class: pm ? 'mpm' : 'mbm' }, svg);
+    if (relevante && (estado.dias < 4 || W > 700)) {
+      const ty = pm ? Y(e.h) - 9 : Y(e.h) + 17;
+      const tx = el('text', { x: X(e.t), y: ty, 'text-anchor': 'middle', class: pm ? 'tpm' : 'tbm' }, svg);
+      tx.textContent = hhmm(e.t);
+    }
+  });
+  // instante escolhido
+  el('line', { x1: X(t), x2: X(t), y1: m.s - 6, y2: H - m.i, class: 'agora' }, svg);
+  el('circle', { cx: X(t), cy: Y(MARE.altura(t)), r: 5.5, class: 'ponto' }, svg);
+  const rot = el('text', { x: X(t), y: m.s - 10, 'text-anchor': 'middle' }, svg);
+  rot.textContent = hhmm(t) + ' · ' + m2(MARE.altura(t)) + ' m'; rot.style.fill = 'var(--ink)';
+  // cursor de leitura
+  const cur = el('g', { visibility: 'hidden' }, svg);
+  el('line', { y1: m.s, y2: H - m.i, class: 'cursor' }, cur);
+  el('text', { y: H - m.i - 6, 'text-anchor': 'middle' }, cur);
+  escala.cur = cur;
+}
+
+function tempoNoPonteiro(ev) {
+  const svg = $('grafico'), r = svg.getBoundingClientRect();
+  const x = (ev.clientX - r.left) / r.width * escala.W;
+  const f = (x - escala.m.e) / (escala.W - escala.m.e - escala.m.d);
+  if (f < 0 || f > 1) return null;
+  return Math.round((escala.t0 + f * (escala.t1 - escala.t0)) / MIN) * MIN;
+}
+$('grafico').addEventListener('pointermove', ev => {
+  const t = escala && tempoNoPonteiro(ev); if (!escala) return;
+  if (t == null) { escala.cur.setAttribute('visibility', 'hidden'); return; }
+  const x = escala.X(t), [ln, tx] = escala.cur.children;
+  ln.setAttribute('x1', x); ln.setAttribute('x2', x);
+  tx.setAttribute('x', Math.min(Math.max(x, escala.m.e + 50), escala.W - 60));
+  tx.textContent = ddmm(t) + ' ' + hhmm(t) + ' · ' + m2(MARE.altura(t)) + ' m';
+  escala.cur.setAttribute('visibility', 'visible');
+});
+$('grafico').addEventListener('pointerleave', () => escala && escala.cur.setAttribute('visibility', 'hidden'));
+$('grafico').addEventListener('click', ev => { const t = tempoNoPonteiro(ev); if (t != null) irPara(t); });
+
+function irPara(t) { estado.seguir = false; estado.t = limitar(t); atualizar(); }
+$('instante').addEventListener('change', e => { const t = deInput(e.target.value); if (!isNaN(t)) irPara(t); });
+$('menos-dia').onclick = () => irPara(estado.t - DIA);
+$('menos-hora').onclick = () => irPara(estado.t - HORA);
+$('mais-hora').onclick = () => irPara(estado.t + HORA);
+$('mais-dia').onclick = () => irPara(estado.t + DIA);
+$('agora').onclick = () => { estado.seguir = true; atualizar(); };
+document.querySelectorAll('.janela').forEach(b => b.onclick = () => {
+  estado.dias = +b.dataset.dias;
+  document.querySelectorAll('.janela').forEach(x => x.setAttribute('aria-pressed', String(x === b)));
+  atualizar();
+});
+$('z0').textContent = m2(MARE.z0) + ' m';
+let redim; window.addEventListener('resize', () => { clearTimeout(redim); redim = setTimeout(atualizar, 120); });
+setInterval(() => { if (estado.seguir) atualizar(); }, 30e3);
+atualizar();
+</script>
