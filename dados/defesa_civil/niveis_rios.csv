@@ -1206,6 +1206,7 @@ medido_em_utc,codigo,nome,nivel_m
 2026-11-12T10:35:00,PADKND,Estação AlertaBlu PADKND,3.61
 2026-11-12T10:40:00,DCSC-00013,Estação MKS DCSC-00013,5.86
 2026-11-12T10:40:00,DCSC-00019,Estação MKS DCSC-00019,1.64
+2026-11-12T10:40:00,PADKND,Estação AlertaBlu PADKND,3.61
 2026-11-12T10:40:04,DC09,Ribeirão da Murta - Ponte da Rua Lidia Puel Peixer,0.74
 2026-11-12T10:40:05,DC10,Rio Itajaí-Mirim – Bairro Limoeiro,3.79
 2026-11-12T10:40:09,DC03,Rio Itajaí-Mirim (canal retificado) - Captação SEMASA,0.15
@@ -1218,3 +1219,274 @@ medido_em_utc,codigo,nome,nivel_m
 2026-11-12T10:41:22,DC02,Rio Itajaí-Açu - Praça Celso Pereira da Silva,0.31
 2026-11-12T10:41:36,DC01,Rio Itajaí-Açu - ICMBio/CEPSUL,0.54
 2026-11-12T10:45:00,DCSC-00013,Estação MKS DCSC-00013,5.86
+2026-11-12T10:45:00,DCSC-00019,Estação MKS DCSC-00019,1.64
+2026-11-12T10:45:00,PADKND,Estação AlertaBlu PADKND,3.61
+2026-11-12T10:50:00,DCSC-00013,Estação MKS DCSC-00013,5.86
+2026-11-12T10:50:00,DCSC-00019,Estação MKS DCSC-00019,1.64
+2026-11-12T10:50:00,PADKND,Estação AlertaBlu PADKND,3.61
+2026-11-12T10:50:03,DC03,Rio Itajaí-Mirim (canal retificado) - Captação SEMASA,0.11
+2026-11-12T10:50:05,DC11,Rio Itajaí-Açú – Santa Regina (Volta de Cima),2.43
+2026-11-12T10:50:14,DC09,Ribeirão da Murta - Ponte da Rua Lidia Puel Peixer,0.72
+2026-11-12T10:50:15,DC10,Rio Itajaí-Mirim – Bairro Limoeiro,3.76
+2026-11-12T10:50:21,DC08,Ribeirão Canhanduba - Rua Benjamin Dagnoni,1.04
+2026-11-12T10:50:35,DC07,Ribeirão da Murta - Portal,0.32
+2026-11-12T10:50:56,DC06,Rio Itajaí-Mirim (curso antigo) - Itamirim Clube de Campo,0.32
+2026-11-12T10:51:06,DC05,Rio Itajaí-Mirim (curso antigo) - Propriedade privada,1.04
+2026-11-12T10:51:13,DC04,Rio Itajaí-Mirim (canal retificado e curso antigo) - Vitalmar Pescados,0.84
+2026-11-12T10:51:22,DC02,Rio Itajaí-Açu - Praça Celso Pereira da Silva,0.31
+2026-11-12T10:51:36,DC01,Rio Itajaí-Açu - ICMBio/CEPSUL,0.59
+2026-11-12T10:55:00,DCSC-00013,Estação MKS DCSC-00013,5.86
+2026-11-12T10:55:00,DCSC-00019,Estação MKS DCSC-00019,1.64
+2026-11-12T10:55:00,PADKND,Estação AlertaBlu PADKND,3.61
+2026-11-12T11:00:00,DCSC-00013,Estação MKS DCSC-00013,5.86
+2026-11-12T11:00:00,DCSC-00019,Estação MKS DCSC-00019,1.64
+2026-11-12T11:00:00,PADKND,Estação AlertaBlu PADKND,3.61
+2026-11-12T11:00:09,DC09,Ribeirão da Murta - Ponte da Rua Lidia Puel Peixer,0.71
+2026-11-12T11:00:10,DC10,Rio Itajaí-Mirim – Bairro Limoeiro,3.76
+2026-11-12T11:00:13,DC03,Rio Itajaí-Mirim (canal retificado) - Captação SEMASA,0.06
+2026-11-12T11:00:14,DC11,Rio Itajaí-Açú – Santa Regina (Volta de Cima),2.43
+2026-11-12T11:00:21,DC08,Ribeirão Canhanduba - Rua Benjamin Dagnoni,1.04
+2026-11-12T11:00:35,DC07,Ribeirão da Murta - Portal,0.28
+2026-11-12T11:00:56,DC06,Rio Itajaí-Mirim (curso antigo) - Itamirim Clube de Campo,0.29
+2026-11-12T11:01:06,DC05,Rio Itajaí-Mirim (curso antigo) - Propriedade privada,1.04
+2026-11-12T11:01:13,DC04,Rio Itajaí-Mirim (canal retificado e curso antigo) - Vitalmar Pescados,0.79
+2026-11-12T11:01:22,DC02,Rio Itajaí-Açu - Praça Celso Pereira da Silva,0.31
+2026-11-12T11:01:36,DC01,Rio Itajaí-Açu - ICMBio/CEPSUL,0.59
+2026-11-12T11:05:00,DCSC-00013,Estação MKS DCSC-00013,5.86
+2026-11-12T11:05:00,DCSC-00019,Estação MKS DCSC-00019,1.64
+2026-11-12T11:05:00,PADKND,Estação AlertaBlu PADKND,3.6
+2026-11-12T11:10:00,DCSC-00013,Estação MKS DCSC-00013,5.86
+2026-11-12T11:10:00,DCSC-00019,Estação MKS DCSC-00019,1.64
+2026-11-12T11:10:00,PADKND,Estação AlertaBlu PADKND,3.61
+2026-11-12T11:10:03,DC09,Ribeirão da Murta - Ponte da Rua Lidia Puel Peixer,0.7
+2026-11-12T11:10:08,DC03,Rio Itajaí-Mirim (canal retificado) - Captação SEMASA,0.03
+2026-11-12T11:10:11,DC11,Rio Itajaí-Açú – Santa Regina (Volta de Cima),2.46
+2026-11-12T11:10:16,DC10,Rio Itajaí-Mirim – Bairro Limoeiro,3.76
+2026-11-12T11:10:21,DC08,Ribeirão Canhanduba - Rua Benjamin Dagnoni,1.04
+2026-11-12T11:10:35,DC07,Ribeirão da Murta - Portal,0.33
+2026-11-12T11:10:56,DC06,Rio Itajaí-Mirim (curso antigo) - Itamirim Clube de Campo,0.28
+2026-11-12T11:11:06,DC05,Rio Itajaí-Mirim (curso antigo) - Propriedade privada,1.04
+2026-11-12T11:11:13,DC04,Rio Itajaí-Mirim (canal retificado e curso antigo) - Vitalmar Pescados,0.81
+2026-11-12T11:11:22,DC02,Rio Itajaí-Açu - Praça Celso Pereira da Silva,0.31
+2026-11-12T11:11:35,DC01,Rio Itajaí-Açu - ICMBio/CEPSUL,0.59
+2026-11-12T11:15:00,DCSC-00013,Estação MKS DCSC-00013,5.86
+2026-11-12T11:15:00,DCSC-00019,Estação MKS DCSC-00019,1.64
+2026-11-12T11:15:00,PADKND,Estação AlertaBlu PADKND,3.6
+2026-11-12T11:20:00,DCSC-00013,Estação MKS DCSC-00013,5.86
+2026-11-12T11:20:00,DCSC-00019,Estação MKS DCSC-00019,1.64
+2026-11-12T11:20:00,PADKND,Estação AlertaBlu PADKND,3.61
+2026-11-12T11:20:04,DC03,Rio Itajaí-Mirim (canal retificado) - Captação SEMASA,0.06
+2026-11-12T11:20:05,DC11,Rio Itajaí-Açú – Santa Regina (Volta de Cima),2.43
+2026-11-12T11:20:10,DC10,Rio Itajaí-Mirim – Bairro Limoeiro,3.77
+2026-11-12T11:20:13,DC09,Ribeirão da Murta - Ponte da Rua Lidia Puel Peixer,0.68
+2026-11-12T11:20:21,DC08,Ribeirão Canhanduba - Rua Benjamin Dagnoni,1.04
+2026-11-12T11:20:35,DC07,Ribeirão da Murta - Portal,0.37
+2026-11-12T11:20:56,DC06,Rio Itajaí-Mirim (curso antigo) - Itamirim Clube de Campo,0.23
+2026-11-12T11:21:07,DC05,Rio Itajaí-Mirim (curso antigo) - Propriedade privada,1.04
+2026-11-12T11:21:13,DC04,Rio Itajaí-Mirim (canal retificado e curso antigo) - Vitalmar Pescados,0.81
+2026-11-12T11:21:22,DC02,Rio Itajaí-Açu - Praça Celso Pereira da Silva,0.31
+2026-11-12T11:21:36,DC01,Rio Itajaí-Açu - ICMBio/CEPSUL,0.58
+2026-11-12T11:25:00,DCSC-00013,Estação MKS DCSC-00013,5.86
+2026-11-12T11:25:00,DCSC-00019,Estação MKS DCSC-00019,1.64
+2026-11-12T11:25:00,PADKND,Estação AlertaBlu PADKND,3.6
+2026-11-12T11:30:00,DCSC-00013,Estação MKS DCSC-00013,5.86
+2026-11-12T11:30:00,DCSC-00019,Estação MKS DCSC-00019,1.64
+2026-11-12T11:30:00,PADKND,Estação AlertaBlu PADKND,3.6
+2026-11-12T11:30:05,DC10,Rio Itajaí-Mirim – Bairro Limoeiro,3.78
+2026-11-12T11:30:07,DC09,Ribeirão da Murta - Ponte da Rua Lidia Puel Peixer,0.67
+2026-11-12T11:30:14,DC03,Rio Itajaí-Mirim (canal retificado) - Captação SEMASA,0.08
+2026-11-12T11:30:15,DC11,Rio Itajaí-Açú – Santa Regina (Volta de Cima),2.41
+2026-11-12T11:30:21,DC08,Ribeirão Canhanduba - Rua Benjamin Dagnoni,1.03
+2026-11-12T11:30:35,DC07,Ribeirão da Murta - Portal,0.34
+2026-11-12T11:30:56,DC06,Rio Itajaí-Mirim (curso antigo) - Itamirim Clube de Campo,0.22
+2026-11-12T11:31:06,DC05,Rio Itajaí-Mirim (curso antigo) - Propriedade privada,1.04
+2026-11-12T11:31:13,DC04,Rio Itajaí-Mirim (canal retificado e curso antigo) - Vitalmar Pescados,0.78
+2026-11-12T11:31:22,DC02,Rio Itajaí-Açu - Praça Celso Pereira da Silva,0.31
+2026-11-12T11:31:36,DC01,Rio Itajaí-Açu - ICMBio/CEPSUL,0.66
+2026-11-12T11:35:00,DCSC-00013,Estação MKS DCSC-00013,5.86
+2026-11-12T11:35:00,DCSC-00019,Estação MKS DCSC-00019,1.64
+2026-11-12T11:35:00,PADKND,Estação AlertaBlu PADKND,3.6
+2026-11-12T11:40:00,DCSC-00013,Estação MKS DCSC-00013,5.86
+2026-11-12T11:40:00,DCSC-00019,Estação MKS DCSC-00019,1.63
+2026-11-12T11:40:00,PADKND,Estação AlertaBlu PADKND,3.6
+2026-11-12T11:40:02,DC09,Ribeirão da Murta - Ponte da Rua Lidia Puel Peixer,0.66
+2026-11-12T11:40:10,DC03,Rio Itajaí-Mirim (canal retificado) - Captação SEMASA,0.04
+2026-11-12T11:40:10,DC11,Rio Itajaí-Açú – Santa Regina (Volta de Cima),2.38
+2026-11-12T11:40:15,DC10,Rio Itajaí-Mirim – Bairro Limoeiro,3.73
+2026-11-12T11:40:21,DC08,Ribeirão Canhanduba - Rua Benjamin Dagnoni,1.03
+2026-11-12T11:40:35,DC07,Ribeirão da Murta - Portal,0.27
+2026-11-12T11:40:56,DC06,Rio Itajaí-Mirim (curso antigo) - Itamirim Clube de Campo,0.22
+2026-11-12T11:41:06,DC05,Rio Itajaí-Mirim (curso antigo) - Propriedade privada,1.04
+2026-11-12T11:41:13,DC04,Rio Itajaí-Mirim (canal retificado e curso antigo) - Vitalmar Pescados,0.79
+2026-11-12T11:41:22,DC02,Rio Itajaí-Açu - Praça Celso Pereira da Silva,0.31
+2026-11-12T11:41:35,DC01,Rio Itajaí-Açu - ICMBio/CEPSUL,0.66
+2026-11-12T11:45:00,DCSC-00013,Estação MKS DCSC-00013,5.86
+2026-11-12T11:45:00,DCSC-00019,Estação MKS DCSC-00019,1.63
+2026-11-12T11:45:00,PADKND,Estação AlertaBlu PADKND,3.6
+2026-11-12T11:50:00,DCSC-00013,Estação MKS DCSC-00013,5.86
+2026-11-12T11:50:00,DCSC-00019,Estação MKS DCSC-00019,1.63
+2026-11-12T11:50:00,PADKND,Estação AlertaBlu PADKND,3.6
+2026-11-12T11:50:04,DC03,Rio Itajaí-Mirim (canal retificado) - Captação SEMASA,0.07
+2026-11-12T11:50:05,DC11,Rio Itajaí-Açú – Santa Regina (Volta de Cima),2.38
+2026-11-12T11:50:09,DC10,Rio Itajaí-Mirim – Bairro Limoeiro,3.76
+2026-11-12T11:50:12,DC09,Ribeirão da Murta - Ponte da Rua Lidia Puel Peixer,0.65
+2026-11-12T11:50:21,DC08,Ribeirão Canhanduba - Rua Benjamin Dagnoni,1.03
+2026-11-12T11:50:35,DC07,Ribeirão da Murta - Portal,0.3
+2026-11-12T11:50:56,DC06,Rio Itajaí-Mirim (curso antigo) - Itamirim Clube de Campo,0.22
+2026-11-12T11:51:06,DC05,Rio Itajaí-Mirim (curso antigo) - Propriedade privada,1.04
+2026-11-12T11:51:13,DC04,Rio Itajaí-Mirim (canal retificado e curso antigo) - Vitalmar Pescados,0.8
+2026-11-12T11:51:22,DC02,Rio Itajaí-Açu - Praça Celso Pereira da Silva,0.31
+2026-11-12T11:51:36,DC01,Rio Itajaí-Açu - ICMBio/CEPSUL,0.71
+2026-11-12T11:55:00,DCSC-00013,Estação MKS DCSC-00013,5.86
+2026-11-12T11:55:00,DCSC-00019,Estação MKS DCSC-00019,1.63
+2026-11-12T11:55:00,PADKND,Estação AlertaBlu PADKND,3.6
+2026-11-12T12:00:00,DCSC-00013,Estação MKS DCSC-00013,5.86
+2026-11-12T12:00:00,DCSC-00019,Estação MKS DCSC-00019,1.63
+2026-11-12T12:00:00,PADKND,Estação AlertaBlu PADKND,3.6
+2026-11-12T12:00:02,DC10,Rio Itajaí-Mirim – Bairro Limoeiro,3.76
+2026-11-12T12:00:07,DC09,Ribeirão da Murta - Ponte da Rua Lidia Puel Peixer,0.64
+2026-11-12T12:00:15,DC03,Rio Itajaí-Mirim (canal retificado) - Captação SEMASA,0.09
+2026-11-12T12:00:16,DC11,Rio Itajaí-Açú – Santa Regina (Volta de Cima),2.4
+2026-11-12T12:00:21,DC08,Ribeirão Canhanduba - Rua Benjamin Dagnoni,1.04
+2026-11-12T12:00:35,DC07,Ribeirão da Murta - Portal,0.29
+2026-11-12T12:00:56,DC06,Rio Itajaí-Mirim (curso antigo) - Itamirim Clube de Campo,0.19
+2026-11-12T12:01:07,DC05,Rio Itajaí-Mirim (curso antigo) - Propriedade privada,1.04
+2026-11-12T12:01:13,DC04,Rio Itajaí-Mirim (canal retificado e curso antigo) - Vitalmar Pescados,0.81
+2026-11-12T12:01:22,DC02,Rio Itajaí-Açu - Praça Celso Pereira da Silva,0.31
+2026-11-12T12:01:36,DC01,Rio Itajaí-Açu - ICMBio/CEPSUL,0.66
+2026-11-12T12:05:00,DCSC-00013,Estação MKS DCSC-00013,5.86
+2026-11-12T12:05:00,DCSC-00019,Estação MKS DCSC-00019,1.63
+2026-11-12T12:05:00,PADKND,Estação AlertaBlu PADKND,3.59
+2026-11-12T12:10:00,DCSC-00013,Estação MKS DCSC-00013,5.86
+2026-11-12T12:10:00,DCSC-00019,Estação MKS DCSC-00019,1.63
+2026-11-12T12:10:00,PADKND,Estação AlertaBlu PADKND,3.59
+2026-11-12T12:10:02,DC09,Ribeirão da Murta - Ponte da Rua Lidia Puel Peixer,0.63
+2026-11-12T12:10:10,DC03,Rio Itajaí-Mirim (canal retificado) - Captação SEMASA,0.1
+2026-11-12T12:10:10,DC11,Rio Itajaí-Açú – Santa Regina (Volta de Cima),2.36
+2026-11-12T12:10:11,DC10,Rio Itajaí-Mirim – Bairro Limoeiro,3.77
+2026-11-12T12:10:21,DC08,Ribeirão Canhanduba - Rua Benjamin Dagnoni,1.03
+2026-11-12T12:10:35,DC07,Ribeirão da Murta - Portal,0.39
+2026-11-12T12:10:56,DC06,Rio Itajaí-Mirim (curso antigo) - Itamirim Clube de Campo,0.22
+2026-11-12T12:11:06,DC05,Rio Itajaí-Mirim (curso antigo) - Propriedade privada,1.04
+2026-11-12T12:11:13,DC04,Rio Itajaí-Mirim (canal retificado e curso antigo) - Vitalmar Pescados,0.83
+2026-11-12T12:11:22,DC02,Rio Itajaí-Açu - Praça Celso Pereira da Silva,0.31
+2026-11-12T12:11:35,DC01,Rio Itajaí-Açu - ICMBio/CEPSUL,0.71
+2026-11-12T12:15:00,DCSC-00013,Estação MKS DCSC-00013,5.86
+2026-11-12T12:15:00,DCSC-00019,Estação MKS DCSC-00019,1.63
+2026-11-12T12:15:00,PADKND,Estação AlertaBlu PADKND,3.59
+2026-11-12T12:20:00,DCSC-00013,Estação MKS DCSC-00013,5.86
+2026-11-12T12:20:00,DCSC-00019,Estação MKS DCSC-00019,1.63
+2026-11-12T12:20:00,PADKND,Estação AlertaBlu PADKND,3.59
+2026-11-12T12:20:05,DC03,Rio Itajaí-Mirim (canal retificado) - Captação SEMASA,0.12
+2026-11-12T12:20:06,DC10,Rio Itajaí-Mirim – Bairro Limoeiro,3.8
+2026-11-12T12:20:06,DC11,Rio Itajaí-Açú – Santa Regina (Volta de Cima),2.37
+2026-11-12T12:20:12,DC09,Ribeirão da Murta - Ponte da Rua Lidia Puel Peixer,0.63
+2026-11-12T12:20:21,DC08,Ribeirão Canhanduba - Rua Benjamin Dagnoni,1.03
+2026-11-12T12:20:35,DC07,Ribeirão da Murta - Portal,0.33
+2026-11-12T12:20:56,DC06,Rio Itajaí-Mirim (curso antigo) - Itamirim Clube de Campo,0.2
+2026-11-12T12:21:06,DC05,Rio Itajaí-Mirim (curso antigo) - Propriedade privada,1.04
+2026-11-12T12:21:13,DC04,Rio Itajaí-Mirim (canal retificado e curso antigo) - Vitalmar Pescados,0.83
+2026-11-12T12:21:22,DC02,Rio Itajaí-Açu - Praça Celso Pereira da Silva,0.31
+2026-11-12T12:21:36,DC01,Rio Itajaí-Açu - ICMBio/CEPSUL,0.7
+2026-11-12T12:25:00,DCSC-00013,Estação MKS DCSC-00013,5.86
+2026-11-12T12:25:00,DCSC-00019,Estação MKS DCSC-00019,1.63
+2026-11-12T12:25:00,PADKND,Estação AlertaBlu PADKND,3.59
+2026-11-12T12:30:00,DCSC-00013,Estação MKS DCSC-00013,5.86
+2026-11-12T12:30:00,DCSC-00019,Estação MKS DCSC-00019,1.63
+2026-11-12T12:30:00,PADKND,Estação AlertaBlu PADKND,3.59
+2026-11-12T12:30:06,DC09,Ribeirão da Murta - Ponte da Rua Lidia Puel Peixer,0.63
+2026-11-12T12:30:12,DC10,Rio Itajaí-Mirim – Bairro Limoeiro,3.77
+2026-11-12T12:30:14,DC11,Rio Itajaí-Açú – Santa Regina (Volta de Cima),2.39
+2026-11-12T12:30:15,DC03,Rio Itajaí-Mirim (canal retificado) - Captação SEMASA,0.12
+2026-11-12T12:30:21,DC08,Ribeirão Canhanduba - Rua Benjamin Dagnoni,1.03
+2026-11-12T12:30:35,DC07,Ribeirão da Murta - Portal,0.34
+2026-11-12T12:30:56,DC06,Rio Itajaí-Mirim (curso antigo) - Itamirim Clube de Campo,0.24
+2026-11-12T12:31:06,DC05,Rio Itajaí-Mirim (curso antigo) - Propriedade privada,1.04
+2026-11-12T12:31:13,DC04,Rio Itajaí-Mirim (canal retificado e curso antigo) - Vitalmar Pescados,0.83
+2026-11-12T12:31:22,DC02,Rio Itajaí-Açu - Praça Celso Pereira da Silva,0.31
+2026-11-12T12:31:36,DC01,Rio Itajaí-Açu - ICMBio/CEPSUL,0.7
+2026-11-12T12:35:00,DCSC-00013,Estação MKS DCSC-00013,5.86
+2026-11-12T12:35:00,DCSC-00019,Estação MKS DCSC-00019,1.63
+2026-11-12T12:35:00,PADKND,Estação AlertaBlu PADKND,3.59
+2026-11-12T12:40:00,DCSC-00013,Estação MKS DCSC-00013,5.86
+2026-11-12T12:40:00,DCSC-00019,Estação MKS DCSC-00019,1.63
+2026-11-12T12:40:00,PADKND,Estação AlertaBlu PADKND,3.58
+2026-11-12T12:40:02,DC10,Rio Itajaí-Mirim – Bairro Limoeiro,3.77
+2026-11-12T12:40:10,DC03,Rio Itajaí-Mirim (canal retificado) - Captação SEMASA,0.12
+2026-11-12T12:40:10,DC11,Rio Itajaí-Açú – Santa Regina (Volta de Cima),2.38
+2026-11-12T12:40:15,DC09,Ribeirão da Murta - Ponte da Rua Lidia Puel Peixer,0.62
+2026-11-12T12:40:21,DC08,Ribeirão Canhanduba - Rua Benjamin Dagnoni,1.03
+2026-11-12T12:40:36,DC07,Ribeirão da Murta - Portal,0.35
+2026-11-12T12:40:56,DC06,Rio Itajaí-Mirim (curso antigo) - Itamirim Clube de Campo,0.22
+2026-11-12T12:41:07,DC05,Rio Itajaí-Mirim (curso antigo) - Propriedade privada,1.04
+2026-11-12T12:41:13,DC04,Rio Itajaí-Mirim (canal retificado e curso antigo) - Vitalmar Pescados,0.83
+2026-11-12T12:41:22,DC02,Rio Itajaí-Açu - Praça Celso Pereira da Silva,0.31
+2026-11-12T12:41:36,DC01,Rio Itajaí-Açu - ICMBio/CEPSUL,0.81
+2026-11-12T12:45:00,DCSC-00013,Estação MKS DCSC-00013,5.86
+2026-11-12T12:45:00,DCSC-00019,Estação MKS DCSC-00019,1.63
+2026-11-12T12:45:00,PADKND,Estação AlertaBlu PADKND,3.59
+2026-11-12T12:50:00,DCSC-00013,Estação MKS DCSC-00013,5.86
+2026-11-12T12:50:00,DCSC-00019,Estação MKS DCSC-00019,1.63
+2026-11-12T12:50:00,PADKND,Estação AlertaBlu PADKND,3.58
+2026-11-12T12:50:04,DC11,Rio Itajaí-Açú – Santa Regina (Volta de Cima),2.41
+2026-11-12T12:50:05,DC03,Rio Itajaí-Mirim (canal retificado) - Captação SEMASA,0.13
+2026-11-12T12:50:08,DC10,Rio Itajaí-Mirim – Bairro Limoeiro,3.76
+2026-11-12T12:50:10,DC09,Ribeirão da Murta - Ponte da Rua Lidia Puel Peixer,0.62
+2026-11-12T12:50:21,DC08,Ribeirão Canhanduba - Rua Benjamin Dagnoni,1.03
+2026-11-12T12:50:35,DC07,Ribeirão da Murta - Portal,0.3
+2026-11-12T12:50:56,DC06,Rio Itajaí-Mirim (curso antigo) - Itamirim Clube de Campo,0.25
+2026-11-12T12:51:06,DC05,Rio Itajaí-Mirim (curso antigo) - Propriedade privada,1.04
+2026-11-12T12:51:13,DC04,Rio Itajaí-Mirim (canal retificado e curso antigo) - Vitalmar Pescados,0.83
+2026-11-12T12:51:22,DC02,Rio Itajaí-Açu - Praça Celso Pereira da Silva,0.31
+2026-11-12T12:51:36,DC01,Rio Itajaí-Açu - ICMBio/CEPSUL,0.81
+2026-11-12T12:55:00,DCSC-00013,Estação MKS DCSC-00013,5.86
+2026-11-12T12:55:00,DCSC-00019,Estação MKS DCSC-00019,1.63
+2026-11-12T12:55:00,PADKND,Estação AlertaBlu PADKND,3.58
+2026-11-12T13:00:00,DCSC-00013,Estação MKS DCSC-00013,5.86
+2026-11-12T13:00:00,DCSC-00019,Estação MKS DCSC-00019,1.63
+2026-11-12T13:00:00,PADKND,Estação AlertaBlu PADKND,3.58
+2026-11-12T13:00:03,DC10,Rio Itajaí-Mirim – Bairro Limoeiro,3.76
+2026-11-12T13:00:05,DC09,Ribeirão da Murta - Ponte da Rua Lidia Puel Peixer,0.62
+2026-11-12T13:00:14,DC11,Rio Itajaí-Açú – Santa Regina (Volta de Cima),2.4
+2026-11-12T13:00:15,DC03,Rio Itajaí-Mirim (canal retificado) - Captação SEMASA,0.15
+2026-11-12T13:00:21,DC08,Ribeirão Canhanduba - Rua Benjamin Dagnoni,1.03
+2026-11-12T13:00:35,DC07,Ribeirão da Murta - Portal,0.31
+2026-11-12T13:00:56,DC06,Rio Itajaí-Mirim (curso antigo) - Itamirim Clube de Campo,0.26
+2026-11-12T13:01:06,DC05,Rio Itajaí-Mirim (curso antigo) - Propriedade privada,1.04
+2026-11-12T13:01:13,DC04,Rio Itajaí-Mirim (canal retificado e curso antigo) - Vitalmar Pescados,0.87
+2026-11-12T13:01:22,DC02,Rio Itajaí-Açu - Praça Celso Pereira da Silva,0.31
+2026-11-12T13:01:35,DC01,Rio Itajaí-Açu - ICMBio/CEPSUL,0.8
+2026-11-12T13:05:00,DCSC-00013,Estação MKS DCSC-00013,5.86
+2026-11-12T13:05:00,DCSC-00019,Estação MKS DCSC-00019,1.63
+2026-11-12T13:05:00,PADKND,Estação AlertaBlu PADKND,3.58
+2026-11-12T13:10:00,DCSC-00013,Estação MKS DCSC-00013,5.86
+2026-11-12T13:10:00,DCSC-00019,Estação MKS DCSC-00019,1.63
+2026-11-12T13:10:00,PADKND,Estação AlertaBlu PADKND,3.58
+2026-11-12T13:10:09,DC11,Rio Itajaí-Açú – Santa Regina (Volta de Cima),2.41
+2026-11-12T13:10:10,DC03,Rio Itajaí-Mirim (canal retificado) - Captação SEMASA,0.2
+2026-11-12T13:10:11,DC09,Ribeirão da Murta - Ponte da Rua Lidia Puel Peixer,0.64
+2026-11-12T13:10:12,DC10,Rio Itajaí-Mirim – Bairro Limoeiro,3.77
+2026-11-12T13:10:21,DC08,Ribeirão Canhanduba - Rua Benjamin Dagnoni,1.03
+2026-11-12T13:10:35,DC07,Ribeirão da Murta - Portal,0.31
+2026-11-12T13:10:56,DC06,Rio Itajaí-Mirim (curso antigo) - Itamirim Clube de Campo,0.27
+2026-11-12T13:11:06,DC05,Rio Itajaí-Mirim (curso antigo) - Propriedade privada,1.04
+2026-11-12T13:11:13,DC04,Rio Itajaí-Mirim (canal retificado e curso antigo) - Vitalmar Pescados,0.89
+2026-11-12T13:11:22,DC02,Rio Itajaí-Açu - Praça Celso Pereira da Silva,0.31
+2026-11-12T13:11:36,DC01,Rio Itajaí-Açu - ICMBio/CEPSUL,0.85
+2026-11-12T13:15:00,DCSC-00013,Estação MKS DCSC-00013,5.86
+2026-11-12T13:15:00,DCSC-00019,Estação MKS DCSC-00019,1.63
+2026-11-12T13:15:00,PADKND,Estação AlertaBlu PADKND,3.57
+2026-11-12T13:20:00,DCSC-00019,Estação MKS DCSC-00019,1.63
+2026-11-12T13:20:00,PADKND,Estação AlertaBlu PADKND,3.57
+2026-11-12T13:20:04,DC11,Rio Itajaí-Açú – Santa Regina (Volta de Cima),2.41
+2026-11-12T13:20:05,DC09,Ribeirão da Murta - Ponte da Rua Lidia Puel Peixer,0.64
+2026-11-12T13:20:06,DC03,Rio Itajaí-Mirim (canal retificado) - Captação SEMASA,0.21
+2026-11-12T13:20:06,DC10,Rio Itajaí-Mirim – Bairro Limoeiro,3.79
+2026-11-12T13:20:21,DC08,Ribeirão Canhanduba - Rua Benjamin Dagnoni,1.03
+2026-11-12T13:20:35,DC07,Ribeirão da Murta - Portal,0.46
+2026-11-12T13:20:56,DC06,Rio Itajaí-Mirim (curso antigo) - Itamirim Clube de Campo,0.33
+2026-11-12T13:21:06,DC05,Rio Itajaí-Mirim (curso antigo) - Propriedade privada,1.04
+2026-11-12T13:21:13,DC04,Rio Itajaí-Mirim (canal retificado e curso antigo) - Vitalmar Pescados,0.88
+2026-11-12T13:21:22,DC02,Rio Itajaí-Açu - Praça Celso Pereira da Silva,0.31
+2026-11-12T13:21:36,DC01,Rio Itajaí-Açu - ICMBio/CEPSUL,0.86
+2026-11-12T13:25:00,DCSC-00019,Estação MKS DCSC-00019,1.63
