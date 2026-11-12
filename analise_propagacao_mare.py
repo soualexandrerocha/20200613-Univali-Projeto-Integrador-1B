@@ -3,6 +3,7 @@
 Uso:
     python analise_propagacao_mare.py            # baixa as últimas 12 h e analisa o acumulado
     python analise_propagacao_mare.py --offline  # só analisa o que já está em dados/
+    python analise_propagacao_mare.py --so-coletar  # só baixa e grava (usado no GitHub Actions)
 
 Fonte: https://monitoramento.defesacivil.itajai.sc.gov.br/monitoramento/rios
 (nível a cada 10 min, últimas 12 h, rede "Telemetria Itajaí"). O site não
@@ -30,6 +31,7 @@ import html
 import json
 import re
 import sys
+import time
 import urllib.request
 from datetime import datetime, timezone
 from pathlib import Path
@@ -47,7 +49,14 @@ W_M2 = 2 * np.pi / (12.4206012 * 3600)  # rad/s
 def baixar():
   """Estações e séries de 12 h publicadas na página (dados Inertia em data-page)."""
   req = urllib.request.Request(URL, headers={'User-Agent': 'projeto-academico-mare/1.0'})
-  pagina = urllib.request.urlopen(req, timeout=120).read().decode('utf-8')
+  for tentativa in range(4):
+    try:
+      pagina = urllib.request.urlopen(req, timeout=120).read().decode('utf-8')
+      break
+    except OSError:
+      if tentativa == 3:
+        raise
+      time.sleep(30 * 2**tentativa)
   dados = json.loads(html.unescape(re.search(r'data-page="([^"]*)"', pagina).group(1)))
   return [e for e in dados['props']['estacoes'] if 'rios' in e['capacidades']]
 
@@ -118,6 +127,8 @@ def comprimento_efetivo(r, atraso_min, x_km):
 def main():
   if '--offline' not in sys.argv:
     print(f'{acumular(baixar())} leituras novas gravadas em {ARQ}')
+  if '--so-coletar' in sys.argv:
+    return
   series, meta = ler()
   print(f"\n{'estação':<6} {'nome':<52} {'dist (km)':>9} {'horas':>6} {'r':>5} "
         f"{'atraso':>7} {'RMS':>6}  L_ef / atraso do fluxo")
