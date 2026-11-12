@@ -1,0 +1,5 @@
+medido_em_utc,codigo,pressao_atmosferica_hpa,velocidade_vento_kmh,direcao_vento_graus,velocidade_maxima_vento_6_h_kmh,temperatura_c,umidade_percentual
+2026-11-12T10:25:00,UNIVALI,1016.7,11.26538,282.0,19.31208,21.3,92.0
+2026-11-12T10:30:17,DC00,1018.02,0.66,251.0,27.36,21.22,95.0
+2026-11-12T10:40:00,UNIVALI,1016.7,12.87472,284.0,19.31208,21.4,91.0
+2026-11-12T10:40:23,DC00,1017.95,0.61,210.0,27.36,21.78,94.0
