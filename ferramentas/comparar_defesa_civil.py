@@ -3,6 +3,8 @@ de Itajaí (últimas 12 h, leituras a cada 10 min).
 
     python ferramentas/comparar_defesa_civil.py            # baixa os dados atuais
     python ferramentas/comparar_defesa_civil.py app.json   # usa um arquivo salvo
+    python ferramentas/comparar_defesa_civil.py dados/defesa_civil/niveis_rios.csv
+                                                           # usa tudo o que o coletor acumulou
 
 Fonte: https://monitoramento.defesacivil.itajai.sc.gov.br/data/current/app.json
 (o mesmo JSON público que alimenta o portal de monitoramento).
@@ -20,6 +22,13 @@ URL = 'https://monitoramento.defesacivil.itajai.sc.gov.br/data/current/app.json'
 
 
 def carregar(arq=None):
+    if arq and arq.endswith('.csv'):  # acumulado de coletar_defesa_civil.py
+        import csv
+        est = {}
+        for r in csv.DictReader(open(arq)):
+            e = est.setdefault(r['codigo'], {'codigo': r['codigo'], 'nome': r['nome'], 'serie_12_h': []})
+            e['serie_12_h'].append({'medido_em': r['medido_em_utc'], 'nivel_rio_m': float(r['nivel_m'])})
+        return {'gerado_em': 'acumulado em ' + arq, 'dados': {'rios': list(est.values())}}
     if arq:
         return json.load(open(arq))
     with urllib.request.urlopen(URL, timeout=30) as r:
@@ -41,6 +50,7 @@ if __name__ == '__main__':
         y = np.array([x.get('nivel_rio_m', np.nan) for x in s], float)
         ok = np.isfinite(y)
         t, y = t[ok], y[ok]
+        periodo = f'{str(t.min())[5:16]}–{str(t.max())[5:16]} UTC, {len(t)} leituras'
         melhor = None
         for atraso in range(-120, 181):
             hp = M.altura_utc((t - np.timedelta64(atraso, 'm')).astype('datetime64[m]'))
@@ -51,4 +61,4 @@ if __name__ == '__main__':
                 melhor = (rms, atraso, c, np.corrcoef(hp, y)[0, 1])
         rms, atraso, c, cc = melhor
         print(f"{r['codigo']:11s} {r['nome'][:48]:48s} variação {y.max() - y.min():4.2f} m | "
-              f"corr {cc:+.2f} | atraso {atraso:+4d} min | ganho {c[1]:5.2f} | resíduo {rms * 100:4.1f} cm")
+              f"corr {cc:+.2f} | atraso {atraso:+4d} min | ganho {c[1]:5.2f} | resíduo {rms * 100:4.1f} cm | {periodo}")
