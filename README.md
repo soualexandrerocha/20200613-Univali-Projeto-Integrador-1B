@@ -73,6 +73,25 @@ O1 = 10,8 cm, M4 = 6,6 cm, …).
 | Ajuste em jan–ago, teste em set–dez | RMS 3,4 cm; horário mediana 7 min |
 | Nível médio Z0 | 0,593 m (oficial: 0,59 m na tábua, 59,4 cm na F-41) — não imposto |
 
+### Validação independente: Tábua de Maré 2026 da EPAGRI
+
+Outra fonte (EPAGRI/SC) e outro ano, sem nenhum uso no ajuste
+(`dados/tabua_mare_itajai_2026_EPAGRI.pdf`, extraída por
+`ferramentas/extrair_tabua_epagri.py`; comparação em
+`ferramentas/comparar_epagri.py`):
+
+| Grandeza | Resultado |
+|---|---|
+| Altura nos 1760 horários da tábua | RMS 5,1 cm; EPAGRI 2,1 cm acima do modelo, em média |
+| Extremos da EPAGRI com par no modelo (≤ 90 min) | 1728 de 1760; os 32 restantes são oscilações de ~5 cm que o modelo suaviza |
+| Horário, extremos bem marcados (≥ 20 cm) | mediana 8 min, 90 % ≤ 22 min; modelo ~5 min mais tarde, em média |
+| Horário, estofos | mediana 11 min, 90 % ≤ 31 min |
+
+As duas tábuas oficiais usam análises harmônicas próprias. Sem medições do
+marégrafo não dá para dizer qual das duas está mais perto da maré real. Na
+tábua da EPAGRI, 55 símbolos ▲/▼ contradizem as alturas vizinhas (por
+exemplo, "preamar" de 0,1 m em 27/02 às 18:47).
+
 O modelo também gera alguns extremos minúsculos (mediana 0,7 cm de
 amplitude) que a tábua não lista.
 
@@ -83,8 +102,7 @@ amplitude) que a tábua não lista.
   ou atrasar os extremos.
 - As constantes vêm de um único ano de previsões; componentes que exigem mais
   de um ano para serem separadas (p. ex. Sa) ficam mal determinadas.
-- Validação feita contra a previsão oficial, não contra medições do marégrafo.
-  Para comparar com outro ano, basta extrair outra tábua com o mesmo script e
-  rodar `Mare().extremos(...)` no período.
+- Validação feita contra previsões oficiais (CHM 2024 e EPAGRI 2026), não
+  contra medições do marégrafo.
 - Alturas referidas ao NR da DHN (zero das cartas), 189,6 cm acima do zero
   da régua da Delegacia da Capitania dos Portos em Itajaí (F-41).
