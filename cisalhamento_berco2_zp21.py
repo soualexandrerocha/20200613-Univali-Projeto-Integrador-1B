@@ -63,7 +63,7 @@ NO_PARA_MS = 1852 / 3600  # 1 nó = 0,514444 m/s
 # --- Parâmetros a calibrar --------------------------------------------------
 # Profundidade abaixo do zero hidrográfico. Fonte: Avisos da Atalaia
 # (praticagem), "Itajaí e Navegantes - menores profundidades", validade
-# 10/12/2026: Itajaí 2 = 12,8 m; Bacia de evolução 01 = 12,8 m. É a menor
+# 10/12/2026: Itajaí 2 (= Berço 2) = 12,8 m; Bacia de evolução 01 = 12,8 m. É a menor
 # profundidade levantada (não a cota de projeto de 14,5 m) e muda a cada
 # levantamento batimétrico; atualizar quando o aviso for renovado.
 PROF_ZH = 12.8  # m
