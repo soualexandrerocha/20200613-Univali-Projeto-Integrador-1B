@@ -153,3 +153,36 @@ modelo é recalculado no navegador.
 ```bash
 python ferramentas/gerar_painel_berco2.py   # regenera com as leituras mais recentes
 ```
+
+## Folga sob a quilha e janelas de manobra — `pagina/folga_quilha.html`
+
+Formulário para calcular a folga estática sob a quilha (UKC) de um navio no
+Porto de Itajaí e os horários em que a manobra pode começar, com a maré
+astronômica de `mare_itajai.py`. Abre no navegador ou no celular, sem Python.
+
+**Entradas:** período e duração da manobra; reserva de nível (vento, maré
+meteorológica, vazão do rio); pontos de profundidade, cada um com seu
+referencial: NR da DHN, outro zero (com a cota desse zero em relação ao NR)
+ou medida no instante (a página desconta a maré daquele instante); calados
+AV/AR ou médio e trim; densidade em que o calado vale e densidade local, com
+FWA opcional; folga mínima em metros ou em % do calado.
+
+**Cálculo** (`pagina/nucleo_ukc.js`):
+
+- calado corrigido = maior calado + ΔT. Com FWA, ΔT = FWA × (ρref − ρlocal) / 0,025;
+  sem FWA, T × ρref/ρlocal (casco tratado como caixa, o que superestima o afundamento);
+- UKC(t) = profundidade no NR + maré(t) − reserva − calado corrigido;
+- a manobra pode começar em s se UKC ≥ folga exigida em todos os pontos
+  durante todo o intervalo [s, s + duração], com passo de 1 min.
+
+**Saídas:** janelas de início, maré necessária e ponto limitante, gráfico,
+sensibilidade a nível 0,10–0,30 m abaixo do previsto, folga em cada PM/BM e
+resumo em texto para copiar.
+
+É folga **estática**: não inclui squat, balanço nem ondas. A maré é só a
+astronômica, com as limitações descritas acima.
+
+```bash
+python ferramentas/gerar_painel_ukc.py     # regenera a página
+python ferramentas/testar_painel_ukc.py    # confere o JavaScript contra o Python (precisa de node)
+```

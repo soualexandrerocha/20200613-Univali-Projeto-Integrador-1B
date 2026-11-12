@@ -1,0 +1,439 @@
+<title>Folga sob a Quilha — Itajaí</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@500;600&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+/* Layout: formulário de manobra à esquerda (ou em cima, no celular); resultado à direita: veredito, curva com a janela, tabelas. */
+:root {
+  --bg: #eef3f5;
+  --surface: #ffffff;
+  --ink: #0f2533;
+  --muted: #566b77;
+  --line: #d3dee4;
+  --water: #1b6890;
+  --water-soft: rgba(27, 104, 144, 0.12);
+  --ok: #1d7767;
+  --ok-soft: rgba(29, 119, 103, 0.16);
+  --req: #b0472f;
+  --warn: #9a6400;
+  --bad: #b3261e;
+  --f-display: "Barlow Semi Condensed", "Arial Narrow", system-ui, sans-serif;
+  --f-body: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --f-data: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0a1820; --surface: #10232f; --ink: #e2ecf1; --muted: #8fa5b1; --line: #213846;
+    --water: #63b2dc; --water-soft: rgba(99,178,220,0.14); --ok: #52c2ab; --ok-soft: rgba(82,194,171,0.18);
+    --req: #ec8a6e; --warn: #e0b154; --bad: #f08a80; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0a1820; --surface: #10232f; --ink: #e2ecf1; --muted: #8fa5b1; --line: #213846;
+  --water: #63b2dc; --water-soft: rgba(99,178,220,0.14); --ok: #52c2ab; --ok-soft: rgba(82,194,171,0.18);
+  --req: #ec8a6e; --warn: #e0b154; --bad: #f08a80; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+body {
+  margin: 0; background: var(--bg); color: var(--ink);
+  font-family: var(--f-body); font-size: 15px; line-height: 1.5;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 20px 40px;
+}
+main { max-width: 1180px; margin: 0 auto; display: flex; flex-direction: column; gap: 18px; }
+header { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 4px 16px; }
+h1 { font-family: var(--f-display); font-weight: 600; font-size: 1.8rem; margin: 0; text-wrap: balance; }
+h2 { font-family: var(--f-display); font-weight: 600; font-size: 1.15rem; margin: 0; letter-spacing: 0.01em; }
+.meta { color: var(--muted); font-size: 0.82rem; }
+.num { font-family: var(--f-data); font-variant-numeric: tabular-nums; }
+.grade { display: grid; grid-template-columns: minmax(0, 400px) minmax(0, 1fr); gap: 18px; align-items: start; }
+@media (max-width: 860px) { .grade { grid-template-columns: minmax(0, 1fr); } }
+.painel { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 16px; display: flex; flex-direction: column; gap: 14px; min-width: 0; }
+form { display: flex; flex-direction: column; gap: 18px; }
+fieldset { border: 0; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 10px; min-width: 0; }
+legend { font-family: var(--f-display); font-weight: 600; font-size: 1.05rem; padding: 0; margin-bottom: 6px; }
+.linha { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+.campo { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+.campo > span { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.07em; color: var(--muted); }
+input, select {
+  font: 500 0.95rem var(--f-data); color: var(--ink); background: var(--bg);
+  border: 1px solid var(--line); border-radius: 6px; padding: 6px 8px; width: 100%; min-width: 0;
+}
+select { font-family: var(--f-body); }
+input:focus-visible, select:focus-visible, button:focus-visible { outline: 2px solid var(--water); outline-offset: 1px; }
+.dica { font-size: 0.78rem; color: var(--muted); margin: 0; }
+button {
+  font: 500 0.88rem var(--f-body); color: var(--ink); background: var(--surface);
+  border: 1px solid var(--line); border-radius: 6px; padding: 6px 11px; cursor: pointer;
+}
+button:hover { border-color: var(--water); }
+button.primario { background: var(--water); color: var(--surface); border-color: var(--water); }
+.ponto { border: 1px solid var(--line); border-radius: 6px; padding: 10px; display: flex; flex-direction: column; gap: 8px; }
+.ponto .topo { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 8px; align-items: end; }
+.remover { padding: 6px 9px; color: var(--muted); }
+.aviso-exemplo { font-size: 0.8rem; border-left: 3px solid var(--warn); padding: 4px 10px; color: var(--ink); background: var(--water-soft); border-radius: 0 4px 4px 0; }
+.veredito { display: flex; flex-direction: column; gap: 4px; padding: 12px 14px; border-radius: 6px; border: 1px solid var(--line); border-left-width: 5px; }
+.veredito.ok { border-left-color: var(--ok); }
+.veredito.nao { border-left-color: var(--bad); }
+.veredito.sempre { border-left-color: var(--ok); }
+.veredito strong { font-family: var(--f-display); font-size: 1.25rem; font-weight: 600; }
+.cifras { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; }
+.cifra { display: flex; flex-direction: column; gap: 2px; border-top: 1px solid var(--line); padding-top: 6px; }
+.cifra span { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.07em; color: var(--muted); }
+.cifra b { font: 500 1.2rem var(--f-data); font-variant-numeric: tabular-nums; }
+.cifra small { color: var(--muted); font-size: 0.78rem; }
+.rolar { overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; font-size: 0.88rem; }
+th, td { text-align: left; padding: 6px 8px; border-bottom: 1px solid var(--line); white-space: nowrap; }
+th { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); font-weight: 500; }
+td.n { font-family: var(--f-data); font-variant-numeric: tabular-nums; text-align: right; }
+th.n { text-align: right; }
+.pos { color: var(--ok); } .neg { color: var(--bad); }
+.critico { font-weight: 600; }
+.selo { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.06em; padding: 1px 6px; border-radius: 3px; border: 1px solid currentColor; }
+svg text { fill: var(--muted); font-family: var(--f-data); font-size: 10px; }
+.erros { color: var(--bad); font-size: 0.88rem; margin: 0; padding-left: 18px; }
+.notas { font-size: 0.82rem; color: var(--muted); display: flex; flex-direction: column; gap: 6px; }
+.notas p { margin: 0; max-width: 75ch; }
+.acoes { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+#copiado { font-size: 0.8rem; color: var(--ok); }
+details summary { cursor: pointer; font-size: 0.85rem; color: var(--muted); }
+textarea { width: 100%; min-height: 160px; font: 0.8rem var(--f-data); color: var(--ink); background: var(--bg); border: 1px solid var(--line); border-radius: 6px; padding: 8px; }
+@media (prefers-reduced-motion: no-preference) { button { transition: border-color .15s; } }
+</style>
+
+<main>
+  <header>
+    <h1>Folga sob a quilha · Porto de Itajaí</h1>
+    <span class="meta">Folga estática (UKC) com maré astronômica · hora legal UTC−3 · alturas acima do NR da DHN</span>
+  </header>
+
+  <div class="grade">
+    <section class="painel" aria-label="Dados de entrada">
+      <p class="aviso-exemplo" id="aviso-exemplo">Os valores abaixo são um <b>exemplo</b>. Troque pelos seus dados; o resultado se atualiza sozinho.</p>
+      <form id="form" novalidate>
+        <fieldset>
+          <legend>Período e manobra</legend>
+          <div class="linha">
+            <label class="campo"><span>Início do período</span><input id="ini" type="datetime-local" step="60"></label>
+            <label class="campo"><span>Fim do período</span><input id="fim" type="datetime-local" step="60"></label>
+          </div>
+          <div class="linha">
+            <label class="campo"><span>Duração da manobra (min)</span><input id="dur" type="number" min="0" step="1" inputmode="numeric"></label>
+            <label class="campo"><span>Nível abaixo do previsto (m)</span><input id="margem" type="number" min="0" step="0.01" inputmode="decimal"></label>
+          </div>
+          <p class="dica">A janela exige folga durante toda a manobra, em todos os pontos. "Nível abaixo do previsto" desconta da maré uma reserva para vento, maré meteorológica e vazão do rio, que o modelo não inclui.</p>
+        </fieldset>
+
+        <fieldset>
+          <legend>Profundidades</legend>
+          <div id="pontos" style="display:flex;flex-direction:column;gap:10px"></div>
+          <div class="acoes"><button type="button" id="add">+ Ponto</button></div>
+          <p class="dica">Referencial: <b>NR (DHN)</b> para carta e LH. <b>Outro zero</b> para régua ou datum próprio, informando a cota desse zero em relação ao NR (+ se acima). <b>Medida no instante</b> para sondagem com data e hora: o modelo desconta a maré daquele instante.</p>
+        </fieldset>
+
+        <fieldset>
+          <legend>Navio</legend>
+          <label class="campo"><span>Como informar o calado</span>
+            <select id="modo">
+              <option value="avar">Calado AV e AR</option>
+              <option value="medio">Calado médio e trim</option>
+            </select>
+          </label>
+          <div class="linha" id="bloco-avar">
+            <label class="campo"><span>Calado AV (m)</span><input id="cav" type="number" min="0" step="0.01" inputmode="decimal"></label>
+            <label class="campo"><span>Calado AR (m)</span><input id="car" type="number" min="0" step="0.01" inputmode="decimal"></label>
+          </div>
+          <div class="linha" id="bloco-medio" hidden>
+            <label class="campo"><span>Calado médio (m)</span><input id="cmed" type="number" min="0" step="0.01" inputmode="decimal"></label>
+            <label class="campo"><span>Trim (m, + pela popa)</span><input id="trim" type="number" step="0.01" inputmode="decimal"></label>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Densidade</legend>
+          <div class="linha">
+            <label class="campo"><span>Densidade do calado (t/m³)</span><input id="rref" type="number" min="0.99" max="1.04" step="0.001" inputmode="decimal"></label>
+            <label class="campo"><span>Densidade no local (t/m³)</span><input id="rloc" type="number" min="0.99" max="1.04" step="0.001" inputmode="decimal"></label>
+          </div>
+          <label class="campo"><span>FWA do navio (mm), opcional</span><input id="fwa" type="number" min="0" step="1" inputmode="numeric" placeholder="vazio = aproximação T·ρref/ρlocal"></label>
+          <p class="dica">Com FWA: ΔT = FWA × (ρref − ρlocal) / 0,025. Sem FWA: T × ρref/ρlocal, que trata o casco como caixa e superestima o afundamento (lado da segurança).</p>
+        </fieldset>
+
+        <fieldset>
+          <legend>Folga mínima exigida</legend>
+          <div class="linha">
+            <label class="campo"><span>Valor</span><input id="ukc" type="number" min="0" step="0.01" inputmode="decimal"></label>
+            <label class="campo"><span>Unidade</span>
+              <select id="ukcu"><option value="m">metros</option><option value="pct">% do calado</option></select>
+            </label>
+          </div>
+          <p class="dica">Em % ela incide sobre o maior calado já corrigido pela densidade.</p>
+        </fieldset>
+        <div class="acoes"><button type="button" id="limpar">Voltar ao exemplo</button></div>
+      </form>
+    </section>
+
+    <section class="painel" aria-label="Resultado" aria-live="polite">
+      <ul class="erros" id="erros" hidden></ul>
+      <div id="resultado">
+        <div class="veredito" id="veredito"></div>
+      </div>
+      <div class="cifras" id="cifras"></div>
+      <div>
+        <h2>Maré prevista e maré necessária</h2>
+        <div class="rolar"><svg id="grafico" role="img" aria-label="Curva de maré com a altura necessária e as janelas" width="100%" height="260"></svg></div>
+        <p class="dica"><span style="color:var(--water)">━</span> maré astronômica &nbsp; <span style="color:var(--req)">┅</span> maré necessária (inclui a reserva de nível) &nbsp; <span style="background:var(--ok-soft);padding:0 6px">&nbsp;</span> início de manobra permitido</p>
+      </div>
+      <div>
+        <h2>Janelas para iniciar a manobra</h2>
+        <div class="rolar"><table id="tab-janelas"></table></div>
+      </div>
+      <div>
+        <h2>Sensibilidade ao nível</h2>
+        <div class="rolar"><table id="tab-sens"></table></div>
+      </div>
+      <div>
+        <h2>Pontos de profundidade</h2>
+        <div class="rolar"><table id="tab-pontos"></table></div>
+      </div>
+      <div>
+        <h2>Preamares e baixa-mares do período</h2>
+        <div class="rolar"><table id="tab-ext"></table></div>
+      </div>
+      <div class="acoes">
+        <button type="button" class="primario" id="copiar">Copiar resumo</button>
+        <span id="copiado" hidden>Copiado</span>
+      </div>
+      <details><summary>Resumo em texto</summary><textarea id="texto" readonly></textarea></details>
+      <div class="notas">
+        <p><b>O que entra.</b> UKC(t) = profundidade no NR + maré(t) − reserva de nível − calado máximo corrigido. É folga <b>estática</b>: não inclui squat, balanço, arfagem nem ondas.</p>
+        <p><b>Maré.</b> Modelo harmônico ajustado às Tábuas das Marés do Porto de Itajaí (CHM, 2024–2026). Contra a tábua de 2026: erro de altura de 2,9 cm e erro mediano de 6 min no horário dos extremos. Nos estofos rasos o horário pode errar 30 min ou mais. Vento, maré meteorológica e cheia do Itajaí-Açu ficam de fora e podem alterar o nível em dezenas de centímetros.</p>
+        <p><b>Conservador por construção.</b> Cada ponto precisa da folga durante toda a manobra, mesmo que o navio passe por ele só por alguns minutos.</p>
+      </div>
+    </section>
+  </div>
+</main>
+
+<script>
+/*NUCLEO*/
+/*NUCLEO_UKC*/
+const MARE = criarMare(/*DADOS*/);
+
+const H_MS = 3600e3, MIN_MS = 60e3, FUSO_MS = 3 * H_MS;
+const $ = id => document.getElementById(id);
+const pad = n => String(n).padStart(2, '0');
+const num = (x, d = 2) => Number.isFinite(x) ? x.toFixed(d).replace('.', ',') : '—';
+const sinal = (x, d = 2) => Number.isFinite(x) ? (x >= 0 ? '+' : '−') + Math.abs(x).toFixed(d).replace('.', ',') : '—';
+function localParaMs(s) {
+  if (!s) return NaN;
+  const [d, t] = s.split('T'); const [Y, Mo, Da] = d.split('-').map(Number); const [h, mi] = (t || '0:0').split(':').map(Number);
+  return Date.UTC(Y, Mo - 1, Da, h, mi) + FUSO_MS;
+}
+function fmt(ms, ano) {
+  const d = new Date(Math.round(ms / MIN_MS) * MIN_MS - FUSO_MS);
+  return `${pad(d.getUTCDate())}/${pad(d.getUTCMonth() + 1)}${ano ? '/' + d.getUTCFullYear() : ''} ${pad(d.getUTCHours())}:${pad(d.getUTCMinutes())}`;
+}
+function duracao(min) { const h = Math.floor(min / 60), m = Math.round(min % 60); return h ? `${h} h ${pad(m)}` : `${m} min`; }
+const lerNum = id => { const v = $(id).value.trim().replace(',', '.'); return v === '' ? NaN : Number(v); };
+
+const EXEMPLO = {
+  ini: '2026-11-13T00:00', fim: '2026-11-16T00:00', dur: '60', margem: '0.10',
+  modo: 'avar', cav: '12.40', car: '12.90', cmed: '', trim: '',
+  rref: '1.025', rloc: '1.012', fwa: '', ukc: '10', ukcu: 'pct',
+  pontos: [
+    { nome: 'Canal externo', prof: '14.00', ref: 'nr', cota: '', inst: '' },
+    { nome: 'Bacia de evolução', prof: '13.80', ref: 'nr', cota: '', inst: '' },
+    { nome: 'Berço (sondagem)', prof: '14.40', ref: 'inst', cota: '', inst: '2026-11-12T10:00' },
+  ],
+};
+const CAMPOS = ['ini', 'fim', 'dur', 'margem', 'modo', 'cav', 'car', 'cmed', 'trim', 'rref', 'rloc', 'fwa', 'ukc', 'ukcu'];
+const CHAVE = 'ukc-itajai-v1';
+
+function novoPonto(p) {
+  const i = Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
+  const el = document.createElement('div');
+  el.className = 'ponto';
+  el.innerHTML = `
+    <div class="topo">
+      <label class="campo"><span>Local</span><input id="pn-${i}" data-k="nome" type="text" style="font-family:var(--f-body)"></label>
+      <button type="button" class="remover" aria-label="Remover ponto">✕</button>
+    </div>
+    <div class="linha">
+      <label class="campo"><span>Profundidade (m)</span><input id="pp-${i}" data-k="prof" type="number" min="0" step="0.01" inputmode="decimal"></label>
+      <label class="campo"><span>Referencial</span>
+        <select id="pr-${i}" data-k="ref">
+          <option value="nr">NR (DHN)</option><option value="outro">Outro zero</option><option value="inst">Medida no instante</option>
+        </select></label>
+    </div>
+    <label class="campo" data-so="outro"><span>Cota do zero em relação ao NR (m, + acima)</span><input id="pc-${i}" data-k="cota" type="number" step="0.01" inputmode="decimal"></label>
+    <label class="campo" data-so="inst"><span>Data e hora da medição (UTC−3)</span><input id="pi-${i}" data-k="inst" type="datetime-local" step="60"></label>`;
+  for (const k of ['nome', 'prof', 'ref', 'cota', 'inst']) el.querySelector(`[data-k="${k}"]`).value = p[k] ?? '';
+  const sinc = () => { const r = el.querySelector('[data-k="ref"]').value; el.querySelectorAll('[data-so]').forEach(x => x.hidden = x.dataset.so !== r); };
+  el.querySelector('[data-k="ref"]').addEventListener('change', () => { sinc(); agendar(); });
+  el.querySelector('.remover').addEventListener('click', () => { el.remove(); agendar(); });
+  sinc();
+  $('pontos').appendChild(el);
+}
+function lerPontos() {
+  return [...$('pontos').children].map(el => {
+    const g = k => el.querySelector(`[data-k="${k}"]`).value;
+    return { nome: g('nome'), prof: g('prof'), ref: g('ref'), cota: g('cota'), inst: g('inst') };
+  });
+}
+function estado() { const s = {}; CAMPOS.forEach(k => s[k] = $(k).value); s.pontos = lerPontos(); return s; }
+function aplicar(s) {
+  CAMPOS.forEach(k => { if (s[k] !== undefined) $(k).value = s[k]; });
+  $('pontos').innerHTML = ''; (s.pontos || []).forEach(novoPonto);
+  sincModo();
+}
+function sincModo() { const m = $('modo').value; $('bloco-avar').hidden = m !== 'avar'; $('bloco-medio').hidden = m !== 'medio'; }
+
+function entrada() {
+  const medio = $('modo').value === 'medio';
+  const cm = lerNum('cmed'), tr = lerNum('trim') || 0;
+  const nr = v => { const s = String(v).trim().replace(',', '.'); return s === '' ? NaN : Number(s); };
+  return {
+    ini: localParaMs($('ini').value), fim: localParaMs($('fim').value),
+    dur: lerNum('dur'), margem: lerNum('margem'),
+    tav: medio ? cm - tr / 2 : lerNum('cav'), tar: medio ? cm + tr / 2 : lerNum('car'),
+    rref: lerNum('rref'), rloc: lerNum('rloc'), fwa: lerNum('fwa'),
+    ukcv: lerNum('ukc'), ukcu: $('ukcu').value,
+    pontos: lerPontos().map(p => ({ nome: p.nome, prof: nr(p.prof), ref: p.ref, cota: nr(p.cota), inst: localParaMs(p.inst) })),
+  };
+}
+function nomeRef(p) {
+  if (p.ref === 'nr') return 'NR';
+  if (p.ref === 'outro') return `zero a ${sinal(p.cota)} m do NR`;
+  return `medida ${fmt(p.inst, true)} (maré ${num(p.hmed)} m)`;
+}
+
+function calcular() {
+  const R = calcularFolga(MARE, entrada());
+  $('erros').hidden = !R.erros.length;
+  $('erros').innerHTML = R.erros.map(e => `<li>${e}</li>`).join('');
+  $('resultado').hidden = !!R.erros.length;
+  document.querySelectorAll('#cifras, #grafico, #tab-janelas, #tab-sens, #tab-pontos, #tab-ext, #copiar, #texto')
+    .forEach(e => e.closest('div, details, .acoes').style.opacity = R.erros.length ? .35 : 1);
+  if (R.erros.length) return;
+
+  const { tav, tar, tmax, trim, dT, metodo, tc, ukc, margem, durMin, pts, crit, hreq, hnec, J, total, sens, E, hMinP, hMaxP, ukcAt } = R;
+  const ini = localParaMs($('ini').value), fim = localParaMs($('fim').value);
+  const ukcv = lerNum('ukc'), ukcu = $('ukcu').value, rref = lerNum('rref'), rloc = lerNum('rloc');
+
+  const v = $('veredito');
+  if (!J.length) {
+    v.className = 'veredito nao';
+    v.innerHTML = `<strong>Sem janela no período</strong><span>A manobra precisa de maré de <b class="num">${num(hnec)} m</b> no NR em ${crit.nome}. A maior maré prevista no período é ${num(hMaxP)} m, ${num(hnec - hMaxP)} m abaixo${durMin ? ', e a folga tem de durar ' + duracao(durMin) : ''}.</span>`;
+  } else if (J.length === 1 && J[0].abreAntes && J[0].fechaDepois) {
+    v.className = 'veredito sempre';
+    v.innerHTML = `<strong>Folga atendida o período inteiro</strong><span>Mesmo na menor maré (${num(hMinP)} m) a folga em ${crit.nome} é <b class="num">${num(ukcAt(hMinP))} m</b>, acima dos ${num(ukc)} m exigidos.</span>`;
+  } else {
+    v.className = 'veredito ok';
+    const p = J[0];
+    v.innerHTML = `<strong>${J.length} janela${J.length > 1 ? 's' : ''} · ${duracao(total)} no total</strong><span>Primeira: iniciar entre <b class="num">${fmt(p.a)}</b> e <b class="num">${fmt(p.b)}</b>. Ponto limitante: ${crit.nome}, que exige maré ≥ <b class="num">${num(hnec)} m</b>.</span>`;
+  }
+
+  $('cifras').innerHTML = [
+    ['Calado máximo', num(tmax) + ' m', `AV ${num(tav)} · AR ${num(tar)} · trim ${sinal(trim)}`],
+    ['Calado corrigido', num(tc) + ' m', `${sinal(dT, 3)} m pela densidade (${metodo})`],
+    ['Folga exigida', num(ukc) + ' m', ukcu === 'pct' ? `${num(ukcv, 1)} % de ${num(tc)} m` : 'valor fixo'],
+    ['Maré necessária', num(hnec) + ' m', `${num(hreq)} m + reserva ${num(margem)} m · ${crit.nome}`],
+  ].map(([a, b, c]) => `<div class="cifra"><span>${a}</span><b>${b}</b><small>${c}</small></div>`).join('');
+
+  $('tab-janelas').innerHTML = J.length ? `<tr><th>Iniciar a partir de</th><th>Iniciar até</th><th class="n">Duração</th><th class="n">Folga mín.</th><th class="n">Folga máx.</th></tr>` +
+    J.map(j => `<tr><td class="num">${j.abreAntes ? '≤ ' : ''}${fmt(j.a)}</td><td class="num">${j.fechaDepois ? '≥ ' : ''}${fmt(j.b)}</td><td class="n">${duracao(j.minutos)}</td><td class="n">${num(ukcAt(j.hmin))} m</td><td class="n">${num(ukcAt(j.hmax))} m</td></tr>`).join('')
+    : `<tr><td>Nenhuma janela.</td></tr>`;
+  $('tab-sens').innerHTML = `<tr><th>Cenário</th><th class="n">Maré necessária</th><th class="n">Janelas</th><th class="n">Tempo total</th><th>Primeira janela</th></tr>` +
+    sens.map(s => `<tr><td>${s.extra ? `nível ${num(s.extra)} m mais baixo` : 'como informado'}</td><td class="n">${num(s.hnec)} m</td><td class="n">${s.janelas.length}</td><td class="n">${s.total ? duracao(s.total) : '—'}</td><td class="num">${s.janelas.length ? fmt(s.janelas[0].a) + ' – ' + fmt(s.janelas[0].b) : '—'}</td></tr>`).join('');
+  $('tab-pontos').innerHTML = `<tr><th>Local</th><th class="n">Informada</th><th>Referencial</th><th class="n">No NR</th><th class="n">Maré necessária</th><th class="n">Folga na BM mín.</th><th class="n">Folga na PM máx.</th></tr>` +
+    pts.map(p => {
+      const f0 = p.dnr + hMinP - margem - tc, f1 = p.dnr + hMaxP - margem - tc;
+      return `<tr class="${p === crit ? 'critico' : ''}"><td>${p.nome}${p === crit ? ' <span class="selo" style="color:var(--req)">limitante</span>' : ''}</td><td class="n">${num(p.prof)}</td><td>${nomeRef(p)}</td><td class="n">${num(p.dnr)}</td><td class="n">${num(p.hreq + margem)}</td><td class="n ${f0 >= ukc ? 'pos' : 'neg'}">${num(f0)}</td><td class="n ${f1 >= ukc ? 'pos' : 'neg'}">${num(f1)}</td></tr>`;
+    }).join('');
+  $('tab-ext').innerHTML = `<tr><th></th><th>Data e hora</th><th class="n">Altura</th><th class="n">Folga em ${crit.nome}</th></tr>` +
+    E.map(e => { const f = ukcAt(e.h); return `<tr><td>${e.tipo}</td><td class="num">${fmt(e.t)}</td><td class="n">${num(e.h)} m</td><td class="n ${f >= ukc ? 'pos' : 'neg'}">${num(f)} m</td></tr>`; }).join('');
+
+  desenhar(R.h, R.nStarts, ini, hnec, J, E);
+
+  const L = [];
+  L.push(`FOLGA ESTÁTICA SOB A QUILHA — PORTO DE ITAJAÍ`);
+  L.push(`Período: ${fmt(ini, true)} a ${fmt(fim, true)} (UTC−3). Manobra de ${duracao(durMin)}.`);
+  L.push(`Calado: AV ${num(tav)} m, AR ${num(tar)} m, trim ${sinal(trim)} m; máximo ${num(tmax)} m; corrigido p/ ρ ${num(rloc, 3)} (calado em ρ ${num(rref, 3)}): ${num(tc)} m [${metodo}].`);
+  L.push(`Folga mínima: ${num(ukc)} m${ukcu === 'pct' ? ` (${num(ukcv, 1)} % do calado)` : ''}. Reserva de nível: ${num(margem)} m.`);
+  L.push(`Pontos (profundidade no NR → maré necessária):`);
+  pts.forEach(p => L.push(`  ${p.nome}: ${num(p.dnr)} m [${nomeRef(p)}] → ${num(p.hreq + margem)} m${p === crit ? '  ← limitante' : ''}`));
+  L.push(J.length ? `Janelas para iniciar a manobra:` : `Sem janela no período (maré máxima ${num(hMaxP)} m).`);
+  J.forEach(j => L.push(`  ${fmt(j.a)} a ${fmt(j.b)}  (${duracao(j.minutos)}; folga ${num(ukcAt(j.hmin))}–${num(ukcAt(j.hmax))} m)`));
+  L.push(`Maré astronômica (modelo harmônico das tábuas CHM; ~3 cm, ~6 min). Não inclui vento, maré meteorológica, vazão do rio nem squat.`);
+  $('texto').value = L.join('\n');
+}
+
+function desenhar(h, nStarts, ini, lim, J, E) {
+  const svg = $('grafico');
+  const W = Math.max(svg.clientWidth || 640, 320), Hh = 260, ml = 40, mr = 10, mt = 10, mb = 26;
+  const n = h.length;
+  let lo = Math.min(lim, ...[...h].filter((_, i) => i % 10 === 0)), hi = Math.max(lim, ...[...h].filter((_, i) => i % 10 === 0));
+  lo = Math.floor((lo - 0.05) * 10) / 10; hi = Math.ceil((hi + 0.05) * 10) / 10;
+  const x = i => ml + (W - ml - mr) * i / (n - 1), y = v => mt + (Hh - mt - mb) * (hi - v) / (hi - lo);
+  const passo = Math.max(1, Math.round(n / 1200));
+  let d = '';
+  for (let i = 0; i < n; i += passo) d += (i ? 'L' : 'M') + x(i).toFixed(1) + ',' + y(h[i]).toFixed(1);
+  d += 'L' + x(n - 1).toFixed(1) + ',' + y(h[n - 1]).toFixed(1);
+  let g = '';
+  J.forEach(j => {
+    const a = (j.a - ini) / MIN_MS, b = (j.b - ini) / MIN_MS;
+    g += `<rect x="${x(a).toFixed(1)}" y="${mt}" width="${Math.max(1.5, x(b) - x(a)).toFixed(1)}" height="${Hh - mt - mb}" fill="var(--ok-soft)"/>`;
+  });
+  const dy = (hi - lo) > 1.2 ? 0.4 : 0.2;
+  for (let v = Math.ceil(lo / dy) * dy; v <= hi + 1e-9; v += dy)
+    g += `<line x1="${ml}" x2="${W - mr}" y1="${y(v)}" y2="${y(v)}" stroke="var(--line)"/><text x="${ml - 5}" y="${y(v) + 3}" text-anchor="end">${num(v, 1)}</text>`;
+  const dias = n / 1440, pDia = dias > 10 ? 2 : 1, pHoras = dias <= 1.5 ? 6 : dias <= 4 ? 12 : 24 * pDia;
+  const d0 = new Date(ini - FUSO_MS);
+  let t = Date.UTC(d0.getUTCFullYear(), d0.getUTCMonth(), d0.getUTCDate()) + FUSO_MS;
+  for (; t <= ini + (n - 1) * MIN_MS; t += pHoras * H_MS) {
+    if (t < ini) continue;
+    const i = (t - ini) / MIN_MS, dd = new Date(t - FUSO_MS);
+    const meia = dd.getUTCHours() === 0;
+    g += `<line x1="${x(i)}" x2="${x(i)}" y1="${mt}" y2="${Hh - mb}" stroke="var(--line)" ${meia ? '' : 'stroke-dasharray="2 3"'}/>`;
+    g += `<text x="${x(i)}" y="${Hh - mb + 14}" text-anchor="middle">${meia ? pad(dd.getUTCDate()) + '/' + pad(dd.getUTCMonth() + 1) : pad(dd.getUTCHours()) + 'h'}</text>`;
+  }
+  g += `<path d="${d}" fill="none" stroke="var(--water)" stroke-width="2"/>`;
+  g += `<line x1="${ml}" x2="${W - mr}" y1="${y(lim)}" y2="${y(lim)}" stroke="var(--req)" stroke-width="1.5" stroke-dasharray="6 4"/>`;
+  g += `<text x="${W - mr - 2}" y="${y(lim) - 5}" text-anchor="end" style="fill:var(--req)">${num(lim)} m</text>`;
+  if (n / 1440 <= 8) E.forEach(e => {
+    const i = (e.t - ini) / MIN_MS; if (i < 0 || i > n - 1) return;
+    g += `<circle cx="${x(i)}" cy="${y(e.h)}" r="2.5" fill="var(--water)"/>`;
+  });
+  g += `<text x="4" y="${mt + 8}" transform="rotate(-90 10 ${mt + 60})">m (NR)</text>`;
+  svg.setAttribute('viewBox', `0 0 ${W} ${Hh}`);
+  svg.innerHTML = g;
+}
+
+let timer;
+function agendar() {
+  clearTimeout(timer);
+  $('aviso-exemplo').hidden = JSON.stringify(estado()) !== JSON.stringify(EXEMPLO);
+  timer = setTimeout(() => { try { localStorage.setItem(CHAVE, JSON.stringify(estado())); } catch (e) {} calcular(); }, 250);
+}
+$('form').addEventListener('input', agendar);
+$('form').addEventListener('change', agendar);
+$('form').addEventListener('submit', e => e.preventDefault());
+$('modo').addEventListener('change', sincModo);
+$('add').addEventListener('click', () => { novoPonto({ nome: '', prof: '', ref: 'nr' }); agendar(); });
+$('limpar').addEventListener('click', () => { aplicar(EXEMPLO); agendar(); });
+$('copiar').addEventListener('click', () => {
+  const t = $('texto').value, ok = () => { $('copiado').hidden = false; setTimeout(() => $('copiado').hidden = true, 1800); };
+  try { navigator.clipboard.writeText(t).then(ok, () => { $('texto').closest('details').open = true; $('texto').select(); }); }
+  catch (e) { $('texto').closest('details').open = true; $('texto').select(); }
+});
+let redim; window.addEventListener('resize', () => { clearTimeout(redim); redim = setTimeout(calcular, 200); });
+
+let salvo = null;
+try { salvo = JSON.parse(localStorage.getItem(CHAVE)); } catch (e) {}
+aplicar(salvo && salvo.pontos ? salvo : EXEMPLO);
+$('aviso-exemplo').hidden = JSON.stringify(estado()) !== JSON.stringify(EXEMPLO);
+calcular();
+</script>
