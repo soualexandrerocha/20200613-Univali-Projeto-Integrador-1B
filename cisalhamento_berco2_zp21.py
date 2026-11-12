@@ -60,33 +60,38 @@ Itajaí-Mirim).
 Corrente de maré (método do prisma de maré, com propagação medida): o trecho a
 montante do berço enche e esvazia pelo berço. A maré sobe o Itajaí-Açu
 até o Salto, em Blumenau, que fecha o estuário. Com a amplitude e o atraso
-medidos em pontos do rio, variando exponencialmente entre eles, o fluxo no
-berço equivale ao de um trecho de comprimento L_ef (trecho de enchimento)
-com nível em fase, defasado de ATRASO_FLUXO:
+medidos em pontos do rio, variando exponencialmente entre eles, e a largura
+B(s) do rio ao longo do canal, o fluxo no berço equivale ao de uma área
+A_ef = |integral B(s) rho(s) ds| com nível em fase, defasada de ATRASO_FLUXO:
 
-    Q_mare(t) = -B_RIO * L_ef * d(eta)/dt (t - ATRASO_FLUXO)   (+ = vazante)
+    Q_mare(t) = -A_ef * d(eta)/dt (t - ATRASO_FLUXO)   (+ = vazante)
     U_inf(t)  = (Q_RIO + Q_mare(t)) / (H(t) * (B_RIO - delta))
 
-L_ef e ATRASO_FLUXO vêm de analise_propagacao_mare.trecho_enchimento, com
-os pontos de PONTOS_ACU: DC01 (CEPSUL, junto ao porto) e DC11 (Santa
-Regina, 11,4 km em linha reta), da Defesa Civil de Itajaí, e a régua do
-AlertaBlu em Blumenau (41,1 km), com o fim no Salto (45,5 km). Com 33 h de
+A_ef e ATRASO_FLUXO vêm de analise_propagacao_mare.areas_efetivas, com os
+pontos de PONTOS_ACU em distância pelo rio: DC01 (CEPSUL, junto ao porto),
+DC11 (Santa Regina, 11,4 km em linha reta) e a régua do AlertaBlu em
+Blumenau (41,1 km em linha reta), com o fim no Salto (45,5 km em linha
+reta). Larguras: dados/largura_itajai_acu.csv, medidas na Carta Náutica
+1841 (DHN) até 17,4 km pelo rio (ferramentas/larguras_carta1841.py); além
+disso, 200 m. Distâncias pelo rio: linha reta x 1,81 até DC11 (sinuosidade
+medida na carta) e x 1,56 até Blumenau e o Salto (Indaial a 90 km pelo rio
+e 57,6 km em linha reta, Zaleski & Schettini, 2003). Com 33 h de
 dados em Itajaí (11 e 12/11/2026, sizígia) e 23 h em Blumenau: DC11 com
 razão 0,68 e atraso de 80 min; Blumenau com razão 0,09 e atraso de ~6 h
 (mal determinado: atrasos de 290 a 420 min ajustam quase igual, e parte da
-oscilação pode vir da operação da PCH do Salto). Resultado: L_ef = 13,7 km
-e fluxo 1,6 h atrasado em relação a d(eta)/dt na foz. A maior parte do
-volume troca nos primeiros ~15 km; o trecho até o Salto pesa pouco.
+oscilação pode vir da operação da PCH do Salto). Resultado: A_ef = 5,0 km²
+e fluxo 1,4 h atrasado em relação a d(eta)/dt na foz. L_EFETIVO = A_ef /
+B_RIO = 12,5 km é o trecho de enchimento equivalente na largura do porto.
 
-L_ef não é o prisma de maré. O prisma, no sentido clássico (Dyer & Taylor,
+A_ef não é o prisma de maré. O prisma, no sentido clássico (Dyer & Taylor,
 1973; Alcântara, 2008, RBRH 13(3)), é a soma, trecho a trecho, do volume na
-preamar menos o volume na baixa-mar: B_RIO * L_PRISMA * amplitude, com
-L_PRISMA = integral de r(x) dx = 18,5 km. Como os trechos não enchem ao
-mesmo tempo, o volume líquido que passa pela foz é menor (L_ef < L_PRISMA).
+preamar menos o volume na baixa-mar: A_PRISMA * amplitude, com A_PRISMA =
+integral de B(s) |rho(s)| ds = 6,6 km². Como os trechos não enchem ao mesmo
+tempo, o volume líquido que passa pela foz é menor (A_ef < A_PRISMA).
 
-Incertezas: as distâncias são em linha reta (pelo rio são maiores, e L_ef
-cresce na mesma proporção); a largura de 400 m vale no porto (a montante o
-rio é mais estreito, o que reduz L_ef); o prisma do Itajaí-Mirim, que
+Incertezas: as sinuosidades e a largura de 200 m além da carta são
+estimativas (as hipóteses de 1,56 a 1,81 até DC11 e de 150 a 200 m de
+largura dão A_ef de 4,3 a 5,0 km²); o prisma do Itajaí-Mirim, que
 também tem maré (DC03, DC04, DC06) e deságua a montante do berço, não está
 incluído; poucos ciclos de dados. As medições de Schettini & Carvalho (1998), com variação de 77 a
 140 cm/s ao longo do ciclo, são de 1994-95, com o canal a ~8 m, e não servem
@@ -95,12 +100,13 @@ a corrente de superfície (vazante) da de fundo (enchente).
 """
 
 from datetime import datetime, timedelta, timezone
+from pathlib import Path
 
 import numpy as np
 import plotly.figure_factory as ff
 import plotly.graph_objects as go
 
-from analise_propagacao_mare import comprimento_prisma, trecho_enchimento
+from analise_propagacao_mare import areas_efetivas
 from mare_itajai import Mare
 
 MARE = Mare()  # ajusta as constantes às tábuas CHM 2024-2026 (alguns segundos)
@@ -149,17 +155,22 @@ B_RIO = 400.0  # m, largura do rio no Berço 2
 # Schettini, 2003, Notas Téc. Facimar 7:63-72). Trocar pela vazão do dia.
 Q_RIO = 215.0  # m³/s
 # Propagação da maré medida (analise_propagacao_mare.py, 11-12/11/2026):
-# (distância em linha reta da foz em km, razão de amplitude, atraso em min)
+# (distância pelo rio da foz em km, razão de amplitude, atraso em min)
+SINUOSIDADE_CARTA = 1.81  # rio / linha reta, medida na Carta 1841 até 9,6 km em linha reta
+SINUOSIDADE_ALTO = 1.56   # Indaial: 90 km pelo rio, 57,6 km em linha reta
 PONTOS_ACU = [
-    (0.0, 1.0, 0.0),     # DC01, CEPSUL, junto ao porto
-    (11.4, 0.68, 80.0),  # DC11, Santa Regina
-    (41.1, 0.09, 360.0),  # Blumenau, AlertaBlu (atraso mal determinado)
+    (0.0, 1.0, 0.0),                           # DC01, CEPSUL, junto ao porto
+    (11.4 * SINUOSIDADE_CARTA, 0.68, 80.0),   # DC11, Santa Regina
+    (41.1 * SINUOSIDADE_ALTO, 0.09, 360.0),   # Blumenau, AlertaBlu (atraso mal determinado)
 ]
-X_SALTO_KM = 45.5  # fim do estuário: Salto, Blumenau
-_L_km, ATRASO_FLUXO_S = trecho_enchimento(PONTOS_ACU, X_SALTO_KM)  # km, s
-L_EFETIVO = _L_km * 1e3  # m
-L_PRISMA = comprimento_prisma(PONTOS_ACU, X_SALTO_KM) * 1e3  # m; prisma = B_RIO * L_PRISMA * amplitude
-A_MONTANTE = B_RIO * L_EFETIVO  # m², só o Itajaí-Açu
+X_SALTO_KM = 45.5 * SINUOSIDADE_ALTO  # fim do estuário: Salto, Blumenau (pelo rio)
+LARGURA_ALEM_CARTA = 200.0  # m, mediana dos últimos km medidos na carta
+_larg = np.loadtxt(Path(__file__).with_name('dados') / 'largura_itajai_acu.csv',
+                   delimiter=',', comments='#', skiprows=3)
+A_MONTANTE, ATRASO_FLUXO_S, A_PRISMA = areas_efetivas(
+    PONTOS_ACU, X_SALTO_KM, _larg[:, 0], _larg[:, 1], LARGURA_ALEM_CARTA)  # m², s, m²
+L_EFETIVO = A_MONTANTE / B_RIO  # m, trecho de enchimento equivalente na largura do porto
+L_PRISMA = A_PRISMA / B_RIO     # m; prisma de maré = A_PRISMA * amplitude
 
 
 def gamma(h):

@@ -156,6 +156,31 @@ def trecho_enchimento(pontos, x_fim_km):
   return abs(soma), -np.angle(soma) / W_M2
 
 
+def areas_efetivas(pontos, x_fim_km, s_km, largura_m, largura_alem_m, n=20001):
+  """(A_ef em m², atraso do fluxo em s, área do prisma em m²) com largura variável.
+
+  pontos: [(s_km pelo rio, r, atraso_min), ...] da foz para montante, até o
+  fim do estuário em x_fim_km. A amplitude complexa varia exponencialmente
+  entre pontos e fica constante depois do último. s_km e largura_m dão o
+  perfil de largura medido; além dele, vale largura_alem_m.
+    A_ef      = |integral B(s) rho(s) ds|   (volume líquido pela foz por metro de maré)
+    A_prisma  = integral B(s) |rho(s)| ds   (prisma de maré por metro de amplitude)
+  """
+  x = np.linspace(0.0, x_fim_km, n)
+  rho = np.empty(n, complex)
+  for (x0, r0, a0), (x1, r1, a1) in zip(pontos[:-1], pontos[1:]):
+    p0 = r0 * np.exp(-1j * W_M2 * 60 * a0)
+    p1 = r1 * np.exp(-1j * W_M2 * 60 * a1)
+    m = (x >= x0) & (x <= x1)
+    rho[m] = p0 * (p1 / p0) ** ((x[m] - x0) / (x1 - x0))
+  xu, ru, au = pontos[-1]
+  rho[x > xu] = ru * np.exp(-1j * W_M2 * 60 * au)
+  b = np.interp(x, s_km, largura_m)
+  b[x > s_km[-1] + 0.25] = largura_alem_m
+  integral = np.trapezoid(b * rho, x * 1e3)
+  return abs(integral), -np.angle(integral) / W_M2, float(np.trapezoid(b * np.abs(rho), x * 1e3))
+
+
 def comprimento_prisma(pontos, x_fim_km):
   """Integral da razão de amplitude r(x) da foz ao fim do estuário (km).
 

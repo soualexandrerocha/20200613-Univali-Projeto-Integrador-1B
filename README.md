@@ -134,7 +134,14 @@ Baixa as séries de 12 h da telemetria da Defesa Civil de Itajaí
 em Blumenau, acumula em
 `dados/niveis_defesacivil_itajai.csv` e ajusta, para cada estação, a razão
 de amplitude e o atraso da maré em relação à foz. Com DC11 e Blumenau, calcula o
-trecho de enchimento do Itajaí-Açu fechado no Salto, onde a maré termina. O workflow
+trecho de enchimento do Itajaí-Açu fechado no Salto, onde a maré termina.
+
+As larguras do rio ao longo do canal (`dados/largura_itajai_acu.csv`) vêm da
+Carta Náutica 1841 (DHN) em GeoTIFF, que não fica no repositório:
+
+```bash
+python ferramentas/larguras_carta1841.py PASTA_DOS_TIF   # requer rasterio, scipy e scikit-image
+``` O workflow
 `.github/workflows/coleta-niveis.yml` roda a coleta a cada 6 h e commita as
 leituras novas, pois o site não guarda histórico.
 
