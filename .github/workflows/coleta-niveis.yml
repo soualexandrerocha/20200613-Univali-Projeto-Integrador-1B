@@ -1,0 +1,53 @@
+# Coleta automática dos níveis da telemetria da Defesa Civil de Itajaí.
+# O site só publica as últimas 12 h; rodando a cada 6 h, as janelas se
+# sobrepõem e a série em dados/niveis_defesacivil_itajai.csv fica contínua.
+# Agendamentos (schedule) só rodam na branch padrão do repositório.
+name: Coleta de níveis (Defesa Civil de Itajaí)
+
+on:
+  schedule:
+    - cron: '17 */6 * * *'  # UTC; minuto 17 para fugir do pico do início da hora
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/coleta-niveis.yml'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: coleta-niveis
+  cancel-in-progress: false
+
+jobs:
+  coletar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+
+      - name: Instalar dependências
+        run: pip install numpy
+
+      - name: Baixar e acumular leituras
+        run: python analise_propagacao_mare.py --so-coletar
+
+      - name: Commitar dados novos
+        run: |
+          if git diff --quiet -- dados/; then
+            echo "Nenhuma leitura nova."
+            exit 0
+          fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add dados/
+          git commit -m "Coleta de níveis $(date -u +%Y-%m-%dT%H:%MZ)"
+          for i in 1 2 3; do
+            git pull --rebase origin "${GITHUB_REF_NAME}" && git push origin "HEAD:${GITHUB_REF_NAME}" && exit 0
+            sleep 10
+          done
+          exit 1

@@ -32,12 +32,80 @@ Idealizações que restam (todas listadas para calibração/refino posterior):
   - modelo 2D na horizontal (sem perfil vertical de velocidade);
   - perto da parede (centímetros) a lei de parede real é logarítmica; aqui
     U ~ sqrt(y), com dU/dy -> infinito em y = 0 (a tensão permanece finita).
-Parâmetros H, f e lambda abaixo são valores de partida, a calibrar.
+Parâmetros f e lambda abaixo são valores de partida, a calibrar.
+
+Profundidade e maré: H = PROF_ZH + eta(t), com eta a maré astronômica
+acima do zero hidrográfico prevista por mare_itajai.py (Mare) no instante
+INSTANTE. Consequência da solução acima: com U_inf fixo, a tensão na parede
+
+    tau_parede = rho*lambda*H*(f/8)^(1/2) * U_inf^2/2 * gamma
+               = rho*sqrt(lambda/2)*(f/8)^(3/4) * U_inf^2
+
+NÃO depende de H. A maré só altera a largura da camada de cisalhamento
+(3/gamma, proporcional a H) e a declividade S0 implícita. Ela muda a tensão
+apenas por meio de U_inf.
+
+Vazão do rio: numa seção retangular de largura B_RIO, com um cais e a
+camada de cisalhamento descrita acima,
+
+    Q = U_inf * H * (B_RIO - delta),   delta = 2*(1 - ln 2)/gamma
+
+onde delta é a espessura de deslocamento da camada (integral de 1 - U/U_inf).
+Para Q fixo, U_inf ~ 1/H e tau_parede ~ 1/H^2: a mesma vazão gera mais
+tensão na baixa-mar que na preamar. Limitações: só a vazão fluvial (a
+corrente de maré não está incluída); Q é o do trecho do porto, não o medido
+em Blumenau (faltam a curva-chave e os afluentes de jusante, como o
+Itajaí-Mirim).
+
+Corrente de maré (prisma de maré com propagação medida): o trecho a
+montante do berço enche e esvazia pelo berço. Se a maré se atenua e se
+atrasa exponencialmente rio acima, o fluxo no berço equivale ao de um
+trecho de comprimento L_ef com nível em fase, defasado de ATRASO_FLUXO:
+
+    Q_mare(t) = -B_RIO * L_ef * d(eta)/dt (t - ATRASO_FLUXO)   (+ = vazante)
+    U_inf(t)  = (Q_RIO + Q_mare(t)) / (H(t) * (B_RIO - delta))
+
+L_ef e ATRASO_FLUXO vêm de analise_propagacao_mare.py, com o nível medido
+pela Defesa Civil de Itajaí em DC01 (CEPSUL, junto ao porto) e DC11 (Santa
+Regina, 11,4 km em linha reta). Em 11/11/2026, numa sizígia, com um único
+ciclo: razão de amplitude 0,65 e atraso de 80 min, o que dá L_ef = 14,2 km
+e fluxo 2,0 h atrasado em relação a d(eta)/dt na foz. Na mesma janela, DC01
+seguiu a maré prevista com razão 0,97, 5 min de diferença e resíduo de
+4,4 cm RMS.
+
+Incertezas: a distância é em linha reta (pelo rio é maior, e L_ef cresce
+na mesma proporção); a largura de 400 m vale no porto (a montante o rio é
+mais estreito); o prisma do Itajaí-Mirim, que também tem maré (DC03, DC04,
+DC06) e deságua a montante do berço, não está incluído; um só ciclo de
+dados. As medições de Schettini & Carvalho (1998), com variação de 77 a
+140 cm/s ao longo do ciclo, são de 1994-95, com o canal a ~8 m, e não servem
+para validar. O modelo ignora a estratificação da cunha salina, que separa
+a corrente de superfície (vazante) da de fundo (enchente).
 """
+
+from datetime import datetime, timedelta, timezone
 
 import numpy as np
 import plotly.figure_factory as ff
 import plotly.graph_objects as go
+
+from mare_itajai import Mare
+
+MARE = Mare()  # ajusta as constantes às tábuas CHM 2024-2026 (alguns segundos)
+
+
+def _local(t):
+    """datetime com fuso -> hora legal UTC-3 ingênua, como Mare espera."""
+    if t.tzinfo is not None:
+        t = t.astimezone(timezone(timedelta(hours=-3))).replace(tzinfo=None)
+    return t
+
+
+def mare(tempos):
+    """Maré astronômica (m acima do NR) para um datetime ou uma lista deles."""
+    if isinstance(tempos, datetime):
+        return float(MARE.altura(_local(tempos))[0])
+    return MARE.altura([_local(t) for t in tempos])
 
 # --- Constantes físicas -----------------------------------------------------
 G = 9.81  # m/s²
@@ -45,7 +113,15 @@ RHO = 1025.0  # kg/m³, água do mar
 NO_PARA_MS = 1852 / 3600  # 1 nó = 0,514444 m/s
 
 # --- Parâmetros a calibrar --------------------------------------------------
-H = 14.0  # m, profundidade junto ao berço (valor de partida)
+# Profundidade abaixo do zero hidrográfico. Fonte: Avisos da Atalaia
+# (praticagem), "Itajaí e Navegantes - menores profundidades", validade
+# 10/12/2026: Itajaí 2 (= Berço 2) = 12,8 m; Bacia de evolução 01 = 12,8 m. É a menor
+# profundidade levantada (não a cota de projeto de 14,5 m) e muda a cada
+# levantamento batimétrico; atualizar quando o aviso for renovado.
+PROF_ZH = 12.8  # m
+INSTANTE = datetime(2026, 11, 12, 12, 0, tzinfo=timezone(timedelta(hours=-3)))
+ETA = mare(INSTANTE)  # m acima do zero hidrográfico
+H = PROF_ZH + ETA  # m, profundidade junto ao berço no INSTANTE
 F_DARCY = 0.02  # fator de atrito de Darcy-Weisbach do fundo
 # Viscosidade turbulenta adimensional do SKM. Knight (1999, Int. J. Sediment
 # Res. 14(2):217-236), citado por Khatua et al. (2016): faixa 0,07-0,50;
@@ -56,7 +132,27 @@ LAMBDA = 0.13
 C_CAIS = 300.0  # m, trecho de cais representado
 B_CANAL = 100.0  # m, distância ao cais representada (borda aberta)
 
-GAMMA = np.sqrt(2 / LAMBDA) * (F_DARCY / 8) ** 0.25 / H  # 1/m
+B_RIO = 400.0  # m, largura do rio no Berço 2
+# Vazão fluvial média do Itajaí-Açu no estuário, ~215 m³/s (Zaleski &
+# Schettini, 2003, Notas Téc. Facimar 7:63-72). Trocar pela vazão do dia.
+Q_RIO = 215.0  # m³/s
+# Propagação da maré medida (analise_propagacao_mare.py, DC01 -> DC11, 11/11/2026)
+RAZAO_AMPLITUDE = 0.65
+ATRASO_NIVEL_MIN = 80.0
+DIST_KM = 11.4  # em linha reta
+_W_M2 = 2 * np.pi / (12.4206012 * 3600)  # rad/s
+_a, _b = -np.log(RAZAO_AMPLITUDE), _W_M2 * 60 * ATRASO_NIVEL_MIN
+L_EFETIVO = DIST_KM * 1e3 / np.hypot(_a, _b)  # m
+ATRASO_FLUXO_S = np.arctan2(_b, _a) / _W_M2  # s
+A_MONTANTE = B_RIO * L_EFETIVO  # m², só o Itajaí-Açu
+
+
+def gamma(h):
+    """Inverso da escala da camada de cisalhamento (1/m) para profundidade h."""
+    return np.sqrt(2 / LAMBDA) * (F_DARCY / 8) ** 0.25 / h
+
+
+GAMMA = gamma(H)  # 1/m
 
 velocidades_nos = np.arange(0.5, 2.6, 0.5)  # vazante longe do cais (U_inf)
 velocidades_ms = velocidades_nos * NO_PARA_MS
@@ -76,6 +172,21 @@ def funcao_corrente(Y, u_inf):
 def tensao_lateral(Y, u_inf):
     """tau_yx = rho*lambda*H*(f/8)^(1/2) * U dU/dy (Pa); finita no cais."""
     return RHO * LAMBDA * H * np.sqrt(F_DARCY / 8) * 0.5 * u_inf**2 * GAMMA * np.exp(-GAMMA * Y)
+
+
+def vazao(u_inf, h=H):
+    """Vazão (m³/s) que produz U_inf com profundidade h."""
+    return u_inf * h * (B_RIO - 2 * (1 - np.log(2)) / gamma(h))
+
+
+def u_inf_de_vazao(q, h=H):
+    """U_inf (m/s) produzido pela vazão q (m³/s) com profundidade h."""
+    return q / (h * (B_RIO - 2 * (1 - np.log(2)) / gamma(h)))
+
+
+def tensao_parede(u_inf):
+    """tau na parede (Pa); não depende de H para U_inf dado."""
+    return RHO * np.sqrt(LAMBDA / 2) * (F_DARCY / 8) ** 0.75 * u_inf**2
 
 
 def declividade(u_inf):
@@ -131,7 +242,9 @@ for i, u_inf in enumerate(velocidades_ms):
 def titulo(nos, u_inf):
     return (
         f'Corrente junto ao cais, Bacia 1 (ZP-21) — vazante de {nos:.1f} nós'
-        f'<br><sup>τ na parede = {tensao_lateral(0.0, u_inf):.2f} Pa · '
+        f'<br><sup>{INSTANTE:%d/%m/%Y %H:%M} (UTC-3): maré {ETA:.2f} m, H = {H:.2f} m · '
+        f'Q equivalente ≈ {vazao(u_inf):.0f} m³/s · '
+        f'τ na parede = {tensao_lateral(0.0, u_inf):.2f} Pa · '
         f'S₀ implícito = {declividade(u_inf):.1e} · '
         f'camada de cisalhamento ≈ {3 / GAMMA:.0f} m (3/γ)</sup>'
     )
@@ -164,6 +277,49 @@ fig.update_layout(
     sliders=[dict(active=0, currentvalue={'prefix': 'Vazante: '}, pad={'t': 50}, steps=steps)],
 )
 
+def serie_corrente(inicio, horas=24, passo_min=10, q_rio=None, area=A_MONTANTE):
+    """Série temporal no berço: tempos, maré (m), H (m), U_inf (m/s, + vazante), tau (Pa, com sinal)."""
+    q_rio = Q_RIO if q_rio is None else q_rio
+    n = int(horas * 60 / passo_min) + 1
+    tempos = [inicio + timedelta(minutes=passo_min * k) for k in range(n)]
+    eta = mare(tempos)
+    atrasado = mare([t - timedelta(seconds=ATRASO_FLUXO_S) for t in tempos])
+    deta = np.gradient(atrasado, 60.0 * passo_min)  # m/s, na foz, defasado
+    h = PROF_ZH + eta
+    u = u_inf_de_vazao(q_rio - area * deta, h)
+    return tempos, eta, h, u, np.sign(u) * tensao_parede(u)
+
+
+def tabela_corrente(inicio=None):
+    """Corrente e tensão de hora em hora no dia do INSTANTE."""
+    inicio = inicio or INSTANTE.replace(hour=0, minute=0, second=0, microsecond=0)
+    tempos, eta, h, u, tau = serie_corrente(inicio)
+    print(f'\nCorrente no berço, {inicio:%d/%m/%Y} (Q_rio = {Q_RIO:.0f} m³/s, '
+          f'A_ef = {A_MONTANTE / 1e6:.1f} km², atraso {ATRASO_FLUXO_S / 3600:.1f} h; '
+          f'+ vazante, - enchente)')
+    print(f"{'hora':>5} | {'maré (m)':>8} | {'U (nós)':>8} | {'τ (Pa)':>7}")
+    for k in range(0, len(tempos), 6):
+        print(f'{tempos[k]:%H:%M} | {eta[k]:>8.2f} | {u[k] / NO_PARA_MS:>8.2f} | {tau[k]:>7.3f}')
+    i, j = int(np.argmax(u)), int(np.argmin(u))
+    print(f'máx. vazante {u[i] / NO_PARA_MS:.2f} nós às {tempos[i]:%H:%M} (τ = {tau[i]:.3f} Pa); '
+          f'máx. enchente {-u[j] / NO_PARA_MS:.2f} nós às {tempos[j]:%H:%M} (τ = {tau[j]:.3f} Pa)')
+
+
+def tabela_vazoes(vazoes=(250, 500, 1000, 2000, 4000)):
+    """U_inf e tau na parede por vazão, na baixa-mar e na preamar do dia do INSTANTE."""
+    dia = INSTANTE.replace(hour=0, minute=0, second=0, microsecond=0)
+    etas = [e[1] for e in MARE.extremos(_local(dia), _local(dia) + timedelta(days=1))]
+    h_min, h_max = PROF_ZH + min(etas), PROF_ZH + max(etas)
+    print(f'{dia:%d/%m/%Y}: H de {h_min:.2f} m (baixa-mar) a {h_max:.2f} m (preamar), B = {B_RIO:.0f} m')
+    print(f"{'Q (m³/s)':>9} | {'U_inf (nós)':>17} | {'τ parede (Pa)':>17}")
+    for q in vazoes:
+        u1, u2 = u_inf_de_vazao(q, h_min), u_inf_de_vazao(q, h_max)
+        print(f'{q:>9.0f} | {u1 / NO_PARA_MS:>7.2f} a {u2 / NO_PARA_MS:>6.2f} | '
+              f'{tensao_parede(u1):>7.3f} a {tensao_parede(u2):>6.3f}')
+
+
 if __name__ == '__main__':
+    tabela_vazoes()
+    tabela_corrente()
     fig.write_html('cisalhamento_berco2_zp21.html', include_plotlyjs='cdn')
     fig.show()

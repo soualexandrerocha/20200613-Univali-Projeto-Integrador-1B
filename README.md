@@ -112,3 +112,32 @@ para dizer qual das tábuas está mais perto da maré real. Na tábua da EPAGRI,
   não contra medições do marégrafo.
 - Alturas referidas ao NR da DHN (zero das cartas), 189,6 cm acima do zero
   da régua da Delegacia da Capitania dos Portos em Itajaí (F-41).
+
+## Corrente e tensão no Berço 2 — `cisalhamento_berco2_zp21.py`
+
+Campo de corrente junto ao cais (solução analítica do SKM) e tensão
+cisalhante na parede. A profundidade é a menor profundidade do aviso da
+praticagem (Itajaí 2 = Berço 2, 12,8 m) mais a maré de `mare_itajai.py`.
+Ao rodar, também imprime:
+
+- a vazão equivalente a cada velocidade (largura do rio de 400 m);
+- a corrente ao longo do dia: vazão fluvial (215 m³/s, média) mais a
+  corrente de maré pelo prisma de maré, com a atenuação medida rio acima.
+
+Com velocidade fixa, a tensão na parede não depende da profundidade; a
+maré só pesa por meio da vazão e da corrente de maré.
+
+## Propagação da maré e coleta de níveis — `analise_propagacao_mare.py`
+
+Baixa as séries de 12 h da telemetria da Defesa Civil de Itajaí
+(monitoramento.defesacivil.itajai.sc.gov.br), acumula em
+`dados/niveis_defesacivil_itajai.csv` e ajusta, para cada estação, a razão
+de amplitude e o atraso da maré em relação à foz. O workflow
+`.github/workflows/coleta-niveis.yml` roda a coleta a cada 6 h e commita as
+leituras novas, pois o site não guarda histórico.
+
+```bash
+python analise_propagacao_mare.py              # coleta e analisa
+python analise_propagacao_mare.py --offline    # só analisa
+python analise_propagacao_mare.py --so-coletar # só coleta (usado no workflow)
+```
