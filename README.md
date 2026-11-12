@@ -141,3 +141,15 @@ python analise_propagacao_mare.py              # coleta e analisa
 python analise_propagacao_mare.py --offline    # só analisa
 python analise_propagacao_mare.py --so-coletar # só coleta (usado no workflow)
 ```
+
+## Painéis do Berço 2 — `pagina/berco2.html`
+
+Página autossuficiente com painéis interativos: maré, corrente e tensão no
+cais ao longo do dia; perfil junto ao cais na hora escolhida; relação entre
+vazão e corrente; e a propagação da maré medida pela Defesa Civil. Data,
+vazão, prisma de maré, profundidade, largura e atrito são ajustáveis, e o
+modelo é recalculado no navegador.
+
+```bash
+python ferramentas/gerar_painel_berco2.py   # regenera com as leituras mais recentes
+```
