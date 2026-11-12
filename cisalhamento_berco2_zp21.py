@@ -57,26 +57,30 @@ corrente de maré não está incluída); Q é o do trecho do porto, não o medid
 em Blumenau (faltam a curva-chave e os afluentes de jusante, como o
 Itajaí-Mirim).
 
-Corrente de maré (modelo de bombeamento, ou prisma de maré): o volume
-entre o berço e o limite da maré enche e esvazia pelo berço, com
+Corrente de maré (prisma de maré com propagação medida): o trecho a
+montante do berço enche e esvazia pelo berço. Se a maré se atenua e se
+atrasa exponencialmente rio acima, o fluxo no berço equivale ao de um
+trecho de comprimento L_ef com nível em fase, defasado de ATRASO_FLUXO:
 
-    Q_mare(t) = -A_MONTANTE * d(eta)/dt     (positivo = vazante)
+    Q_mare(t) = -B_RIO * L_ef * d(eta)/dt (t - ATRASO_FLUXO)   (+ = vazante)
     U_inf(t)  = (Q_RIO + Q_mare(t)) / (H(t) * (B_RIO - delta))
 
-A_MONTANTE é a área da superfície livre a montante do berço. O valor
-adotado, 400 m x 90 km (limite da maré em Indaial), é um limite superior:
-supõe largura constante e nível em fase em todo o estuário, sem a atenuação
-por atrito da maré observada no Itajaí-Açu. Ele é conservador para a tensão.
-Ordem de grandeza conferida com medições de Schettini & Carvalho (1998),
-na barra e 12 km a montante: variação da corrente média na vertical de 77 a
-140 cm/s ao longo do ciclo de maré. Ressalva: essas medições são de
-1994-95, com o canal a ~8 m (hoje ~13 m). Para a mesma vazão, a seção
-atual reduz a velocidade em ~8/13, o que levaria a faixa para ~0,5 a 0,8 nó
-de amplitude. Já o aprofundamento tende a aumentar o prisma (menos atrito),
-e o efeito líquido é desconhecido. Isso não é validação; falta medição de
-corrente atual. O modelo ignora a estratificação da
-cunha salina, que separa a corrente de superfície (vazante) da de fundo
-(enchente).
+L_ef e ATRASO_FLUXO vêm de analise_propagacao_mare.py, com o nível medido
+pela Defesa Civil de Itajaí em DC01 (CEPSUL, junto ao porto) e DC11 (Santa
+Regina, 11,4 km em linha reta). Em 11/11/2026, numa sizígia, com um único
+ciclo: razão de amplitude 0,67 e atraso de 75 min, o que dá L_ef = 15,3 km
+e fluxo 2,0 h atrasado em relação a d(eta)/dt na foz. Na mesma janela, DC01
+seguiu a maré prevista com razão 0,97, 5 min de diferença e resíduo de
+4,3 cm RMS.
+
+Incertezas: a distância é em linha reta (pelo rio é maior, e L_ef cresce
+na mesma proporção); a largura de 400 m vale no porto (a montante o rio é
+mais estreito); o prisma do Itajaí-Mirim, que também tem maré (DC03, DC04,
+DC06) e deságua a montante do berço, não está incluído; um só ciclo de
+dados. As medições de Schettini & Carvalho (1998), com variação de 77 a
+140 cm/s ao longo do ciclo, são de 1994-95, com o canal a ~8 m, e não servem
+para validar. O modelo ignora a estratificação da cunha salina, que separa
+a corrente de superfície (vazante) da de fundo (enchente).
 """
 
 from datetime import datetime, timedelta, timezone
@@ -116,7 +120,15 @@ B_RIO = 400.0  # m, largura do rio no Berço 2
 # Vazão fluvial média do Itajaí-Açu no estuário, ~215 m³/s (Zaleski &
 # Schettini, 2003, Notas Téc. Facimar 7:63-72). Trocar pela vazão do dia.
 Q_RIO = 215.0  # m³/s
-A_MONTANTE = 400.0 * 90e3  # m², limite superior (ver docstring)
+# Propagação da maré medida (analise_propagacao_mare.py, DC01 -> DC11, 11/11/2026)
+RAZAO_AMPLITUDE = 0.67
+ATRASO_NIVEL_MIN = 75.0
+DIST_KM = 11.4  # em linha reta
+_W_M2 = 2 * np.pi / (12.4206012 * 3600)  # rad/s
+_a, _b = -np.log(RAZAO_AMPLITUDE), _W_M2 * 60 * ATRASO_NIVEL_MIN
+L_EFETIVO = DIST_KM * 1e3 / np.hypot(_a, _b)  # m
+ATRASO_FLUXO_S = np.arctan2(_b, _a) / _W_M2  # s
+A_MONTANTE = B_RIO * L_EFETIVO  # m², só o Itajaí-Açu
 
 
 def gamma(h):
@@ -255,7 +267,8 @@ def serie_corrente(inicio, horas=24, passo_min=10, q_rio=None, area=A_MONTANTE):
     n = int(horas * 60 / passo_min) + 1
     tempos = [inicio + timedelta(minutes=passo_min * k) for k in range(n)]
     eta = np.array([prever_mare_itajai(t) for t in tempos])
-    deta = np.gradient(eta, 60.0 * passo_min)  # m/s
+    atrasado = np.array([prever_mare_itajai(t - timedelta(seconds=ATRASO_FLUXO_S)) for t in tempos])
+    deta = np.gradient(atrasado, 60.0 * passo_min)  # m/s, na foz, defasado
     h = PROF_ZH + eta
     u = u_inf_de_vazao(q_rio - area * deta, h)
     return tempos, eta, h, u, np.sign(u) * tensao_parede(u)
@@ -266,7 +279,8 @@ def tabela_corrente(inicio=None):
     inicio = inicio or INSTANTE.replace(hour=0, minute=0, second=0, microsecond=0)
     tempos, eta, h, u, tau = serie_corrente(inicio)
     print(f'\nCorrente no berço, {inicio:%d/%m/%Y} (Q_rio = {Q_RIO:.0f} m³/s, '
-          f'A_montante = {A_MONTANTE / 1e6:.0f} km²; + vazante, - enchente)')
+          f'A_ef = {A_MONTANTE / 1e6:.1f} km², atraso {ATRASO_FLUXO_S / 3600:.1f} h; '
+          f'+ vazante, - enchente)')
     print(f"{'hora':>5} | {'maré (m)':>8} | {'U (nós)':>8} | {'τ (Pa)':>7}")
     for k in range(0, len(tempos), 6):
         print(f'{tempos[k]:%H:%M} | {eta[k]:>8.2f} | {u[k] / NO_PARA_MS:>8.2f} | {tau[k]:>7.3f}')
