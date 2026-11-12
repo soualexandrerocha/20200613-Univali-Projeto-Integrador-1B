@@ -29,6 +29,23 @@ Próximos extremos:
 
 Em código: `Mare().altura(datetime)`, `Mare().extremos(ini, fim)`, `grafico(...)`.
 
+### Página para consulta rápida — `pagina/mare_itajai.html`
+
+Arquivo único, abre em qualquer navegador (computador ou celular) sem Python:
+altura no instante escolhido ou agora, tendência em cm/h, próximas PM/BM,
+curva de 1, 2 ou 4 dias (toque na curva para escolher o instante) e os
+extremos do dia. Cobre 2015 a 2050.
+
+Usa as mesmas constantes do script. Para cada componente guarda o fator nodal
+f e a fase astronômica a cada 30 dias e interpola entre eles (erro < 0,01 mm).
+
+```bash
+python ferramentas/gerar_pagina.py    # regera a página a partir de pagina/modelo.html
+python ferramentas/testar_pagina.py   # confere o JavaScript contra o Python (precisa de node)
+```
+
+Última conferência: alturas iguais ao Python dentro de 0,02 mm; extremos dentro de 2 s.
+
 ### De onde vêm as constantes
 
 A DHN/CHM prevê a maré do Porto de Itajaí com 77 componentes (análise
