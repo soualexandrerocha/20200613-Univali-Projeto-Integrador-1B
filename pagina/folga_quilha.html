@@ -85,6 +85,10 @@ button.primario { background: var(--water); color: var(--surface); border-color:
 .cifra b { font: 500 1.2rem var(--f-data); font-variant-numeric: tabular-nums; }
 .cifra small { color: var(--muted); font-size: 0.78rem; }
 .rolar { overflow-x: auto; }
+table.trechos td { padding: 3px 4px; border: 0; }
+table.trechos th { padding: 2px 4px; }
+table.trechos input, table.trechos select { padding: 4px 6px; font-size: 0.88rem; }
+table.trechos td:first-child { white-space: normal; font-size: 0.85rem; }
 table { border-collapse: collapse; width: 100%; font-size: 0.88rem; }
 th, td { text-align: left; padding: 6px 8px; border-bottom: 1px solid var(--line); white-space: nowrap; }
 th { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); font-weight: 500; }
@@ -163,14 +167,10 @@ textarea { width: 100%; min-height: 160px; font: 0.8rem var(--f-data); color: va
         </fieldset>
 
         <fieldset>
-          <legend>Folga mínima exigida</legend>
-          <div class="linha">
-            <label class="campo"><span>Valor</span><input id="ukc" type="number" min="0" step="0.01" inputmode="decimal"></label>
-            <label class="campo"><span>Unidade</span>
-              <select id="ukcu"><option value="m">metros</option><option value="pct">% do calado</option></select>
-            </label>
-          </div>
-          <p class="dica">Em % ela incide sobre o maior calado já corrigido pela densidade.</p>
+          <legend>Folga abaixo da quilha (FAQ) por trecho</legend>
+          <div class="rolar"><table class="trechos" id="tab-trechos"></table></div>
+          <div class="acoes"><button type="button" id="regras">Restaurar regras vigentes</button></div>
+          <p class="dica">Preenchido com a NPCP-SC (Port. 45/2023-CPSC) e a Resolução SPI 013/2024: 15 % do calado no canal externo, 10 % no canal interno e na bacia 2, 0,60 m na bacia 1 e nos berços. O adicional de 0,80 m no canal interno e nas bacias 1 e 2 é do Ofício 755/2026 da DelItajaí (14/10/2026), temporário. Confira se ainda vale antes de usar.</p>
         </fieldset>
         <div class="acoes"><button type="button" id="limpar">Voltar ao exemplo</button></div>
       </form>
@@ -209,7 +209,8 @@ textarea { width: 100%; min-height: 160px; font: 0.8rem var(--f-data); color: va
       </div>
       <details><summary>Resumo em texto</summary><textarea id="texto" readonly></textarea></details>
       <div class="notas">
-        <p><b>O que entra.</b> UKC(t) = profundidade no NR + maré(t) − reserva de nível − calado máximo corrigido. É folga <b>estática</b>: não inclui squat, balanço, arfagem nem ondas.</p>
+        <p><b>O que entra.</b> UKC(t) = profundidade no NR + maré(t) − reserva de nível − calado máximo corrigido, comparada à FAQ do trecho de cada ponto. É a fórmula da NPCP-SC (CMR = MPO + Hmaré − FAQ) com a correção de densidade a mais. É folga <b>estática</b>: não inclui squat, balanço, arfagem nem ondas.</p>
+        <p><b>Regras.</b> FAQ base da NPCP-SC (Port. 45/2023-CPSC) e da Resolução SPI 013/2024. Adicional de 0,80 m do Ofício 755/2026-DelItajaí (14/10/2026), temporário e sem data de fim. O exemplo usa as menores profundidades divulgadas pela SPI em outubro de 2026 (válidas até 10/12/2026). Corrente, vento, ondas, rebocadores e visibilidade também limitam a manobra e não estão neste cálculo.</p>
         <p><b>Maré.</b> Modelo harmônico ajustado às Tábuas das Marés do Porto de Itajaí (CHM, 2024–2026). Contra a tábua de 2026: erro de altura de 2,9 cm e erro mediano de 6 min no horário dos extremos. Nos estofos rasos o horário pode errar 30 min ou mais. Vento, maré meteorológica e cheia do Itajaí-Açu ficam de fora e podem alterar o nível em dezenas de centímetros.</p>
         <p><b>Conservador por construção.</b> Cada ponto precisa da folga durante toda a manobra, mesmo que o navio passe por ele só por alguns minutos.</p>
       </div>
@@ -267,11 +268,14 @@ if (typeof module !== 'undefined') module.exports = { criarMare };
 // e pelo teste ferramentas/testar_painel_ukc.py. Precisa de MARE = criarMare(D).
 //
 // e = {ini, fim, inst dos pontos: ms UTC; dur: min; margem, tav, tar: m; rref, rloc: t/m³;
-//      fwa: mm (NaN = sem); ukcv; ukcu: 'm' | 'pct';
-//      pontos: [{nome, prof, ref: 'nr'|'outro'|'inst', cota, inst}]}
+//      fwa: mm (NaN = sem);
+//      trechos: {id: {nome, valor, unidade: 'pct'|'m', adicional: m}};
+//      pontos: [{nome, trecho, prof, ref: 'nr'|'outro'|'inst', cota, inst}]}
 //
-// UKC(t) = D_NR + maré(t) − margem − T_corrigido. Uma manobra que começa em s
-// é permitida se UKC ≥ exigida em todos os pontos durante [s, s + dur].
+// Folga exigida no ponto (FAQ) = valor (% do calado corrigido ou m) + adicional
+// do trecho do ponto. UKC(t) = D_NR + maré(t) − margem − T_corrigido. Uma
+// manobra que começa em s é permitida se UKC ≥ FAQ em todos os pontos durante
+// [s, s + dur]. Equivale à fórmula da NPCP-SC, CMR = MPO + Hmaré − FAQ.
 function calcularFolga(MARE, e) {
   const H_MS = 3600e3, MIN_MS = 60e3;
   const erros = [];
@@ -282,24 +286,27 @@ function calcularFolga(MARE, e) {
   else if (ini < MARE.ini || fim > MARE.fim) erros.push('O modelo cobre de 2015 a 2050.');
   if (!(dur >= 0)) erros.push('Informe a duração da manobra em minutos (0 se for instantânea).');
   if (margem < 0) erros.push('A reserva de nível não pode ser negativa.');
-  const { tav, tar, rref, rloc, fwa, ukcv, ukcu } = e;
+  const { tav, tar, rref, rloc, fwa, trechos } = e;
   if (!(tav > 0 && tar > 0)) erros.push('Informe os calados do navio.');
   if (!(rref >= 0.99 && rref <= 1.04) || !(rloc >= 0.99 && rloc <= 1.04)) erros.push('As densidades devem estar entre 0,990 e 1,040 t/m³.');
-  if (!(ukcv >= 0)) erros.push('Informe a folga mínima exigida.');
+  for (const [id, t] of Object.entries(trechos))
+    if (!(t.valor >= 0) || !(t.adicional >= 0)) erros.push(`${t.nome}: informe a folga e o adicional (0 se não houver).`);
 
   const pts = [];
   e.pontos.forEach((p, i) => {
     const nome = (p.nome || '').trim() || `Ponto ${i + 1}`;
+    if (!trechos[p.trecho]) { erros.push(`${nome}: escolha o trecho.`); return; }
     if (!(p.prof > 0)) { erros.push(`${nome}: informe a profundidade.`); return; }
-    if (p.ref === 'nr') pts.push({ nome, prof: p.prof, ref: 'nr', dnr: p.prof });
+    const base = { nome, trecho: p.trecho, prof: p.prof, ref: p.ref };
+    if (p.ref === 'nr') pts.push({ ...base, dnr: p.prof });
     else if (p.ref === 'outro') {
       if (!Number.isFinite(p.cota)) { erros.push(`${nome}: informe a cota do zero em relação ao NR.`); return; }
-      pts.push({ nome, prof: p.prof, ref: 'outro', cota: p.cota, dnr: p.prof - p.cota });
+      pts.push({ ...base, cota: p.cota, dnr: p.prof - p.cota });
     } else {
       if (!Number.isFinite(p.inst)) { erros.push(`${nome}: informe a data e a hora da medição.`); return; }
       const hm = MARE.altura(p.inst);
       if (!Number.isFinite(hm)) { erros.push(`${nome}: data da medição fora de 2015–2050.`); return; }
-      pts.push({ nome, prof: p.prof, ref: 'inst', inst: p.inst, hmed: hm, dnr: p.prof - hm });
+      pts.push({ ...base, inst: p.inst, hmed: hm, dnr: p.prof - hm });
     }
   });
   if (!e.pontos.length) erros.push('Inclua pelo menos um ponto de profundidade.');
@@ -311,10 +318,10 @@ function calcularFolga(MARE, e) {
   if (fwa > 0) { dT = fwa / 1000 * (rref - rloc) / 0.025; metodo = `FWA ${fwa} mm`; }
   else { dT = tmax * (rref / rloc - 1); metodo = 'T·ρref/ρlocal (aprox.)'; }
   const tc = tmax + dT;
-  const ukc = ukcu === 'pct' ? ukcv / 100 * tc : ukcv;
-  pts.forEach(p => p.hreq = tc + ukc - p.dnr);        // maré necessária sem a reserva
+  const faq = id => { const t = trechos[id]; return (t.unidade === 'pct' ? t.valor / 100 * tc : t.valor) + t.adicional; };
+  pts.forEach(p => { p.faq = faq(p.trecho); p.hreq = tc + p.faq - p.dnr; });   // maré necessária sem a reserva
   const crit = pts.reduce((a, b) => b.hreq > a.hreq ? b : a);
-  const hreq = crit.hreq;
+  const hreq = crit.hreq, ukc = crit.faq;
 
   // Maré a cada minuto, do início até fim + duração
   const durMin = Math.round(dur);
@@ -355,7 +362,7 @@ function calcularFolga(MARE, e) {
   for (let i = 0; i < nStarts; i++) { hMinP = Math.min(hMinP, h[i]); hMaxP = Math.max(hMaxP, h[i]); }
   const E = MARE.extremos(ini, fim);
 
-  return { erros, tav, tar, tmax, trim, dT, metodo, tc, ukc, margem, durMin, pts, crit, hreq,
+  return { erros, tav, tar, tmax, trim, dT, metodo, tc, ukc, faq, margem, durMin, pts, crit, hreq,
            hnec: hreq + margem, h, nStarts, J, total, sens, E, hMinP, hMaxP, ukcAt };
 }
 if (typeof module !== 'undefined') module.exports = { calcularFolga };
@@ -379,18 +386,43 @@ function fmt(ms, ano) {
 function duracao(min) { const h = Math.floor(min / 60), m = Math.round(min % 60); return h ? `${h} h ${pad(m)}` : `${m} min`; }
 const lerNum = id => { const v = $(id).value.trim().replace(',', '.'); return v === '' ? NaN : Number(v); };
 
+// Regras vigentes (verificadas em 12/11/2026):
+//  - NPCP-SC, Port. 45/2023-CPSC, e Resolução SPI 013/2024: CMR = MPO + Hmaré − FAQ, com FAQ de
+//    15 % do calado no canal externo, 10 % no canal interno e na bacia 2, 0,60 m na bacia 1 e berços;
+//  - Ofício 755/2026-DelItajaí (14/10/2026): FAQ adicional de 0,80 m no canal interno e nas bacias 1 e 2.
+const TRECHOS = [
+  { id: 'ce', nome: 'Canal externo',       valor: '15',   unidade: 'pct', adicional: '0' },
+  { id: 'ci', nome: 'Canal interno',       valor: '10',   unidade: 'pct', adicional: '0.80' },
+  { id: 'b1', nome: 'Bacia de evolução 1', valor: '0.60', unidade: 'm',   adicional: '0.80' },
+  { id: 'b2', nome: 'Bacia de evolução 2', valor: '10',   unidade: 'pct', adicional: '0.80' },
+  { id: 'be', nome: 'Berços',              valor: '0.60', unidade: 'm',   adicional: '0' },
+];
+const CAMPOS_T = TRECHOS.flatMap(t => ['v', 'u', 'a'].map(k => `t-${t.id}-${k}`));
 const EXEMPLO = {
-  ini: '2026-11-13T00:00', fim: '2026-11-16T00:00', dur: '60', margem: '0.10',
-  modo: 'avar', cav: '12.40', car: '12.90', cmed: '', trim: '',
-  rref: '1.025', rloc: '1.012', fwa: '', ukc: '10', ukcu: 'pct',
+  ini: '2026-11-13T00:00', fim: '2026-11-16T00:00', dur: '60', margem: '0',
+  modo: 'avar', cav: '11.30', car: '11.60', cmed: '', trim: '',
+  rref: '1.025', rloc: '1.012', fwa: '',
+  ...Object.fromEntries(TRECHOS.flatMap(t => [[`t-${t.id}-v`, t.valor], [`t-${t.id}-u`, t.unidade], [`t-${t.id}-a`, t.adicional]])),
   pontos: [
-    { nome: 'Canal externo', prof: '14.00', ref: 'nr', cota: '', inst: '' },
-    { nome: 'Bacia de evolução', prof: '13.80', ref: 'nr', cota: '', inst: '' },
-    { nome: 'Berço (sondagem)', prof: '14.40', ref: 'inst', cota: '', inst: '2026-11-12T10:00' },
+    { nome: 'MPO out/2026', trecho: 'ce', prof: '13.40', ref: 'nr', cota: '', inst: '' },
+    { nome: 'MPO out/2026', trecho: 'ci', prof: '13.10', ref: 'nr', cota: '', inst: '' },
+    { nome: 'MPO out/2026', trecho: 'b1', prof: '12.80', ref: 'nr', cota: '', inst: '' },
+    { nome: 'MPO out/2026', trecho: 'b2', prof: '13.50', ref: 'nr', cota: '', inst: '' },
   ],
 };
-const CAMPOS = ['ini', 'fim', 'dur', 'margem', 'modo', 'cav', 'car', 'cmed', 'trim', 'rref', 'rloc', 'fwa', 'ukc', 'ukcu'];
-const CHAVE = 'ukc-itajai-v1';
+const CAMPOS = ['ini', 'fim', 'dur', 'margem', 'modo', 'cav', 'car', 'cmed', 'trim', 'rref', 'rloc', 'fwa', ...CAMPOS_T];
+const CHAVE = 'ukc-itajai-v2';
+
+function montarTrechos() {
+  $('tab-trechos').innerHTML = '<tr><th>Trecho</th><th>FAQ</th><th>% calado ou m</th><th>+ adicional (m)</th></tr>' + TRECHOS.map(t => `
+    <tr><td>${t.nome}</td>
+      <td><input id="t-${t.id}-v" type="number" min="0" step="0.01" inputmode="decimal" aria-label="FAQ ${t.nome}"></td>
+      <td><select id="t-${t.id}-u" aria-label="Unidade ${t.nome}"><option value="pct">%</option><option value="m">m</option></select></td>
+      <td><input id="t-${t.id}-a" type="number" min="0" step="0.01" inputmode="decimal" aria-label="Adicional ${t.nome}"></td></tr>`).join('');
+}
+function regraTxt(t) {
+  return (t.unidade === 'pct' ? `${num(t.valor, 0)} % do calado` : `${num(t.valor)} m`) + (t.adicional > 0 ? ` + ${num(t.adicional)} m` : '');
+}
 
 function novoPonto(p) {
   const i = Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
@@ -401,6 +433,8 @@ function novoPonto(p) {
       <label class="campo"><span>Local</span><input id="pn-${i}" data-k="nome" type="text" style="font-family:var(--f-body)"></label>
       <button type="button" class="remover" aria-label="Remover ponto">✕</button>
     </div>
+    <label class="campo"><span>Trecho</span>
+      <select id="pt-${i}" data-k="trecho">${TRECHOS.map(t => `<option value="${t.id}">${t.nome}</option>`).join('')}</select></label>
     <div class="linha">
       <label class="campo"><span>Profundidade (m)</span><input id="pp-${i}" data-k="prof" type="number" min="0" step="0.01" inputmode="decimal"></label>
       <label class="campo"><span>Referencial</span>
@@ -410,7 +444,7 @@ function novoPonto(p) {
     </div>
     <label class="campo" data-so="outro"><span>Cota do zero em relação ao NR (m, + acima)</span><input id="pc-${i}" data-k="cota" type="number" step="0.01" inputmode="decimal"></label>
     <label class="campo" data-so="inst"><span>Data e hora da medição (UTC−3)</span><input id="pi-${i}" data-k="inst" type="datetime-local" step="60"></label>`;
-  for (const k of ['nome', 'prof', 'ref', 'cota', 'inst']) el.querySelector(`[data-k="${k}"]`).value = p[k] ?? '';
+  for (const k of ['nome', 'trecho', 'prof', 'ref', 'cota', 'inst']) el.querySelector(`[data-k="${k}"]`).value = p[k] ?? (k === 'trecho' ? 'ci' : '');
   const sinc = () => { const r = el.querySelector('[data-k="ref"]').value; el.querySelectorAll('[data-so]').forEach(x => x.hidden = x.dataset.so !== r); };
   el.querySelector('[data-k="ref"]').addEventListener('change', () => { sinc(); agendar(); });
   el.querySelector('.remover').addEventListener('click', () => { el.remove(); agendar(); });
@@ -420,7 +454,7 @@ function novoPonto(p) {
 function lerPontos() {
   return [...$('pontos').children].map(el => {
     const g = k => el.querySelector(`[data-k="${k}"]`).value;
-    return { nome: g('nome'), prof: g('prof'), ref: g('ref'), cota: g('cota'), inst: g('inst') };
+    return { nome: g('nome'), trecho: g('trecho'), prof: g('prof'), ref: g('ref'), cota: g('cota'), inst: g('inst') };
   });
 }
 function estado() { const s = {}; CAMPOS.forEach(k => s[k] = $(k).value); s.pontos = lerPontos(); return s; }
@@ -440,8 +474,8 @@ function entrada() {
     dur: lerNum('dur'), margem: lerNum('margem'),
     tav: medio ? cm - tr / 2 : lerNum('cav'), tar: medio ? cm + tr / 2 : lerNum('car'),
     rref: lerNum('rref'), rloc: lerNum('rloc'), fwa: lerNum('fwa'),
-    ukcv: lerNum('ukc'), ukcu: $('ukcu').value,
-    pontos: lerPontos().map(p => ({ nome: p.nome, prof: nr(p.prof), ref: p.ref, cota: nr(p.cota), inst: localParaMs(p.inst) })),
+    trechos: Object.fromEntries(TRECHOS.map(t => [t.id, { nome: t.nome, valor: lerNum(`t-${t.id}-v`), unidade: $(`t-${t.id}-u`).value, adicional: lerNum(`t-${t.id}-a`) }])),
+    pontos: lerPontos().map(p => ({ nome: p.nome, trecho: p.trecho, prof: nr(p.prof), ref: p.ref, cota: nr(p.cota), inst: localParaMs(p.inst) })),
   };
 }
 function nomeRef(p) {
@@ -461,26 +495,28 @@ function calcular() {
 
   const { tav, tar, tmax, trim, dT, metodo, tc, ukc, margem, durMin, pts, crit, hreq, hnec, J, total, sens, E, hMinP, hMaxP, ukcAt } = R;
   const ini = localParaMs($('ini').value), fim = localParaMs($('fim').value);
-  const ukcv = lerNum('ukc'), ukcu = $('ukcu').value, rref = lerNum('rref'), rloc = lerNum('rloc');
+  const rref = lerNum('rref'), rloc = lerNum('rloc');
+  const TR = entrada().trechos, nomeT = id => TR[id].nome;
+  const critNome = `${crit.nome} (${nomeT(crit.trecho)})`;
 
   const v = $('veredito');
   if (!J.length) {
     v.className = 'veredito nao';
-    v.innerHTML = `<strong>Sem janela no período</strong><span>A manobra precisa de maré de <b class="num">${num(hnec)} m</b> no NR em ${crit.nome}. A maior maré prevista no período é ${num(hMaxP)} m, ${num(hnec - hMaxP)} m abaixo${durMin ? ', e a folga tem de durar ' + duracao(durMin) : ''}.</span>`;
+    v.innerHTML = `<strong>Sem janela no período</strong><span>A manobra precisa de maré de <b class="num">${num(hnec)} m</b> no NR em ${critNome}. A maior maré prevista no período é ${num(hMaxP)} m, ${num(hnec - hMaxP)} m abaixo${durMin ? ', e a folga tem de durar ' + duracao(durMin) : ''}.</span>`;
   } else if (J.length === 1 && J[0].abreAntes && J[0].fechaDepois) {
     v.className = 'veredito sempre';
-    v.innerHTML = `<strong>Folga atendida o período inteiro</strong><span>Mesmo na menor maré (${num(hMinP)} m) a folga em ${crit.nome} é <b class="num">${num(ukcAt(hMinP))} m</b>, acima dos ${num(ukc)} m exigidos.</span>`;
+    v.innerHTML = `<strong>Folga atendida o período inteiro</strong><span>Mesmo na menor maré (${num(hMinP)} m) a folga em ${critNome} é <b class="num">${num(ukcAt(hMinP))} m</b>, acima dos ${num(ukc)} m exigidos.</span>`;
   } else {
     v.className = 'veredito ok';
     const p = J[0];
-    v.innerHTML = `<strong>${J.length} janela${J.length > 1 ? 's' : ''} · ${duracao(total)} no total</strong><span>Primeira: iniciar entre <b class="num">${fmt(p.a)}</b> e <b class="num">${fmt(p.b)}</b>. Ponto limitante: ${crit.nome}, que exige maré ≥ <b class="num">${num(hnec)} m</b>.</span>`;
+    v.innerHTML = `<strong>${J.length} janela${J.length > 1 ? 's' : ''} · ${duracao(total)} no total</strong><span>Primeira: iniciar entre <b class="num">${fmt(p.a)}</b> e <b class="num">${fmt(p.b)}</b>. Ponto limitante: ${critNome}, que exige maré ≥ <b class="num">${num(hnec)} m</b>.</span>`;
   }
 
   $('cifras').innerHTML = [
     ['Calado máximo', num(tmax) + ' m', `AV ${num(tav)} · AR ${num(tar)} · trim ${sinal(trim)}`],
     ['Calado corrigido', num(tc) + ' m', `${sinal(dT, 3)} m pela densidade (${metodo})`],
-    ['Folga exigida', num(ukc) + ' m', ukcu === 'pct' ? `${num(ukcv, 1)} % de ${num(tc)} m` : 'valor fixo'],
-    ['Maré necessária', num(hnec) + ' m', `${num(hreq)} m + reserva ${num(margem)} m · ${crit.nome}`],
+    ['FAQ no ponto limitante', num(ukc) + ' m', `${nomeT(crit.trecho)}: ${regraTxt(TR[crit.trecho])}`],
+    ['Maré necessária', num(hnec) + ' m', `${num(hreq)} m + reserva ${num(margem)} m · ${critNome}`],
   ].map(([a, b, c]) => `<div class="cifra"><span>${a}</span><b>${b}</b><small>${c}</small></div>`).join('');
 
   $('tab-janelas').innerHTML = J.length ? `<tr><th>Iniciar a partir de</th><th>Iniciar até</th><th class="n">Duração</th><th class="n">Folga mín.</th><th class="n">Folga máx.</th></tr>` +
@@ -488,12 +524,12 @@ function calcular() {
     : `<tr><td>Nenhuma janela.</td></tr>`;
   $('tab-sens').innerHTML = `<tr><th>Cenário</th><th class="n">Maré necessária</th><th class="n">Janelas</th><th class="n">Tempo total</th><th>Primeira janela</th></tr>` +
     sens.map(s => `<tr><td>${s.extra ? `nível ${num(s.extra)} m mais baixo` : 'como informado'}</td><td class="n">${num(s.hnec)} m</td><td class="n">${s.janelas.length}</td><td class="n">${s.total ? duracao(s.total) : '—'}</td><td class="num">${s.janelas.length ? fmt(s.janelas[0].a) + ' – ' + fmt(s.janelas[0].b) : '—'}</td></tr>`).join('');
-  $('tab-pontos').innerHTML = `<tr><th>Local</th><th class="n">Informada</th><th>Referencial</th><th class="n">No NR</th><th class="n">Maré necessária</th><th class="n">Folga na BM mín.</th><th class="n">Folga na PM máx.</th></tr>` +
+  $('tab-pontos').innerHTML = `<tr><th>Local</th><th>Trecho</th><th class="n">Informada</th><th>Referencial</th><th class="n">No NR</th><th class="n">FAQ</th><th class="n">Maré necessária</th><th class="n">Folga na BM mín.</th><th class="n">Folga na PM máx.</th></tr>` +
     pts.map(p => {
       const f0 = p.dnr + hMinP - margem - tc, f1 = p.dnr + hMaxP - margem - tc;
-      return `<tr class="${p === crit ? 'critico' : ''}"><td>${p.nome}${p === crit ? ' <span class="selo" style="color:var(--req)">limitante</span>' : ''}</td><td class="n">${num(p.prof)}</td><td>${nomeRef(p)}</td><td class="n">${num(p.dnr)}</td><td class="n">${num(p.hreq + margem)}</td><td class="n ${f0 >= ukc ? 'pos' : 'neg'}">${num(f0)}</td><td class="n ${f1 >= ukc ? 'pos' : 'neg'}">${num(f1)}</td></tr>`;
+      return `<tr class="${p === crit ? 'critico' : ''}"><td>${p.nome}${p === crit ? ' <span class="selo" style="color:var(--req)">limitante</span>' : ''}</td><td>${nomeT(p.trecho)}</td><td class="n">${num(p.prof)}</td><td>${nomeRef(p)}</td><td class="n">${num(p.dnr)}</td><td class="n">${num(p.faq)}</td><td class="n">${num(p.hreq + margem)}</td><td class="n ${f0 >= p.faq ? 'pos' : 'neg'}">${num(f0)}</td><td class="n ${f1 >= p.faq ? 'pos' : 'neg'}">${num(f1)}</td></tr>`;
     }).join('');
-  $('tab-ext').innerHTML = `<tr><th></th><th>Data e hora</th><th class="n">Altura</th><th class="n">Folga em ${crit.nome}</th></tr>` +
+  $('tab-ext').innerHTML = `<tr><th></th><th>Data e hora</th><th class="n">Altura</th><th class="n">Folga em ${critNome}</th></tr>` +
     E.map(e => { const f = ukcAt(e.h); return `<tr><td>${e.tipo}</td><td class="num">${fmt(e.t)}</td><td class="n">${num(e.h)} m</td><td class="n ${f >= ukc ? 'pos' : 'neg'}">${num(f)} m</td></tr>`; }).join('');
 
   desenhar(R.h, R.nStarts, ini, hnec, J, E);
@@ -502,9 +538,9 @@ function calcular() {
   L.push(`FOLGA ESTÁTICA SOB A QUILHA — PORTO DE ITAJAÍ`);
   L.push(`Período: ${fmt(ini, true)} a ${fmt(fim, true)} (UTC−3). Manobra de ${duracao(durMin)}.`);
   L.push(`Calado: AV ${num(tav)} m, AR ${num(tar)} m, trim ${sinal(trim)} m; máximo ${num(tmax)} m; corrigido p/ ρ ${num(rloc, 3)} (calado em ρ ${num(rref, 3)}): ${num(tc)} m [${metodo}].`);
-  L.push(`Folga mínima: ${num(ukc)} m${ukcu === 'pct' ? ` (${num(ukcv, 1)} % do calado)` : ''}. Reserva de nível: ${num(margem)} m.`);
-  L.push(`Pontos (profundidade no NR → maré necessária):`);
-  pts.forEach(p => L.push(`  ${p.nome}: ${num(p.dnr)} m [${nomeRef(p)}] → ${num(p.hreq + margem)} m${p === crit ? '  ← limitante' : ''}`));
+  L.push(`FAQ por trecho: ${TRECHOS.map(t => `${t.nome} ${regraTxt(TR[t.id])}`).join('; ')}. Reserva de nível: ${num(margem)} m.`);
+  L.push(`Pontos (profundidade no NR, FAQ → maré necessária):`);
+  pts.forEach(p => L.push(`  ${p.nome} (${nomeT(p.trecho)}): ${num(p.dnr)} m [${nomeRef(p)}], FAQ ${num(p.faq)} m → ${num(p.hreq + margem)} m${p === crit ? '  ← limitante' : ''}`));
   L.push(J.length ? `Janelas para iniciar a manobra:` : `Sem janela no período (maré máxima ${num(hMaxP)} m).`);
   J.forEach(j => L.push(`  ${fmt(j.a)} a ${fmt(j.b)}  (${duracao(j.minutos)}; folga ${num(ukcAt(j.hmin))}–${num(ukcAt(j.hmax))} m)`));
   L.push(`Maré astronômica (modelo harmônico das tábuas CHM; ~3 cm, ~6 min). Não inclui vento, maré meteorológica, vazão do rio nem squat.`);
@@ -562,7 +598,8 @@ $('form').addEventListener('input', agendar);
 $('form').addEventListener('change', agendar);
 $('form').addEventListener('submit', e => e.preventDefault());
 $('modo').addEventListener('change', sincModo);
-$('add').addEventListener('click', () => { novoPonto({ nome: '', prof: '', ref: 'nr' }); agendar(); });
+$('add').addEventListener('click', () => { novoPonto({ nome: '', trecho: 'ci', prof: '', ref: 'nr' }); agendar(); });
+$('regras').addEventListener('click', () => { TRECHOS.forEach(t => { $(`t-${t.id}-v`).value = t.valor; $(`t-${t.id}-u`).value = t.unidade; $(`t-${t.id}-a`).value = t.adicional; }); agendar(); });
 $('limpar').addEventListener('click', () => { aplicar(EXEMPLO); agendar(); });
 $('copiar').addEventListener('click', () => {
   const t = $('texto').value, ok = () => { $('copiado').hidden = false; setTimeout(() => $('copiado').hidden = true, 1800); };
@@ -571,6 +608,7 @@ $('copiar').addEventListener('click', () => {
 });
 let redim; window.addEventListener('resize', () => { clearTimeout(redim); redim = setTimeout(calcular, 200); });
 
+montarTrechos();
 let salvo = null;
 try { salvo = JSON.parse(localStorage.getItem(CHAVE)); } catch (e) {}
 aplicar(salvo && salvo.pontos ? salvo : EXEMPLO);
