@@ -34,7 +34,7 @@ Idealizações que restam (todas listadas para calibração/refino posterior):
     U ~ sqrt(y), com dU/dy -> infinito em y = 0 (a tensão permanece finita).
 Parâmetros f e lambda abaixo são valores de partida, a calibrar.
 
-Profundidade e maré: H = COTA_DRAGAGEM + eta(t), com eta a maré astronômica
+Profundidade e maré: H = PROF_ZH + eta(t), com eta a maré astronômica
 acima do zero hidrográfico prevista por previsao_mare_itajai.py no instante
 INSTANTE. Consequência da solução acima: com U_inf fixo, a tensão na parede
 
@@ -61,14 +61,15 @@ RHO = 1025.0  # kg/m³, água do mar
 NO_PARA_MS = 1852 / 3600  # 1 nó = 0,514444 m/s
 
 # --- Parâmetros a calibrar --------------------------------------------------
-# Cota de dragagem abaixo do zero hidrográfico (DHN). 14,5 m é a cota
-# divulgada para canal e bacias de evolução do Porto de Itajaí; a cota do
-# Berço 2 não foi confirmada. Em 2026 a Marinha reduziu em 30 cm a
-# profundidade oficial do canal por causa da lama fluida.
-COTA_DRAGAGEM = 14.5  # m, A CONFIRMAR
+# Profundidade abaixo do zero hidrográfico. Fonte: Avisos da Atalaia
+# (praticagem), "Itajaí e Navegantes - menores profundidades", validade
+# 10/12/2026: Itajaí 2 = 12,8 m; Bacia de evolução 01 = 12,8 m. É a menor
+# profundidade levantada (não a cota de projeto de 14,5 m) e muda a cada
+# levantamento batimétrico; atualizar quando o aviso for renovado.
+PROF_ZH = 12.8  # m
 INSTANTE = datetime(2026, 11, 12, 12, 0, tzinfo=timezone(timedelta(hours=-3)))
 ETA = prever_mare_itajai(INSTANTE)  # m acima do zero hidrográfico
-H = COTA_DRAGAGEM + ETA  # m, profundidade junto ao berço no INSTANTE
+H = PROF_ZH + ETA  # m, profundidade junto ao berço no INSTANTE
 F_DARCY = 0.02  # fator de atrito de Darcy-Weisbach do fundo
 # Viscosidade turbulenta adimensional do SKM. Knight (1999, Int. J. Sediment
 # Res. 14(2):217-236), citado por Khatua et al. (2016): faixa 0,07-0,50;
