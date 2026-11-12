@@ -181,8 +181,9 @@ FWA opcional; folga abaixo da quilha (FAQ) de cada trecho, editável.
   de Itajaí, que dão CMR = MPO + Hmaré − FAQ.
 - Adicional: Ofício 755/2026 da Delegacia da Capitania dos Portos em Itajaí
   (14/10/2026), pelas correntezas do El Niño, temporário e sem data de fim.
-  Não encontrei o texto do ofício; os valores vêm de três veículos (Diarinho,
-  BE News, Efficienza) que concordam entre si. Confira antes de usar.
+  Os valores vêm de três veículos (Diarinho, BE News, Efficienza) que concordam
+  entre si; o adicional foi confirmado em vigor em 12/11/2026. Quando for
+  revogado, zere a coluna de adicional no formulário.
 - O exemplo usa as menores profundidades divulgadas pela Superintendência em
   outubro de 2026 (canal externo 13,40 m, canal interno 13,10 m, bacia 1
   12,80 m, bacia 2 13,50 m), válidas até 10/12/2026.
@@ -191,8 +192,11 @@ FWA opcional; folga abaixo da quilha (FAQ) de cada trecho, editável.
 
 - calado corrigido = maior calado + ΔT. Com FWA, ΔT = FWA × (ρref − ρlocal) / 0,025;
   sem FWA, T × ρref/ρlocal (casco tratado como caixa, o que superestima o afundamento).
-  A fórmula da NPCP-SC não tem essa correção; ela é uma margem a mais;
-- FAQ do ponto = valor do trecho (% sobre o calado corrigido, ou m) + adicional;
+  A fórmula da NPCP-SC não tem essa correção; ela foi mantida de propósito,
+  por ser mais conservadora;
+- FAQ do ponto = valor do trecho (% sobre o maior calado já corrigido, ou m) +
+  adicional. A norma diz só "calado do navio"; usar o maior calado corrigido
+  é a leitura mais conservadora;
 - UKC(t) = profundidade no NR + maré(t) − reserva − calado corrigido;
 - a manobra pode começar em s se UKC ≥ FAQ em todos os pontos durante todo o
   intervalo [s, s + duração], com passo de 1 min.

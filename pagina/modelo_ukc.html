@@ -170,7 +170,7 @@ textarea { width: 100%; min-height: 160px; font: 0.8rem var(--f-data); color: va
           <legend>Folga abaixo da quilha (FAQ) por trecho</legend>
           <div class="rolar"><table class="trechos" id="tab-trechos"></table></div>
           <div class="acoes"><button type="button" id="regras">Restaurar regras vigentes</button></div>
-          <p class="dica">Preenchido com a NPCP-SC (Port. 45/2023-CPSC) e a Resolução SPI 013/2024: 15 % do calado no canal externo, 10 % no canal interno e na bacia 2, 0,60 m na bacia 1 e nos berços. O adicional de 0,80 m no canal interno e nas bacias 1 e 2 é do Ofício 755/2026 da DelItajaí (14/10/2026), temporário. Confira se ainda vale antes de usar.</p>
+          <p class="dica">Preenchido com a NPCP-SC (Port. 45/2023-CPSC) e a Resolução SPI 013/2024: 15 % do calado no canal externo, 10 % no canal interno e na bacia 2, 0,60 m na bacia 1 e nos berços. O adicional de 0,80 m no canal interno e nas bacias 1 e 2 é do Ofício 755/2026 da DelItajaí (14/10/2026), temporário; confirmado em vigor em 12/11/2026. Quando for revogado, zere a coluna de adicional.</p>
         </fieldset>
         <div class="acoes"><button type="button" id="limpar">Voltar ao exemplo</button></div>
       </form>
@@ -209,8 +209,8 @@ textarea { width: 100%; min-height: 160px; font: 0.8rem var(--f-data); color: va
       </div>
       <details><summary>Resumo em texto</summary><textarea id="texto" readonly></textarea></details>
       <div class="notas">
-        <p><b>O que entra.</b> UKC(t) = profundidade no NR + maré(t) − reserva de nível − calado máximo corrigido, comparada à FAQ do trecho de cada ponto. É a fórmula da NPCP-SC (CMR = MPO + Hmaré − FAQ) com a correção de densidade a mais. É folga <b>estática</b>: não inclui squat, balanço, arfagem nem ondas.</p>
-        <p><b>Regras.</b> FAQ base da NPCP-SC (Port. 45/2023-CPSC) e da Resolução SPI 013/2024. Adicional de 0,80 m do Ofício 755/2026-DelItajaí (14/10/2026), temporário e sem data de fim. O exemplo usa as menores profundidades divulgadas pela SPI em outubro de 2026 (válidas até 10/12/2026). Corrente, vento, ondas, rebocadores e visibilidade também limitam a manobra e não estão neste cálculo.</p>
+        <p><b>O que entra.</b> UKC(t) = profundidade no NR + maré(t) − reserva de nível − calado máximo corrigido, comparada à FAQ do trecho de cada ponto. É a fórmula da NPCP-SC (CMR = MPO + Hmaré − FAQ) com duas escolhas conservadoras: o calado é corrigido pela densidade local (a norma não corrige), e a FAQ em % incide sobre o maior calado já corrigido. É folga <b>estática</b>: não inclui squat, balanço, arfagem nem ondas.</p>
+        <p><b>Regras.</b> FAQ base da NPCP-SC (Port. 45/2023-CPSC) e da Resolução SPI 013/2024. Adicional de 0,80 m do Ofício 755/2026-DelItajaí (14/10/2026), temporário, sem data de fim e confirmado em vigor em 12/11/2026. O exemplo usa as menores profundidades divulgadas pela SPI em outubro de 2026 (válidas até 10/12/2026). Corrente, vento, ondas, rebocadores e visibilidade também limitam a manobra e não estão neste cálculo.</p>
         <p><b>Maré.</b> Modelo harmônico ajustado às Tábuas das Marés do Porto de Itajaí (CHM, 2024–2026). Contra a tábua de 2026: erro de altura de 2,9 cm e erro mediano de 6 min no horário dos extremos. Nos estofos rasos o horário pode errar 30 min ou mais. Vento, maré meteorológica e cheia do Itajaí-Açu ficam de fora e podem alterar o nível em dezenas de centímetros.</p>
         <p><b>Conservador por construção.</b> Cada ponto precisa da folga durante toda a manobra, mesmo que o navio passe por ele só por alguns minutos.</p>
       </div>
