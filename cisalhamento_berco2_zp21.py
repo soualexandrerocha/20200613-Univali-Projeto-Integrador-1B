@@ -32,12 +32,28 @@ Idealizações que restam (todas listadas para calibração/refino posterior):
   - modelo 2D na horizontal (sem perfil vertical de velocidade);
   - perto da parede (centímetros) a lei de parede real é logarítmica; aqui
     U ~ sqrt(y), com dU/dy -> infinito em y = 0 (a tensão permanece finita).
-Parâmetros H, f e lambda abaixo são valores de partida, a calibrar.
+Parâmetros f e lambda abaixo são valores de partida, a calibrar.
+
+Profundidade e maré: H = COTA_DRAGAGEM + eta(t), com eta a maré astronômica
+acima do zero hidrográfico prevista por previsao_mare_itajai.py no instante
+INSTANTE. Consequência da solução acima: com U_inf fixo, a tensão na parede
+
+    tau_parede = rho*lambda*H*(f/8)^(1/2) * U_inf^2/2 * gamma
+               = rho*sqrt(lambda/2)*(f/8)^(3/4) * U_inf^2
+
+NÃO depende de H. A maré só altera a largura da camada de cisalhamento
+(3/gamma, proporcional a H) e a declividade S0 implícita. Ela muda a tensão
+apenas por meio de U_inf, que depende da vazão do rio e da fase da maré e
+ainda é dado de entrada aqui.
 """
+
+from datetime import datetime, timedelta, timezone
 
 import numpy as np
 import plotly.figure_factory as ff
 import plotly.graph_objects as go
+
+from previsao_mare_itajai import prever_mare_itajai
 
 # --- Constantes físicas -----------------------------------------------------
 G = 9.81  # m/s²
@@ -45,7 +61,14 @@ RHO = 1025.0  # kg/m³, água do mar
 NO_PARA_MS = 1852 / 3600  # 1 nó = 0,514444 m/s
 
 # --- Parâmetros a calibrar --------------------------------------------------
-H = 14.0  # m, profundidade junto ao berço (valor de partida)
+# Cota de dragagem abaixo do zero hidrográfico (DHN). 14,5 m é a cota
+# divulgada para canal e bacias de evolução do Porto de Itajaí; a cota do
+# Berço 2 não foi confirmada. Em 2026 a Marinha reduziu em 30 cm a
+# profundidade oficial do canal por causa da lama fluida.
+COTA_DRAGAGEM = 14.5  # m, A CONFIRMAR
+INSTANTE = datetime(2026, 11, 12, 12, 0, tzinfo=timezone(timedelta(hours=-3)))
+ETA = prever_mare_itajai(INSTANTE)  # m acima do zero hidrográfico
+H = COTA_DRAGAGEM + ETA  # m, profundidade junto ao berço no INSTANTE
 F_DARCY = 0.02  # fator de atrito de Darcy-Weisbach do fundo
 # Viscosidade turbulenta adimensional do SKM. Knight (1999, Int. J. Sediment
 # Res. 14(2):217-236), citado por Khatua et al. (2016): faixa 0,07-0,50;
@@ -131,7 +154,8 @@ for i, u_inf in enumerate(velocidades_ms):
 def titulo(nos, u_inf):
     return (
         f'Corrente junto ao cais, Bacia 1 (ZP-21) — vazante de {nos:.1f} nós'
-        f'<br><sup>τ na parede = {tensao_lateral(0.0, u_inf):.2f} Pa · '
+        f'<br><sup>{INSTANTE:%d/%m/%Y %H:%M} (UTC-3): maré {ETA:.2f} m, H = {H:.2f} m · '
+        f'τ na parede = {tensao_lateral(0.0, u_inf):.2f} Pa · '
         f'S₀ implícito = {declividade(u_inf):.1e} · '
         f'camada de cisalhamento ≈ {3 / GAMMA:.0f} m (3/γ)</sup>'
     )
