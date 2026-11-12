@@ -35,7 +35,7 @@ Idealizações que restam (todas listadas para calibração/refino posterior):
 Parâmetros f e lambda abaixo são valores de partida, a calibrar.
 
 Profundidade e maré: H = PROF_ZH + eta(t), com eta a maré astronômica
-acima do zero hidrográfico prevista por previsao_mare_itajai.py no instante
+acima do zero hidrográfico prevista por mare_itajai.py (Mare) no instante
 INSTANTE. Consequência da solução acima: com U_inf fixo, a tensão na parede
 
     tau_parede = rho*lambda*H*(f/8)^(1/2) * U_inf^2/2 * gamma
@@ -68,10 +68,10 @@ trecho de comprimento L_ef com nível em fase, defasado de ATRASO_FLUXO:
 L_ef e ATRASO_FLUXO vêm de analise_propagacao_mare.py, com o nível medido
 pela Defesa Civil de Itajaí em DC01 (CEPSUL, junto ao porto) e DC11 (Santa
 Regina, 11,4 km em linha reta). Em 11/11/2026, numa sizígia, com um único
-ciclo: razão de amplitude 0,67 e atraso de 75 min, o que dá L_ef = 15,3 km
+ciclo: razão de amplitude 0,65 e atraso de 80 min, o que dá L_ef = 14,2 km
 e fluxo 2,0 h atrasado em relação a d(eta)/dt na foz. Na mesma janela, DC01
 seguiu a maré prevista com razão 0,97, 5 min de diferença e resíduo de
-4,3 cm RMS.
+4,4 cm RMS.
 
 Incertezas: a distância é em linha reta (pelo rio é maior, e L_ef cresce
 na mesma proporção); a largura de 400 m vale no porto (a montante o rio é
@@ -89,7 +89,23 @@ import numpy as np
 import plotly.figure_factory as ff
 import plotly.graph_objects as go
 
-from previsao_mare_itajai import prever_mare_itajai
+from mare_itajai import Mare
+
+MARE = Mare()  # ajusta as constantes às tábuas CHM 2024-2026 (alguns segundos)
+
+
+def _local(t):
+    """datetime com fuso -> hora legal UTC-3 ingênua, como Mare espera."""
+    if t.tzinfo is not None:
+        t = t.astimezone(timezone(timedelta(hours=-3))).replace(tzinfo=None)
+    return t
+
+
+def mare(tempos):
+    """Maré astronômica (m acima do NR) para um datetime ou uma lista deles."""
+    if isinstance(tempos, datetime):
+        return float(MARE.altura(_local(tempos))[0])
+    return MARE.altura([_local(t) for t in tempos])
 
 # --- Constantes físicas -----------------------------------------------------
 G = 9.81  # m/s²
@@ -104,7 +120,7 @@ NO_PARA_MS = 1852 / 3600  # 1 nó = 0,514444 m/s
 # levantamento batimétrico; atualizar quando o aviso for renovado.
 PROF_ZH = 12.8  # m
 INSTANTE = datetime(2026, 11, 12, 12, 0, tzinfo=timezone(timedelta(hours=-3)))
-ETA = prever_mare_itajai(INSTANTE)  # m acima do zero hidrográfico
+ETA = mare(INSTANTE)  # m acima do zero hidrográfico
 H = PROF_ZH + ETA  # m, profundidade junto ao berço no INSTANTE
 F_DARCY = 0.02  # fator de atrito de Darcy-Weisbach do fundo
 # Viscosidade turbulenta adimensional do SKM. Knight (1999, Int. J. Sediment
@@ -121,8 +137,8 @@ B_RIO = 400.0  # m, largura do rio no Berço 2
 # Schettini, 2003, Notas Téc. Facimar 7:63-72). Trocar pela vazão do dia.
 Q_RIO = 215.0  # m³/s
 # Propagação da maré medida (analise_propagacao_mare.py, DC01 -> DC11, 11/11/2026)
-RAZAO_AMPLITUDE = 0.67
-ATRASO_NIVEL_MIN = 75.0
+RAZAO_AMPLITUDE = 0.65
+ATRASO_NIVEL_MIN = 80.0
 DIST_KM = 11.4  # em linha reta
 _W_M2 = 2 * np.pi / (12.4206012 * 3600)  # rad/s
 _a, _b = -np.log(RAZAO_AMPLITUDE), _W_M2 * 60 * ATRASO_NIVEL_MIN
@@ -266,8 +282,8 @@ def serie_corrente(inicio, horas=24, passo_min=10, q_rio=None, area=A_MONTANTE):
     q_rio = Q_RIO if q_rio is None else q_rio
     n = int(horas * 60 / passo_min) + 1
     tempos = [inicio + timedelta(minutes=passo_min * k) for k in range(n)]
-    eta = np.array([prever_mare_itajai(t) for t in tempos])
-    atrasado = np.array([prever_mare_itajai(t - timedelta(seconds=ATRASO_FLUXO_S)) for t in tempos])
+    eta = mare(tempos)
+    atrasado = mare([t - timedelta(seconds=ATRASO_FLUXO_S) for t in tempos])
     deta = np.gradient(atrasado, 60.0 * passo_min)  # m/s, na foz, defasado
     h = PROF_ZH + eta
     u = u_inf_de_vazao(q_rio - area * deta, h)
@@ -291,9 +307,8 @@ def tabela_corrente(inicio=None):
 
 def tabela_vazoes(vazoes=(250, 500, 1000, 2000, 4000)):
     """U_inf e tau na parede por vazão, na baixa-mar e na preamar do dia do INSTANTE."""
-    from previsao_mare_itajai import extremos
     dia = INSTANTE.replace(hour=0, minute=0, second=0, microsecond=0)
-    etas = [e[1] for e in extremos(dia)]
+    etas = [e[1] for e in MARE.extremos(_local(dia), _local(dia) + timedelta(days=1))]
     h_min, h_max = PROF_ZH + min(etas), PROF_ZH + max(etas)
     print(f'{dia:%d/%m/%Y}: H de {h_min:.2f} m (baixa-mar) a {h_max:.2f} m (preamar), B = {B_RIO:.0f} m')
     print(f"{'Q (m³/s)':>9} | {'U_inf (nós)':>17} | {'τ parede (Pa)':>17}")

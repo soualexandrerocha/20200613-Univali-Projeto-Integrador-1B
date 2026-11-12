@@ -15,7 +15,7 @@ Para cada estação, ajusta por mínimos quadrados
 
     nivel(t) = r * eta(t - atraso) + c0 + c1 * t
 
-onde eta é a maré prevista na foz (previsao_mare_itajai.py), r é a razão de
+onde eta é a maré prevista na foz (mare_itajai.py), r é a razão de
 amplitude, `atraso` é procurado em passos de 5 min e c0 + c1*t absorve o
 zero da régua e a tendência fluvial. Com r e o atraso de uma estação a uma
 distância x da foz, uma onda amortecida exponencialmente equivale, para o
@@ -38,12 +38,11 @@ from pathlib import Path
 
 import numpy as np
 
-import previsao_mare_itajai as pm
-
 URL = 'https://monitoramento.defesacivil.itajai.sc.gov.br/monitoramento/rios'
 ARQ = Path(__file__).with_name('dados') / 'niveis_defesacivil_itajai.csv'
 REFERENCIA = 'DC01'  # Rio Itajaí-Açu - ICMBio/CEPSUL, junto à foz e ao porto
 W_M2 = 2 * np.pi / (12.4206012 * 3600)  # rad/s
+_MARE = None
 
 
 def baixar():
@@ -105,11 +104,14 @@ def distancia_km(a, b):
 
 def ajustar(serie, atrasos_min=range(-30, 181, 5)):
   """(r, atraso_min, rms_m) do melhor ajuste nivel = r*eta(t - atraso) + c0 + c1*t."""
+  from mare_itajai import Mare  # importado aqui: a coleta não precisa de utide/plotly
+  global _MARE
+  if _MARE is None:
+    _MARE = Mare()
   t, h = serie[:, 0], serie[:, 1]
   melhor = None
   for atraso in atrasos_min:
-    eta = np.array([pm.prever_mare_itajai(datetime.fromtimestamp(x - 60 * atraso, timezone.utc))
-                    for x in t])
+    eta = _MARE.altura_utc(np.array(t - 60 * atraso, dtype='int64').astype('datetime64[s]'))
     A = np.c_[eta, np.ones_like(eta), (t - t.mean()) / 86400]
     c, *_ = np.linalg.lstsq(A, h, rcond=None)
     rms = float(np.sqrt(np.mean((h - A @ c) ** 2)))
