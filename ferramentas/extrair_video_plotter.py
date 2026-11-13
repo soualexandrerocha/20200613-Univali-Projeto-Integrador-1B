@@ -23,7 +23,7 @@ traz a corrente em m/s e a direção para onde ela vai em graus verdadeiros
 O vento também empurra o casco. A velocidade medida inclui esse arrasto,
 que costuma ser pequeno com vento fraco. Com `--vento`, o script desconta
 esse arrasto: supõe que o casco anda com uma fração (`--arrasto`, padrão
-0,03) da velocidade do vento, no sentido para onde o vento sopra, e
+0,055) da velocidade do vento, no sentido para onde o vento sopra, e
 grava também a corrente corrigida. O vento é informado como "vindo de",
 em graus verdadeiros ou pontos da rosa (SE, ESE, NO, NW...):
 
@@ -34,15 +34,17 @@ O CSV de vento tem as colunas `hora,vel_nos,dir` (hora local, HH:MM ou
 HH:MM:SS, no mesmo relógio do plotter).
 
 A fração de arrasto depende da lancha (área exposta ao vento contra
-área submersa). O padrão de 3% é uma regra prática de busca e salvamento
-para embarcações pequenas, uma ordem de grandeza e não uma medida.
+área submersa). O padrão de 5,5% é uma estimativa para a PILOT-III
+(40 pés, calado de 1 m): cerca de 22 m² ao vento contra 8–9 m² na água,
+pelo equilíbrio de arrasto sqrt(rho_ar*A_ar / (rho_agua*A_agua)), que dá
+5,3–5,9%. Não é uma medida; para outra lancha, informe --arrasto.
 
 Requisitos: ffmpeg e tesseract no sistema; `pip install opencv-python-headless
 pytesseract pygeomag`.
 
 Uso:
     python ferramentas/extrair_video_plotter.py VIDEO.mp4 saida/ [--quadros] [--motor]
-        [--vento 11.5@SE | --vento vento.csv] [--arrasto 0.03]
+        [--vento 11.5@SE | --vento vento.csv] [--arrasto 0.055]
 """
 
 import argparse
@@ -228,9 +230,9 @@ def main():
                    help="lancha navegando: não converte SOG/COG em corrente")
     p.add_argument("--vento",
                    help='"VEL@DIR" (nós, de onde vem) ou CSV hora,vel_nos,dir')
-    p.add_argument("--arrasto", type=float, default=0.03,
+    p.add_argument("--arrasto", type=float, default=0.055,
                    help="fração da velocidade do vento com que o casco "
-                        "deriva (padrão 0.03)")
+                        "deriva (padrão 0.055, PILOT-III)")
     args = p.parse_args()
 
     saida = Path(args.saida)
@@ -340,7 +342,7 @@ def main():
         print(f"lancha como flutuador; declinação {decl:+.1f}° "
               "(COG magnético -> direção verdadeira da corrente)")
         if args.vento:
-            print(f"vento descontado com arrasto de {args.arrasto:.0%} "
+            print(f"vento descontado com arrasto de {args.arrasto:.1%} "
                   "(colunas *_sem_vento)")
     elif not args.motor:
         print("sem posição e data legíveis: colunas de corrente não geradas")
