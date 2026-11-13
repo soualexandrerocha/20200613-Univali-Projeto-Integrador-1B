@@ -148,6 +148,11 @@ a { color: var(--water); }
       <div class="linha"><span class="dica">Dia típico no porto ~215 m³/s (Indaial 1929–2021: mediana 139, média 229, P90 494)</span><button type="button" id="q-media">Típica</button></div>
     </div>
     <div class="campo">
+      <div class="linha"><label class="rotulo" for="nivel">Nível em Blumenau (AlertaBlu, m)</label><span class="valor" id="nivel-val"></span></div>
+      <input type="number" id="nivel" step="0.01" min="0" max="16" placeholder="ex.: 3,60">
+      <div class="linha"><span class="dica" id="nivel-dica"></span><button type="button" id="nivel-medido">Medido no dia</button></div>
+    </div>
+    <div class="campo">
       <div class="linha"><label class="rotulo" for="lef">Trecho de enchimento (L<sub>ef</sub>)</label><span class="valor" id="lef-val"></span></div>
       <input type="range" id="lef" min="0" max="90" step="0.1">
       <div class="linha"><span class="dica" id="lef-dica"></span><button type="button" id="lef-medido">Medido</button></div>
@@ -225,6 +230,7 @@ a { color: var(--water); }
     <ul>
       <li>Vazão pela seção: Q = Q<sub>rio</sub> − B·L<sub>ef</sub>·dη/dt, com η a maré na foz defasada do atraso do fluxo. Média vertical: Q / (H·(B<sub>seção</sub> − δ)), com H = profundidade no NR + maré e δ = 2(1 − ln 2)/γ.</li>
       <li>Duas camadas (cunha salina, Knudsen): a camada superior leva Q<sub>rio</sub>/(1 − σ) mais a vazante de maré; a de fundo traz a água do mar, mais a enchente. σ e a espessura da camada superior variam com a vazão, calibrados em dois pontos: com 230 m³/s, σ = 0,7 e 3,8 m, pelos fluxos de sal de Zaleski &amp; Schettini (2003); com 1.200 m³/s, σ = 0 (cunha expulsa) e 5,1 m, pela corrente acima de 2 nós observada no trecho A às 08:00 de 12/11/2026, quando a curva-chave de Blumenau dá ~900 m³/s lá (~1.200 no porto). Entre os dois, interpolação linear; acima de 1.200 m³/s, extrapolação.</li>
+      <li>Nível em Blumenau → vazão: curva-chave Q = a·(h − h₀)<sup>b</sup> ajustada às séries de cota e vazão da ANA em Blumenau (83800002) de 2005 a 2014; a vazão no porto é a de Blumenau dividida por 0,75 (estimativa da fração da bacia). Supõe o mesmo zero de régua no AlertaBlu e na ANA; o leito pode ter mudado desde 2014; numa cheia subindo rápido, o nível de Blumenau adianta a vazão no porto em algumas horas. Ao abrir o dia, o painel usa a média das leituras do AlertaBlu coletadas naquele dia, se houver.</li>
       <li>Perfil junto ao cais pelo método de Shiono &amp; Knight (SKM): U(y) = U<sub>∞</sub>·√(1 − e<sup>−γy</sup>). Com U<sub>∞</sub> fixo, a tensão na parede não depende da profundidade.</li>
       <li>O trecho de enchimento L<sub>ef</sub> é o comprimento de rio, na largura do porto, que, enchendo em fase com a maré na foz, troca o mesmo volume que o rio real, com a largura medida na Carta Náutica 1841 e a maré atenuada e atrasada rio acima. Não é o prisma de maré: o prisma (Dyer &amp; Taylor, 1973) soma, trecho a trecho, o volume na preamar menos o da baixa-mar, largura × amplitude local × comprimento, e mostrado na dica do controle. Como os trechos não enchem ao mesmo tempo, o volume que passa pela foz, que é o que move a corrente, é menor. O L<sub>ef</sub> medido vem de poucos ciclos de maré, usa distâncias pelo rio estimadas pela sinuosidade (1,81 na carta; 1,56 até Blumenau), largura de 200 m além da carta, termina no Salto (Blumenau) e não inclui o Itajaí-Mirim. Trate a corrente de maré como limite inferior, não como valor de projeto.</li>
       <li>No modelo de duas camadas, a vazante de maré vai toda pela camada superior e a enchente toda pela de fundo; por isso a superfície nunca inverte. Medições de 1994–95 (Schettini &amp; Carvalho, 1998) mostram que ela às vezes inverte na enchente. Espessura da camada e σ variam com a maré e a vazão; aqui são fixos.</li>
@@ -253,7 +259,7 @@ const sliderDeQ = q => 1000 * Math.log(q / Q_MIN) / Math.log(Q_MAX / Q_MIN);
 
 const est = {
   dia: null, q: P0.q_rio, lef: P0.l_ef_km, atr: P0.atraso_fluxo_h,
-  prof: P0.prof_zh, larg: P0.b_rio, fd: P0.f_darcy, lam: P0.lambda, sel: null, estacao: 'DC11',
+  prof: P0.prof_zh, larg: P0.b_rio, fd: P0.f_darcy, lam: P0.lambda, sel: null, estacao: 'DC11', nivel: null,
   secao: Object.keys(P0.secoes)[0],
 };
 
@@ -405,7 +411,7 @@ function desenharVazao() {
     x0: Q_MIN, x1: Q_MAX, logx: true, y0: 0, y1: Math.max(...us, ...um), xticks: xt, altura: 190,
     series: [{ x: qs, y: um, cls: 's-rio' }, { x: qs, y: us, cls: 's-total' }],
     pontos: [{ x: est.q, y: camadas(est.q, 0, hm, b)[0] / KN, cls: 'm-q', r: 5 }],
-    aoEscolher: q => { est.q = Math.round(q); $('q').value = sliderDeQ(est.q); atualizar(); },
+    aoEscolher: q => { est.nivel = null; $('nivel').value = ''; est.q = Math.round(q); $('q').value = sliderDeQ(est.q); atualizar(); },
   });
   const W = svg.viewBox.baseVal.width, H = svg.viewBox.baseVal.height, e = 48, d = 22;
   const X = v => e + (Math.log10(v) - Math.log10(Q_MIN)) / (Math.log10(Q_MAX) - Math.log10(Q_MIN)) * (W - e - d);
@@ -453,7 +459,36 @@ function montarEstacoes() {
   $('obs-ate').textContent = `${ddmm(OBS.fim_ms)} ${hhmm(OBS.fim_ms)}`;
 }
 
+const CV = P0.curva_blumenau;
+function qBlumenau(h) { return CV.a * Math.pow(Math.max(h - CV.h0, 0), CV.b); }
+function serieEstacao(cod) {
+  const o = OBS.estacoes.find(e => e.codigo === cod);
+  if (!o) return null;
+  const t = [o.t0_ms]; o.dt_s.forEach(d => t.push(t[t.length - 1] + d * 1e3));
+  return { t, h: o.h_cm.map(v => v / 100) };
+}
+function nivelMedidoNoDia() {
+  const s = serieEstacao('BLU'); if (!s || !est.dia) return null;
+  const t0 = meiaNoite(est.dia), v = s.h.filter((_, i) => s.t[i] >= t0 && s.t[i] < t0 + 86400e3);
+  return v.length ? v.reduce((a, b) => a + b, 0) / v.length : null;
+}
+function aplicarNivel(h, auto = false) {
+  est.nivel = h; est.nivelAuto = auto; $('nivel').value = h.toFixed(2);
+  est.q = Math.round(qBlumenau(h) / P0.fracao_area_porto); $('q').value = sliderDeQ(est.q);
+}
+
 function rotulos() {
+  const erro = Math.round(100 * (Math.exp(CV.erro_log) - 1));
+  if (est.nivel != null) {
+    const qb = qBlumenau(est.nivel), fora = est.nivel > P0.faixa_curva_m[1];
+    $('nivel-val').textContent = `${nf(qb, 0)} m³/s`;
+    $('nivel-dica').textContent = `Vazão em Blumenau pela curva-chave ANA ${P0.periodo_curva[0]}–${P0.periodo_curva[1]} (erro ~${erro}%); no porto, ÷ ${nf(P0.fracao_area_porto, 2)} = ${nf(est.q, 0)} m³/s.` + (fora ? ` Acima da maior cota do ajuste (${nf(P0.faixa_curva_m[1], 2)} m): extrapolação.` : '');
+    $('nivel-dica').style.color = fora ? 'var(--tau)' : '';
+  } else {
+    $('nivel-val').textContent = '';
+    $('nivel-dica').textContent = nivelMedidoNoDia() == null ? 'Digite o nível; não há leitura do AlertaBlu coletada neste dia.' : 'Digite o nível ou use o medido no dia.';
+    $('nivel-dica').style.color = '';
+  }
   document.querySelectorAll('#secoes button').forEach(bt => bt.setAttribute('aria-pressed', bt.dataset.s === est.secao));
   const [sg, hs] = parametrosCunha(est.q);
   $('aviso-q').textContent = `Cunha salina com esta vazão: σ = ${nf(sg, 2)}, camada superior ${nf(hs, 1)} m` + (est.q > P0.q_alta ? ` (acima de ${nf(P0.q_alta, 0)} m³/s: extrapolação)` : '');
@@ -479,13 +514,20 @@ function diaDe(t) { const d = new Date(t + FUSO_MS); return d.toISOString().slic
 function definirDia(s) {
   const t = meiaNoite(s);
   if (!(t > MARE.ini + 86400e3 && t < MARE.fim - 2 * 86400e3)) return;
-  est.dia = s; $('dia').value = s; est.sel = null; atualizar();
+  est.dia = s; $('dia').value = s; est.sel = null;
+  const hm = nivelMedidoNoDia();
+  if (hm != null) aplicarNivel(hm, true);
+  else if (est.nivelAuto) { est.nivel = null; est.nivelAuto = false; $('nivel').value = ''; est.q = P0.q_rio; $('q').value = sliderDeQ(est.q); }
+  atualizar();
 }
 $('dia').min = diaDe(MARE.ini + 2 * 86400e3); $('dia').max = diaDe(MARE.fim - 3 * 86400e3);
 $('dia').addEventListener('change', e => e.target.value && definirDia(e.target.value));
 $('hoje').onclick = () => definirDia(diaDe(Date.now()));
-$('q').addEventListener('input', e => { est.q = Math.round(qDeSlider(+e.target.value)); atualizar(); });
-$('q-media').onclick = () => { est.q = P0.q_rio; $('q').value = sliderDeQ(est.q); atualizar(); };
+const semNivel = () => { est.nivel = null; est.nivelAuto = false; $('nivel').value = ''; };
+$('q').addEventListener('input', e => { semNivel(); est.q = Math.round(qDeSlider(+e.target.value)); atualizar(); });
+$('q-media').onclick = () => { semNivel(); est.q = P0.q_rio; $('q').value = sliderDeQ(est.q); atualizar(); };
+$('nivel').addEventListener('change', e => { const v = parseFloat(String(e.target.value).replace(',', '.')); if (v > 0) { aplicarNivel(v); atualizar(); } else { semNivel(); atualizar(); } });
+$('nivel-medido').onclick = () => { const hm = nivelMedidoNoDia(); if (hm != null) aplicarNivel(hm, true); atualizar(); };
 $('lef').addEventListener('input', e => { est.lef = +e.target.value; atualizar(); });
 $('lef-medido').onclick = () => { est.lef = P0.l_ef_km; $('lef').value = est.lef; atualizar(); };
 $('atr').addEventListener('input', e => { est.atr = +e.target.value; atualizar(); });

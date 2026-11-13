@@ -32,6 +32,9 @@ ARQ = RAIZ / 'dados' / 'cota_vazao_blumenau_83800002.csv'
 URL = ('https://telemetriaws1.ana.gov.br/ServiceANA.asmx/HidroSerieHistorica?codEstacao=83800002'
        '&dataInicio=01/01/1900&dataFim=31/12/2100&tipoDados={tipo}&nivelConsistencia=')
 PERIODO = (2005, 2014)  # anos usados no ajuste (os mais recentes com vazão)
+# Blumenau -> porto: Blumenau não inclui o Itajaí-Mirim nem os afluentes de jusante.
+# Indaial drena ~70% da bacia; Blumenau, um pouco mais. 0,75 é estimativa.
+FRACAO_AREA_PORTO = 0.75
 FUSO = timezone(timedelta(hours=-3))
 
 
@@ -84,6 +87,21 @@ def ajustar(periodo=PERIODO):
     if melhor is None or rms < melhor[3]:
       melhor = (float(np.exp(c[0])), float(h0), float(c[1]), rms)
   return melhor
+
+
+def faixa_cotas(periodo=PERIODO):
+  """(mínima, máxima) das cotas diárias usadas no ajuste, em m."""
+  h = []
+  with ARQ.open() as f:
+    for r in csv.DictReader(f):
+      if r['cota_m'] and r['vazao_m3s'] and periodo[0] <= int(r['data'][:4]) <= periodo[1]:
+        h.append(float(r['cota_m']))
+  return min(h), max(h)
+
+
+def vazao_porto(h, curva):
+  """Vazão no porto (m³/s) a partir do nível em Blumenau (m)."""
+  return vazao(h, curva) / FRACAO_AREA_PORTO
 
 
 def vazao(h, curva):

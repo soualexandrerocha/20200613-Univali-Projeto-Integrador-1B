@@ -32,6 +32,7 @@ import plotly.graph_objects as go  # noqa: E402
 go.Figure.show = lambda *a, **k: None  # importar o script do berço não abre figura
 import analise_propagacao_mare as ap  # noqa: E402
 import cisalhamento_berco2_zp21 as cb  # noqa: E402
+import curva_chave_blumenau as ccb  # noqa: E402
 import gerar_pagina  # noqa: E402
 
 ESTACOES_COM_MARE = ('DC01', 'DC11', 'BLU', 'DC03', 'DC04', 'DC06', 'DC09')
@@ -53,6 +54,10 @@ def parametros():
         'q_baixa': cb.Q_BAIXA, 'sigma_baixa': cb.SIGMA_BAIXA, 'h_baixa': cb.H_SUP_BAIXA,
         'q_alta': cb.Q_ALTA, 'sigma_alta': cb.SIGMA_ALTA, 'h_alta': cb.H_SUP_ALTA,
         'secoes': cb.SECOES,
+        'curva_blumenau': dict(zip(('a', 'h0', 'b', 'erro_log'), ccb.ajustar())),
+        'faixa_curva_m': ccb.faixa_cotas(),
+        'periodo_curva': ccb.PERIODO,
+        'fracao_area_porto': ccb.FRACAO_AREA_PORTO,
         'atraso_fluxo_h': round(float(cb.ATRASO_FLUXO_S) / 3600, 3),
         'no_ms': cb.NO_PARA_MS,
     }
