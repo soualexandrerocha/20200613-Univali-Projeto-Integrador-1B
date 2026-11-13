@@ -127,6 +127,12 @@ Ao rodar, também imprime:
 Com velocidade fixa, a tensão na parede não depende da profundidade; a
 maré só pesa por meio da vazão e da corrente de maré.
 
+A corrente é calculada em duas camadas (cunha salina, balanço de Knudsen):
+a camada superior leva Q_rio/(1 − σ) mais a vazante de maré. σ = 0,7 vem de
+Zaleski & Schettini (2003); a espessura de 3,4 m foi calibrada com a corrente
+de superfície acima de 2 nós observada no trecho A às 08:00 de 12/11/2026.
+Vale para cunha salina plena (até ~250 m³/s).
+
 ## Propagação da maré e coleta de níveis — `analise_propagacao_mare.py`
 
 Baixa as séries de 12 h da telemetria da Defesa Civil de Itajaí
@@ -156,7 +162,8 @@ python analise_propagacao_mare.py --so-coletar # só coleta (usado no workflow)
 Página autossuficiente com painéis interativos: maré, corrente e tensão no
 cais ao longo do dia; perfil junto ao cais na hora escolhida; relação entre
 vazão e corrente; e a propagação da maré medida pela Defesa Civil. Data,
-vazão, trecho de enchimento da maré, profundidade, largura e atrito são ajustáveis, e o
+vazão, trecho de enchimento da maré, seção (Berço 2 ou trecho A, canal entre
+as bacias), profundidade, largura, atrito e parâmetros da cunha salina são ajustáveis, e o
 modelo é recalculado no navegador.
 
 ```bash

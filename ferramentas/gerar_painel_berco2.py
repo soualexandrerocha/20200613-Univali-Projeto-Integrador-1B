@@ -50,6 +50,9 @@ def parametros():
         'x_salto_km': cb.X_SALTO_KM,
         'l_ef_km': round(float(cb.L_EFETIVO) / 1e3, 2),
         'l_prisma_km': round(float(cb.L_PRISMA) / 1e3, 2),
+        'sigma': cb.SIGMA_SAL, 'h_sup': cb.H_SUP,
+        'q_cunha_plena': cb.Q_CUNHA_PLENA, 'q_expulsao': cb.Q_EXPULSAO,
+        'secoes': cb.SECOES,
         'atraso_fluxo_h': round(float(cb.ATRASO_FLUXO_S) / 3600, 3),
         'no_ms': cb.NO_PARA_MS,
     }
