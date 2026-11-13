@@ -139,6 +139,9 @@ de 12/11/2026, com a vazão do dia estimada pela curva-chave de Blumenau.
 Ajusta Q = a·(h − h₀)ᵇ às séries de cota e vazão da ANA em Blumenau (83800002;
 `dados/cota_vazao_blumenau_83800002.csv`) e converte o nível do AlertaBlu
 coletado em vazão. Em 12/11/2026, com 3,5–3,6 m, deu ~870–920 m³/s.
+No painel `pagina/berco2.html`, o nível de Blumenau pode ser a entrada: o
+painel converte em vazão em Blumenau e no porto (÷ 0,75) e, ao abrir um dia
+com leituras coletadas do AlertaBlu, usa a média delas.
 
 ```bash
 python ferramentas/curva_chave_blumenau.py            # baixa, ajusta e aplica
