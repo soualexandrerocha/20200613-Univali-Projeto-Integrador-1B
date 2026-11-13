@@ -172,3 +172,65 @@ python ferramentas/gerar_painel_berco2.py   # regenera com as leituras mais rece
 
 O workflow de coleta (`.github/workflows/coleta-niveis.yml`) regenera a
 página sempre que há leituras novas, a cada 6 h.
+
+## Folga sob a quilha e janelas de manobra — `pagina/folga_quilha.html`
+
+Formulário para calcular a folga estática sob a quilha (UKC) de um navio no
+Porto de Itajaí e os horários em que a manobra pode começar, com a maré
+astronômica de `mare_itajai.py`. Abre no navegador ou no celular, sem Python.
+
+**Entradas:** período e duração da manobra; reserva de nível (vento, maré
+meteorológica, vazão do rio); pontos de profundidade, cada um com seu trecho
+e seu referencial: NR da DHN, outro zero (com a cota desse zero em relação ao
+NR) ou medida no instante (a página desconta a maré daquele instante); calados
+AV/AR ou médio e trim; densidade em que o calado vale e densidade local, com
+FWA opcional; folga abaixo da quilha (FAQ) de cada trecho, editável.
+
+**Regras de FAQ preenchidas** (verificadas em 12/11/2026):
+
+| Trecho | FAQ base | Adicional temporário |
+|---|---|---|
+| Canal externo | 15 % do calado | — |
+| Canal interno | 10 % do calado | 0,80 m |
+| Bacia de evolução 1 | 0,60 m | 0,80 m |
+| Bacia de evolução 2 | 10 % do calado | 0,80 m |
+| Berços | 0,60 m | — |
+
+- FAQ base: NPCP-SC, Portaria 45/2023-CPSC, e Resolução SPI 013/2024 do Porto
+  de Itajaí, que dão CMR = MPO + Hmaré − FAQ.
+- Adicional: Ofício 755/2026 da Delegacia da Capitania dos Portos em Itajaí
+  (14/10/2026), pelas correntezas do El Niño, temporário e sem data de fim.
+  Os valores vêm de três veículos (Diarinho, BE News, Efficienza) que concordam
+  entre si; o adicional foi confirmado em vigor em 12/11/2026. Quando for
+  revogado, zere a coluna de adicional no formulário.
+- O exemplo usa as menores profundidades divulgadas pela Superintendência em
+  outubro de 2026 (canal externo 13,40 m, canal interno 13,10 m, bacia 1
+  12,80 m, bacia 2 13,50 m), válidas até 10/12/2026.
+
+**Cálculo** (`pagina/nucleo_ukc.js`):
+
+- calado corrigido = maior calado + ΔT. Com FWA, ΔT = FWA × (ρref − ρlocal) / 0,025;
+  sem FWA, T × ρref/ρlocal (casco tratado como caixa, o que superestima o afundamento).
+  A fórmula da NPCP-SC não tem essa correção; ela foi mantida de propósito,
+  por ser mais conservadora;
+- FAQ do ponto = valor do trecho (% sobre o maior calado já corrigido, ou m) +
+  adicional. A norma diz só "calado do navio"; usar o maior calado corrigido
+  é a leitura mais conservadora;
+- UKC(t) = profundidade no NR + maré(t) − reserva − calado corrigido;
+- a manobra pode começar em s se UKC ≥ FAQ em todos os pontos durante todo o
+  intervalo [s, s + duração], com passo de 1 min.
+
+Corrente, vento, ondas, visibilidade e rebocadores também limitam as manobras
+na NPCP-SC e não entram neste cálculo.
+
+**Saídas:** janelas de início, maré necessária e ponto limitante, gráfico,
+sensibilidade a nível 0,10–0,30 m abaixo do previsto, folga em cada PM/BM e
+resumo em texto para copiar.
+
+É folga **estática**: não inclui squat, balanço nem ondas. A maré é só a
+astronômica, com as limitações descritas acima.
+
+```bash
+python ferramentas/gerar_painel_ukc.py     # regenera a página
+python ferramentas/testar_painel_ukc.py    # confere o JavaScript contra o Python (precisa de node)
+```
