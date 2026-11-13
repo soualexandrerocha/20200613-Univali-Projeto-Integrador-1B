@@ -57,7 +57,8 @@ def parametros():
         'curva_blumenau': dict(zip(('a', 'h0', 'b', 'erro_log'), ccb.ajustar())),
         'faixa_curva_m': ccb.faixa_cotas(),
         'periodo_curva': ccb.PERIODO,
-        'fracao_area_porto': ccb.FRACAO_AREA_PORTO,
+        'razao_areas': ccb.RAZAO_AREAS_PORTO,
+        'razao_areas_faixa': ccb.RAZAO_AREAS_FAIXA,
         'atraso_fluxo_h': round(float(cb.ATRASO_FLUXO_S) / 3600, 3),
         'no_ms': cb.NO_PARA_MS,
     }

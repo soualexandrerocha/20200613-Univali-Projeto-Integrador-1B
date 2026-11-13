@@ -28,13 +28,20 @@ Grava um arquivo novo por coleta em dados/vazao_montante/
 repetições, pelo mesmo motivo de dados/niveis/: evitar conflitos de merge.
 Só o workflow de coleta commita esses arquivos (ver CLAUDE.md).
 
-Verificação (30/10 a 13/11/2026, 343 leituras horárias): o nível da PCH Salto
-Jusante (ANA 83800010, ~7 cm acima do AlertaBlu) passado pela curva-chave de
-Blumenau (ferramentas/curva_chave_blumenau.py) acompanha a vazão de Salto Pilão
-Jusante com correlação de 0,985 e defasagem de ~2 h (a escolhida por
-correlação, em passos de 2 h). A razão Blumenau / Salto Pilão tem mediana 1,15
-(P10 1,02; P90 1,34) e 1,07 na faixa de 800 a 1100 m³/s, a de 12/11. O
-aumento de ~7 a 15% entre os dois pontos é o que vem dos afluentes de baixo.
+Verificação (30/10 a 13/11/2026, 341 pares horários): o nível da PCH Salto
+Jusante (ANA 83800010, ~7 cm acima do AlertaBlu), passado pelas curvas-chave de
+Blumenau por período (ferramentas/curva_chave_blumenau.py), acompanha a vazão de
+Salto Pilão Jusante com correlação de 0,985 e defasagem de ~2 h (a de melhor
+correlação, em passos de 2 h). Razão Blumenau / Salto Pilão (mediana; P10-P90):
+  1939-1985 0,88 (0,77-1,04)  <- menos água em Blumenau que a montante: não serve
+  1990-2001 1,21;  2002-2007 1,15;  2008-2010 1,23;  2011 1,14;
+  2012-2014 1,07 (0,96-1,24), de 1,04 a 1,10 nas três faixas de vazão: a mais
+  estável, por isso o padrão. O acréscimo de ~7% é o dos afluentes de baixo.
+Com o nível do AlertaBlu, que é a entrada do painel, nos 3 dias estáveis de 11 a
+13/11 (32 leituras), a razão é de 0,96 para a curva de 2012-2014 e de 1,00 para a
+de 2002-2007: abaixo de 1 não é possível, então a curva padrão pode estar ~5%
+baixa, e a escolha entre as curvas de 2002 a 2014 não se resolve com 3 dias.
+Rodar `python vazao_montante.py --offline` refaz a tabela com os dados novos.
 
 Limitações: a "vazão" é a que a usina reporta; não sei se inclui a água
 vertida além da turbinada. As leituras podem ser revisadas depois pela ANA, e
@@ -160,7 +167,7 @@ def resumo():
 
 
 def comparar(dados):
-  """Razão entre a vazão de Blumenau pela curva-chave e a de Salto Pilão Jusante, por defasagem."""
+  """Razão entre a vazão de Blumenau pela curva-chave e a de Salto Pilão Jusante, por defasagem e por período."""
   import numpy as np
   sys.path.insert(0, str(Path(__file__).resolve().parent / 'ferramentas'))
   import analise_propagacao_mare as ap
@@ -171,18 +178,23 @@ def comparar(dados):
     return
   t_sp, q_sp = np.array([a for a, _ in sp]), np.array([b for _, b in sp])
   blu = series['BLU']
-  q_blu = ccb.vazao(blu[:, 1], ccb.ajustar())
+  curvas = {nome: c for nome, (c, _, _) in ccb.curvas_por_periodo().items()}
   print('\nVazão de Blumenau (curva-chave sobre o AlertaBlu) / vazão de Salto Pilão Jusante, '
-        'com a água de Salto Pilão chegando a Blumenau após a defasagem:')
-  for horas in (0, 6, 12, 18, 24):
+        'com a água de Salto Pilão chegando a Blumenau após a defasagem (mediana, mín-máx):')
+  print('  defasagem  ' + '  '.join(f'{nome:>16s}' for nome in curvas) + '   leituras')
+  for horas in (0, 2, 6, 12, 18, 24):
     alvo = blu[:, 0] - horas * 3600
     ok = (alvo >= t_sp[0]) & (alvo <= t_sp[-1])
     if ok.sum() < 6:
-      print(f'  defasagem {horas:2d} h: poucas leituras em comum')
+      print(f'  {horas:4d} h     poucas leituras em comum')
       continue
-    razao = q_blu[ok] / np.interp(alvo[ok], t_sp, q_sp)
-    print(f'  defasagem {horas:2d} h: mediana {np.median(razao):.2f} '
-          f'(de {razao.min():.2f} a {razao.max():.2f}; {ok.sum()} leituras)')
+    q_sp_l = np.interp(alvo[ok], t_sp, q_sp)
+    cel = []
+    for c in curvas.values():
+      r = ccb.vazao(blu[ok, 1], c) / q_sp_l
+      cel.append(f'{np.median(r):4.2f} ({r.min():.2f}-{r.max():.2f})')
+    print(f'  {horas:4d} h     ' + '  '.join(f'{x:>16s}' for x in cel) + f'   {ok.sum()}')
+  print('  (a curva de 2012-2014 é a usada pelo painel; razão abaixo de 1 não é fisicamente possível)')
 
 
 def main():
