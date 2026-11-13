@@ -342,12 +342,16 @@ O CSV de vento tem as colunas `hora,vel_nos,dir` (por exemplo
 `07:31,11,SE`), no mesmo relógio do plotter. Entre duas leituras, o vento
 é interpolado por componentes; fora do intervalo, vale a leitura mais
 próxima. O casco anda com uma fração `--arrasto` da velocidade do vento,
-padrão 0,03. Esse valor é uma regra prática para embarcações pequenas, não
-uma medida desta lancha.
+padrão 0,055, estimado para a lancha PILOT-III (40 pés, ou 12,2 m, e calado
+de 1 m). As outras medidas vieram de fotos: cerca de 22 m² expostos ao vento
+e 8–9 m² submersos. Pelo equilíbrio entre o arrasto do ar e o da água,
+√(ρ_ar·A_ar / (ρ_água·A_água)), isso dá 5,3–5,9%. É uma estimativa, não uma
+medida. Para outra lancha, informe `--arrasto`.
 
 No vídeo de 13/11/2026 o vento da praticagem era de 11–12 nós de SE,
-quase contrário à deriva. Com arrasto de 3%, a corrente passa de 0,84 para
-cerca de 1,01 m/s, e a direção vai de cerca de 155° para cerca de 151° V.
+quase contrário à deriva. Com arrasto de 5,5%, a corrente passa de 0,84
+para cerca de 1,15 m/s (2,2 nós), e a direção vai de cerca de 155° para
+cerca de 149° V. Com 3% seria 1,01 m/s.
 
 Cuidados:
 - O vento empurra o casco, e esse arrasto entra na velocidade medida. Vale
