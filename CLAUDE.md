@@ -34,4 +34,7 @@ localmente, gere-a, teste e descarte.
 - `cisalhamento_berco2_zp21.py`: corrente e tensão no Berço 2 (duas camadas).
 - `analise_propagacao_mare.py`: coleta de níveis e propagação da maré.
 - `ferramentas/`: geradores das páginas e extração de dados.
+- `ferramentas/extrair_video_plotter.py`: dados do plotter filmado com o
+  celular. Nesses vídeos a lancha é um flutuador (motor desligado), salvo
+  indicação em contrário: SOG e COG são a corrente superficial.
 - `README.md`: descrição de cada parte e como rodar.

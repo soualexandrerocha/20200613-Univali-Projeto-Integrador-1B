@@ -276,3 +276,43 @@ estão escritas no próprio painel. A geometria (margens, eixo, estações) est�
 python ferramentas/larguras_carta1841.py PASTA_DOS_TIF --mapa
 ```
 
+
+## Dados de vídeo do plotter — `ferramentas/extrair_video_plotter.py`
+
+Converte um vídeo de celular apontado para a tela de um chartplotter num CSV
+com uma linha por segundo da hora mostrada na tela: data, hora, latitude e
+longitude (graus decimais), SOG (nós), COG (graus **magnéticos**, como
+mostrado na tela) e profundidade. Usa ffmpeg para tirar um quadro por
+segundo e Tesseract para ler o painel da direita, com voto entre dois modos
+de OCR. Leituras duvidosas ficam vazias em vez de erradas: um dígito em
+transição, uma posição que salta mais de 50 m ou um SOG que difere mais de
+0,3 nó dos vizinhos. Um campo que a tela mostra como `---` também fica
+vazio. Com `--quadros`, grava também o PNG de cada linha, para uma IA que
+lê imagens.
+
+```bash
+# requer ffmpeg, tesseract-ocr e: pip install opencv-python-headless pytesseract pygeomag
+python ferramentas/extrair_video_plotter.py VIDEO.mp4 saida/ --quadros
+python ferramentas/extrair_video_plotter.py VIDEO.mp4 saida/ --motor   # lancha navegando
+```
+
+**Lancha como flutuador (padrão).** Nas filmagens deste projeto a lancha
+deriva com o motor desligado, salvo indicação em contrário. Assim, SOG e COG
+(relativos ao fundo, pelo GPS) medem a corrente superficial. O script
+acrescenta `corr_vel_ms` (SOG em m/s) e `corr_dir_verd`, a direção para onde
+a corrente vai, em graus verdadeiros: COG magnético mais a declinação do
+WMM 2025, cerca de −20,3° em Itajaí em nov/2026. Com `--motor`, essas
+colunas não são geradas.
+
+Cuidados:
+- O vento empurra o casco, e esse arrasto entra na velocidade medida. Vale
+  anotar ou dizer no vídeo a intensidade e a direção do vento.
+- A medida representa a camada da água até o calado da lancha, não a coluna
+  inteira.
+- A resolução da tela é de 0,1 nó (cerca de 0,05 m/s) e 1° no COG.
+
+No vídeo de 13/11/2026, das 07:31 às 07:34, a direção calculada só pelas
+posições (sem bússola) dá 153–156° V, e a do COG convertido dá cerca de
+154° V. As velocidades também batem: 0,84 m/s pelas posições e pelo SOG.
+
+Os vídeos e as saídas não vão para o repositório.
