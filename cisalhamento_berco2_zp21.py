@@ -112,7 +112,9 @@ espalha Q_RIO por toda a coluna, então a transição real é desconhecida. sigm
 fluxos de sal medidos por Zaleski & Schettini junto à barra; H_SUP = 3,4 m
 foi calibrado para dar 2 nós na superfície do trecho A (canal entre as
 bacias, 280 m de largura na Carta 1841) às 08:00 de 12/11/2026, quando se
-observaram mais de 2 nós (logo, H_SUP é um limite superior). Conferência
+observaram mais de 2 nós (logo, H_SUP é um limite superior). A calibração
+supõe Q_RIO = 215 m³/s naquele dia, valor não medido: com 150 m³/s, H_SUP
+sairia ~2,6 m; com 300 m³/s, ~4,4 m. Conferência
 independente: com Q = 151 m³/s e o canal de ~8 m de 2000, o modelo dá
 residual de 0,42 m/s na superfície e 0,22 m/s no fundo; os fluxos de sal do
 artigo indicam ~0,35-0,8 e ~0,26-0,37 m/s. A tensão no cais usa a corrente
@@ -183,8 +185,16 @@ C_CAIS = 300.0  # m, trecho de cais representado
 B_CANAL = 100.0  # m, distância ao cais representada (borda aberta)
 
 B_RIO = 400.0  # m, largura do rio no Berço 2
-# Vazão fluvial média do Itajaí-Açu no estuário, ~215 m³/s (Zaleski &
-# Schettini, 2003, Notas Téc. Facimar 7:63-72). Trocar pela vazão do dia.
+# Vazão do rio no porto (m³/s). 215 é a média dos dias do experimento de
+# Zaleski & Schettini (2003, Notas Téc. Facimar 7:63-72, Tabela 2), janeiro
+# de 2000, medida em Indaial (ANA 83690000, ~90 km acima, ~70% da bacia); não
+# é média de longo prazo. Pela série de Indaial 1929-2021
+# (ferramentas/vazao_indaial.py): média 229, mediana 139, P10 56, P90 494
+# m³/s; escalando pela área (/0,70), no porto a mediana fica em ~200 e a média
+# em ~330 m³/s. 215 representa um dia típico no porto. A vazão real de
+# 12/11/2026, dia da calibração de H_SUP, não é conhecida: a série consistida
+# da ANA termina em 2021 e a telemetria não traz vazão de Indaial.
+# Trocar pela vazão do dia quando houver.
 Q_RIO = 215.0  # m³/s
 # Propagação da maré medida (analise_propagacao_mare.py, 11-12/11/2026):
 # (distância pelo rio da foz em km, razão de amplitude, atraso em min)

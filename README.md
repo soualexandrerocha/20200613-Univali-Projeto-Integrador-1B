@@ -121,7 +121,7 @@ praticagem (Itajaí 2 = Berço 2, 12,8 m) mais a maré de `mare_itajai.py`.
 Ao rodar, também imprime:
 
 - a vazão equivalente a cada velocidade (largura do rio de 400 m);
-- a corrente ao longo do dia: vazão fluvial (215 m³/s, média) mais a
+- a corrente ao longo do dia: vazão fluvial (215 m³/s, um dia típico no porto) mais a
   corrente de maré pelo método do prisma de maré, com a atenuação medida rio acima.
 
 Com velocidade fixa, a tensão na parede não depende da profundidade; a
@@ -235,3 +235,16 @@ astronômica, com as limitações descritas acima.
 python ferramentas/gerar_painel_ukc.py     # regenera a página
 python ferramentas/testar_painel_ukc.py    # confere o JavaScript contra o Python (precisa de node)
 ```
+
+## Vazão do rio em Indaial — `ferramentas/vazao_indaial.py`
+
+Baixa da ANA a série diária de vazão de Indaial (estação 83690000, ~70% da
+bacia), grava `dados/vazao_indaial_83690000.csv` e resume: em 1929–2021,
+média de 229 m³/s, mediana de 139 m³/s, P90 de 494 m³/s. A série consistida
+termina em 2021.
+
+```bash
+python ferramentas/vazao_indaial.py            # baixa e resume
+python ferramentas/vazao_indaial.py --offline  # só resume
+```
+
