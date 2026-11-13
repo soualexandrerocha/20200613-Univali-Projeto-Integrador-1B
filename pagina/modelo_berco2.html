@@ -248,7 +248,7 @@ a { color: var(--water); }
     </section>
     <section class="painel" aria-labelledby="t-vazao">
       <h2 id="t-vazao">Vazão e corrente</h2>
-      <p>Só o rio, sem maré, na seção escolhida: corrente residual na camada superior e média vertical, para cada vazão. Acima de 1.200 m³/s (área sombreada) é extrapolação. O círculo marca a vazão escolhida.</p>
+      <p>Só o rio, sem maré, na seção escolhida: corrente residual na camada superior e média vertical, para cada vazão. Acima de 1.100 m³/s (área sombreada) é extrapolação. O círculo marca a vazão escolhida.</p>
       <div class="legenda"><span class="vaz">camada superior</span><span class="tracejado" style="color:var(--rio)">média vertical</span></div>
       <svg class="g" id="g-vazao" role="img" aria-label="Corrente em função da vazão"></svg>
       <div class="tabela"><table id="t-vaz"></table></div>
@@ -268,8 +268,8 @@ a { color: var(--water); }
     <h2>Como ler e limitações</h2>
     <ul>
       <li>Vazão pela seção: Q = Q<sub>rio</sub> − B·L<sub>ef</sub>·dη/dt, com η a maré na foz defasada do atraso do fluxo. Média vertical: Q / (H·(B<sub>seção</sub> − δ)), com H = profundidade no NR + maré e δ = 2(1 − ln 2)/γ.</li>
-      <li>Duas camadas (cunha salina, Knudsen): a camada superior leva Q<sub>rio</sub>/(1 − σ) mais a vazante de maré; a de fundo traz a água do mar, mais a enchente. σ e a espessura da camada superior variam com a vazão, calibrados em dois pontos: com 230 m³/s, σ = 0,7 e 3,8 m, pelos fluxos de sal de Zaleski &amp; Schettini (2003); com 1.200 m³/s, σ = 0 (cunha expulsa) e 5,1 m, pela corrente acima de 2 nós observada no trecho A às 08:00 de 12/11/2026, quando a curva-chave de Blumenau dá ~900 m³/s lá (~1.200 no porto). Entre os dois, interpolação linear; acima de 1.200 m³/s, extrapolação.</li>
-      <li>Nível em Blumenau → vazão: curva-chave Q = a·(h − h₀)<sup>b</sup> ajustada às séries de cota e vazão da ANA em Blumenau (83800002) de 2005 a 2014; a vazão no porto é a de Blumenau dividida por 0,75 (estimativa da fração da bacia). Supõe o mesmo zero de régua no AlertaBlu e na ANA; o leito pode ter mudado desde 2014; numa cheia subindo rápido, o nível de Blumenau adianta a vazão no porto em algumas horas. Ao abrir o dia, o painel usa a média das leituras do AlertaBlu coletadas naquele dia, se houver.</li>
+      <li>Duas camadas (cunha salina, Knudsen): a camada superior leva Q<sub>rio</sub>/(1 − σ) mais a vazante de maré; a de fundo traz a água do mar, mais a enchente. σ e a espessura da camada superior variam com a vazão, calibrados em dois pontos: com 230 m³/s, σ = 0,7 e 3,8 m, pelos fluxos de sal de Zaleski &amp; Schettini (2003); com 1.100 m³/s, σ = 0 (cunha expulsa) e 4,7 m, pela corrente acima de 2 nós observada no trecho A às 08:00 de 12/11/2026, quando a curva-chave de Blumenau dá ~850 m³/s lá (~1.080 no porto, de 960 a 1.080 conforme a razão de áreas). Entre os dois, interpolação linear; acima de 1.100 m³/s, extrapolação.</li>
+      <li>Nível em Blumenau → vazão: curva-chave Q = a·(h − h₀)<sup>b</sup> ajustada às séries de cota e vazão da ANA em Blumenau (83800002) do período mais recente com vazão, 2012–2014 (a curva da ANA mudou ao longo do tempo: para 3,6 m, as de 1990 a 2014 dão de 850 a 985 m³/s, uma incerteza de ~±7% que os dados de montante ainda não resolvem, e a de 1939–1985 dá 680, que não serve para hoje). A vazão no porto é a de Blumenau vezes a razão das áreas de drenagem, 1,27, o extremo alto da faixa de 1,13 a 1,27 porque o Itajaí-Mirim deságua a montante do berço; a área do porto não foi conferida. Supõe o mesmo zero de régua no AlertaBlu e na ANA; a série de vazão da ANA acaba em 2014 e o leito pode ter mudado desde então; numa cheia subindo rápido, o nível de Blumenau adianta a vazão no porto em algumas horas. Ao abrir o dia, o painel usa a média das leituras do AlertaBlu coletadas naquele dia, se houver.</li>
       <li>Perfil junto ao cais pelo método de Shiono &amp; Knight (SKM): U(y) = U<sub>∞</sub>·√(1 − e<sup>−γy</sup>). Com U<sub>∞</sub> fixo, a tensão na parede não depende da profundidade.</li>
       <li>O trecho de enchimento L<sub>ef</sub> é o comprimento de rio, na largura do porto, que, enchendo em fase com a maré na foz, troca o mesmo volume que o rio real, com a largura medida na Carta Náutica 1841 e a maré atenuada e atrasada rio acima. Não é o prisma de maré: o prisma (Dyer &amp; Taylor, 1973) soma, trecho a trecho, o volume na preamar menos o da baixa-mar, largura × amplitude local × comprimento, e mostrado na dica do controle. Como os trechos não enchem ao mesmo tempo, o volume que passa pela foz, que é o que move a corrente, é menor. O L<sub>ef</sub> medido vem de poucos ciclos de maré, usa distâncias pelo rio estimadas pela sinuosidade (1,81 na carta; 1,56 até Blumenau), largura de 200 m além da carta, termina no Salto (Blumenau) e não inclui o Itajaí-Mirim. Trate a corrente de maré como limite inferior, não como valor de projeto.</li>
       <li>No modelo de duas camadas, a vazante de maré vai toda pela camada superior e a enchente toda pela de fundo; por isso a superfície nunca inverte. Medições de 1994–95 (Schettini &amp; Carvalho, 1998) mostram que ela às vezes inverte na enchente. Espessura da camada e σ variam com a maré e a vazão; aqui são fixos.</li>
@@ -526,7 +526,7 @@ function desenharVazao() {
     const u = camadas(q, 0, hm, b)[0];
     return `<tr><td class="n">${nf(q, 0)}${q > P0.q_alta ? ' *' : ''}</td><td class="n">${nf(u / KN, 2)}</td><td class="n">${nf(uMedia(q, hm, b) / KN, 2)}</td><td class="n">${nf(tauParede(u), 2)}</td></tr>`;
   }).join('');
-  $('t-vaz').innerHTML = `<thead><tr><th class="n">Vazão (m³/s)</th><th class="n">Superfície (nó)</th><th class="n">Média (nó)</th><th class="n">τ parede (Pa)</th></tr></thead><tbody>${linhas}</tbody><caption style="caption-side:bottom;text-align:left;color:var(--muted);font-size:0.78rem;padding-top:6px">* acima da vazão de calibração mais alta (1.200 m³/s): extrapolação</caption>`;
+  $('t-vaz').innerHTML = `<thead><tr><th class="n">Vazão (m³/s)</th><th class="n">Superfície (nó)</th><th class="n">Média (nó)</th><th class="n">τ parede (Pa)</th></tr></thead><tbody>${linhas}</tbody><caption style="caption-side:bottom;text-align:left;color:var(--muted);font-size:0.78rem;padding-top:6px">* acima da vazão de calibração mais alta (1.100 m³/s): extrapolação</caption>`;
 }
 
 function desenharResumo() {
@@ -579,7 +579,7 @@ function nivelMedidoNoDia() {
 }
 function aplicarNivel(h, auto = false) {
   est.nivel = h; est.nivelAuto = auto; $('nivel').value = h.toFixed(2);
-  est.q = Math.round(qBlumenau(h) / P0.fracao_area_porto); $('q').value = sliderDeQ(est.q);
+  est.q = Math.round(qBlumenau(h) * P0.razao_areas); $('q').value = sliderDeQ(est.q);
 }
 
 function rotulos() {
@@ -587,7 +587,7 @@ function rotulos() {
   if (est.nivel != null) {
     const qb = qBlumenau(est.nivel), fora = est.nivel > P0.faixa_curva_m[1];
     $('nivel-val').textContent = `${nf(qb, 0)} m³/s`;
-    $('nivel-dica').textContent = `Vazão em Blumenau pela curva-chave ANA ${P0.periodo_curva[0]}–${P0.periodo_curva[1]} (erro ~${erro}%); no porto, ÷ ${nf(P0.fracao_area_porto, 2)} = ${nf(est.q, 0)} m³/s.` + (fora ? ` Acima da maior cota do ajuste (${nf(P0.faixa_curva_m[1], 2)} m): extrapolação.` : '');
+    $('nivel-dica').textContent = `Vazão em Blumenau pela curva-chave ANA ${P0.periodo_curva[0]}–${P0.periodo_curva[1]} (erro do ajuste ~${erro}%; a curva pode ter mudado desde 2014); no porto, × ${nf(P0.razao_areas, 2)} (razão de áreas; faixa ${nf(P0.razao_areas_faixa[0], 2)}–${nf(P0.razao_areas_faixa[1], 2)}) = ${nf(est.q, 0)} m³/s.` + (fora ? ` Acima da maior cota do ajuste (${nf(P0.faixa_curva_m[1], 2)} m): extrapolação.` : '');
     $('nivel-dica').style.color = fora ? 'var(--tau)' : '';
   } else {
     $('nivel-val').textContent = '';

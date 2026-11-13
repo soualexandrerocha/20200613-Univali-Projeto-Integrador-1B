@@ -1,9 +1,12 @@
-# Coleta automática dos níveis da telemetria da Defesa Civil de Itajaí e
-# regeneração do painel pagina/berco2.html com as leituras novas.
+# Coleta automática dos níveis da telemetria da Defesa Civil de Itajaí e da
+# vazão a montante (telemetria da ANA, usinas Salto Pilão), e regeneração do
+# painel pagina/berco2.html com as leituras novas.
 # O site só publica as últimas 12 h; rodando a cada 6 h, as janelas se
 # sobrepõem e a série fica contínua. Cada execução grava um arquivo novo em
 # dados/niveis/ (nenhum arquivo é editado depois), o que evita conflitos.
-# Só este workflow commita dados/niveis/ e pagina/berco2.html (ver CLAUDE.md).
+# A vazão a montante (dados/vazao_montante/) segue a mesma regra, com janela de
+# 14 dias por consulta. Só este workflow commita dados/niveis/,
+# dados/vazao_montante/ e pagina/berco2.html (ver CLAUDE.md).
 # Agendamentos (schedule) só rodam na branch padrão do repositório.
 name: Coleta de níveis (Defesa Civil de Itajaí)
 
@@ -38,7 +41,11 @@ jobs:
       - name: Baixar e acumular leituras
         id: coleta
         run: |
-          python analise_propagacao_mare.py --so-coletar
+          # A ANA às vezes responde 504: não derruba a coleta dos níveis nem o commit.
+          python vazao_montante.py --so-coletar || echo "Aviso: coleta da ANA incompleta."
+          falha=0
+          python analise_propagacao_mare.py --so-coletar || falha=1
+          echo "falha=$falha" >> "$GITHUB_OUTPUT"
           if [ -z "$(git status --porcelain -- dados/)" ]; then
             echo "novas=false" >> "$GITHUB_OUTPUT"
             echo "Nenhuma leitura nova."
@@ -62,9 +69,15 @@ jobs:
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git add dados/ pagina/berco2.html
-          git commit -m "Coleta de níveis $(date -u +%Y-%m-%dT%H:%MZ)"
+          git commit -m "Coleta de níveis e vazão $(date -u +%Y-%m-%dT%H:%MZ)"
           for i in 1 2 3; do
             git pull --rebase origin "${GITHUB_REF_NAME}" && git push origin "HEAD:${GITHUB_REF_NAME}" && exit 0
             sleep 10
           done
+          exit 1
+
+      - name: Falhar se a coleta dos níveis falhou
+        if: steps.coleta.outputs.falha == '1'
+        run: |
+          echo "A coleta dos níveis da Defesa Civil falhou (o que foi coletado foi commitado)."
           exit 1

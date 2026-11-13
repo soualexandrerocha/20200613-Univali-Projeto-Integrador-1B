@@ -130,18 +130,26 @@ maré só pesa por meio da vazão e da corrente de maré.
 A corrente é calculada em duas camadas (cunha salina, balanço de Knudsen):
 a camada superior leva Q_rio/(1 − σ) mais a vazante de maré. σ e a espessura
 da camada variam com a vazão, calibrados em dois pontos: 230 m³/s (σ = 0,7,
-3,8 m), pelos fluxos de sal de Zaleski & Schettini (2003); e 1.200 m³/s
-(σ = 0, 5,1 m), pela corrente acima de 2 nós observada no trecho A às 08:00
+3,8 m), pelos fluxos de sal de Zaleski & Schettini (2003); e 1.100 m³/s
+(σ = 0, 4,7 m), pela corrente acima de 2 nós observada no trecho A às 08:00
 de 12/11/2026, com a vazão do dia estimada pela curva-chave de Blumenau.
 
 ## Curva-chave de Blumenau — `ferramentas/curva_chave_blumenau.py`
 
 Ajusta Q = a·(h − h₀)ᵇ às séries de cota e vazão da ANA em Blumenau (83800002;
-`dados/cota_vazao_blumenau_83800002.csv`) e converte o nível do AlertaBlu
-coletado em vazão. Em 12/11/2026, com 3,5–3,6 m, deu ~870–920 m³/s.
+`dados/cota_vazao_blumenau_83800002.csv`), uma curva por período, porque a
+curva da ANA mudou ao longo do tempo (períodos do repositório
+`Orbis_Hydro_ITJ2`). O padrão é 2012–2014, o mais recente com vazão e o que
+é coerente com a vazão medida a montante (a escolha entre as curvas de 2002 a 2014 ainda não se resolve com os dados: ±7%). Converte o nível do AlertaBlu em
+vazão: em 12/11/2026, com 3,5–3,6 m, deu ~840–850 m³/s em Blumenau (de 850 a
+985 m³/s nas outras curvas de 1990 a 2014; a de 1939–1985 dá 680 e não serve).
+A vazão no porto é a de Blumenau vezes 1,27, a razão de áreas de drenagem
+(faixa de 1,13 a 1,27; vale o extremo alto porque o Itajaí-Mirim deságua a
+montante do berço; a área do porto não foi conferida).
+
 No painel `pagina/berco2.html`, o nível de Blumenau pode ser a entrada: o
-painel converte em vazão em Blumenau e no porto (÷ 0,75) e, ao abrir um dia
-com leituras coletadas do AlertaBlu, usa a média delas.
+painel converte em vazão em Blumenau e no porto e, ao abrir um dia com leituras
+coletadas do AlertaBlu, usa a média delas.
 
 ```bash
 python ferramentas/curva_chave_blumenau.py            # baixa, ajusta e aplica
@@ -275,6 +283,22 @@ estão escritas no próprio painel. A geometria (margens, eixo, estações) est�
 ```bash
 python ferramentas/larguras_carta1841.py PASTA_DOS_TIF --mapa
 ```
+
+## Vazão a montante — `vazao_montante.py`
+
+Coleta a vazão horária das usinas Salto Pilão (alto Itajaí-Açu e seus três
+braços) pela telemetria da ANA, a única fonte de vazão recente que
+conseguimos acessar para a bacia. O workflow roda a coleta a cada 6 h, com
+janela de 14 dias, e grava um arquivo por coleta em `dados/vazao_montante/`.
+
+```bash
+python vazao_montante.py              # coleta e resume
+python vazao_montante.py --offline    # só resume
+```
+
+O resumo compara a vazão de Blumenau, pela curva-chave sobre o AlertaBlu, com a
+de Salto Pilão Jusante, o que verifica a curva-chave e a fração usada para
+chegar à vazão no porto.
 
 
 ## Dados de vídeo do plotter — `ferramentas/extrair_video_plotter.py`

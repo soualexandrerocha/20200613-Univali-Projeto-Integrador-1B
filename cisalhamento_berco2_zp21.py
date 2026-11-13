@@ -112,13 +112,17 @@ sigma e h_sup variam com a vazão do rio, calibrados em dois pontos:
     ~48% dos ~8 m do canal da época. Conferência: com esses valores e a
     geometria de 2000, residual de 0,58 m/s na superfície e 0,37 m/s no
     fundo; o artigo indica ~0,35-0,8 e ~0,26-0,37 m/s;
-  - vazão alta (Q_ALTA = 1200 m³/s no porto): sigma = 0 (cunha expulsa
-    acima de ~1000 m³/s, segundo Schettini) e h_sup = 5,1 m, que dá 2 nós
+  - vazão alta (Q_ALTA = 1100 m³/s no porto): sigma = 0 (cunha expulsa
+    acima de ~1000 m³/s, segundo Schettini) e h_sup = 4,7 m, que dá 2 nós
     na superfície do trecho A (280 m) às 08:00 de 12/11/2026, quando se
     observaram mais de 2 nós (h_sup é, portanto, um limite superior). A
-    vazão daquele dia vem da curva-chave de Blumenau
-    (ferramentas/curva_chave_blumenau.py): ~900 m³/s em Blumenau com o
-    AlertaBlu em 3,61 m, / ~0,75 de área (estimativa) para chegar ao porto.
+    vazão daquele dia vem da curva-chave de Blumenau de 2012-2014
+    (ferramentas/curva_chave_blumenau.py): ~850 m³/s em Blumenau com o
+    AlertaBlu em 3,61 m, vezes 1,27 (razão das áreas de drenagem, extremo
+    alto da faixa 1,13-1,27) para chegar ao porto: ~1080, e de 960 a 1080
+    conforme a razão. A vazão medida a montante, em Salto Pilão
+    (vazao_montante.py), era de ~880 m³/s, o piso do que passa em Blumenau.
+    Arredondei para 1100.
 Entre os dois pontos, sigma e h_sup variam linearmente com a vazão; fora
 deles, ficam constantes (acima de Q_ALTA é extrapolação). h_sup = 3,8 m vem
 do canal de 2000, com ~8 m; no canal atual, de ~13 m, a camada pode ser
@@ -195,7 +199,7 @@ B_RIO = 400.0  # m, largura do rio no Berço 2
 # (ferramentas/vazao_indaial.py): média 229, mediana 139, P10 56, P90 494
 # m³/s; escalando pela área (/0,70), no porto a mediana fica em ~200 e a média
 # em ~330 m³/s. 215 representa um dia típico no porto. A vazão real de
-# 12/11/2026 (~900 m³/s em Blumenau, ~1200 no porto) vem da curva-chave de
+# 12/11/2026 (~850 m³/s em Blumenau, ~1100 no porto) vem da curva-chave de
 # Blumenau (ferramentas/curva_chave_blumenau.py), não deste valor.
 # Trocar pela vazão do dia quando houver.
 Q_RIO = 215.0  # m³/s
@@ -219,7 +223,7 @@ L_PRISMA = A_PRISMA / B_RIO     # m; prisma de maré = A_PRISMA * amplitude
 
 # Duas camadas (cunha salina), calibradas em dois pontos de vazão; ver docstring
 Q_BAIXA, SIGMA_BAIXA, H_SUP_BAIXA = 230.0, 0.7, 3.8  # Zaleski & Schettini, jan/2000
-Q_ALTA, SIGMA_ALTA, H_SUP_ALTA = 1200.0, 0.0, 5.1    # observação de 12/11/2026, trecho A
+Q_ALTA, SIGMA_ALTA, H_SUP_ALTA = 1100.0, 0.0, 4.7    # observação de 12/11/2026, trecho A
 SECOES = {'Berço 2': 400.0, 'Trecho A (canal entre as bacias)': 280.0}  # largura (m), Carta 1841
 
 
