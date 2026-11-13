@@ -122,17 +122,32 @@ Ao rodar, também imprime:
 
 - a vazão equivalente a cada velocidade (largura do rio de 400 m);
 - a corrente ao longo do dia: vazão fluvial (215 m³/s, média) mais a
-  corrente de maré pelo prisma de maré, com a atenuação medida rio acima.
+  corrente de maré pelo método do prisma de maré, com a atenuação medida rio acima.
 
 Com velocidade fixa, a tensão na parede não depende da profundidade; a
 maré só pesa por meio da vazão e da corrente de maré.
 
+A corrente é calculada em duas camadas (cunha salina, balanço de Knudsen):
+a camada superior leva Q_rio/(1 − σ) mais a vazante de maré. σ = 0,7 vem de
+Zaleski & Schettini (2003); a espessura de 3,4 m foi calibrada com a corrente
+de superfície acima de 2 nós observada no trecho A às 08:00 de 12/11/2026.
+Vale para cunha salina plena (até ~250 m³/s).
+
 ## Propagação da maré e coleta de níveis — `analise_propagacao_mare.py`
 
 Baixa as séries de 12 h da telemetria da Defesa Civil de Itajaí
-(monitoramento.defesacivil.itajai.sc.gov.br), acumula em
+(monitoramento.defesacivil.itajai.sc.gov.br) e o nível de 24 h do AlertaBlu
+em Blumenau, acumula em
 `dados/niveis_defesacivil_itajai.csv` e ajusta, para cada estação, a razão
-de amplitude e o atraso da maré em relação à foz. O workflow
+de amplitude e o atraso da maré em relação à foz. Com DC11 e Blumenau, calcula o
+trecho de enchimento do Itajaí-Açu fechado no Salto, onde a maré termina.
+
+As larguras do rio ao longo do canal (`dados/largura_itajai_acu.csv`) vêm da
+Carta Náutica 1841 (DHN) em GeoTIFF, que não fica no repositório:
+
+```bash
+python ferramentas/larguras_carta1841.py PASTA_DOS_TIF   # requer rasterio, scipy e scikit-image
+``` O workflow
 `.github/workflows/coleta-niveis.yml` roda a coleta a cada 6 h e commita as
 leituras novas, pois o site não guarda histórico.
 
@@ -147,12 +162,16 @@ python analise_propagacao_mare.py --so-coletar # só coleta (usado no workflow)
 Página autossuficiente com painéis interativos: maré, corrente e tensão no
 cais ao longo do dia; perfil junto ao cais na hora escolhida; relação entre
 vazão e corrente; e a propagação da maré medida pela Defesa Civil. Data,
-vazão, prisma de maré, profundidade, largura e atrito são ajustáveis, e o
+vazão, trecho de enchimento da maré, seção (Berço 2 ou trecho A, canal entre
+as bacias), profundidade, largura, atrito e parâmetros da cunha salina são ajustáveis, e o
 modelo é recalculado no navegador.
 
 ```bash
 python ferramentas/gerar_painel_berco2.py   # regenera com as leituras mais recentes
 ```
+
+O workflow de coleta (`.github/workflows/coleta-niveis.yml`) regenera a
+página sempre que há leituras novas, a cada 6 h.
 
 ## Folga sob a quilha e janelas de manobra — `pagina/folga_quilha.html`
 
