@@ -163,14 +163,12 @@ a { color: var(--water); }
       <div class="dica" id="aviso-q"></div>
     </div>
     <details class="mais">
-      <summary>Geometria, atrito e cunha salina</summary>
+      <summary>Geometria e atrito</summary>
       <div class="mais-grade">
         <div class="campo"><label class="rotulo" for="prof">Profundidade no NR (m)</label><input type="number" id="prof" step="0.1" min="5" max="25"></div>
         <div class="campo"><label class="rotulo" for="larg">Largura do rio (m)</label><input type="number" id="larg" step="10" min="100" max="1000"></div>
         <div class="campo"><label class="rotulo" for="fd">Atrito de fundo f</label><input type="number" id="fd" step="0.001" min="0.005" max="0.08"></div>
         <div class="campo"><label class="rotulo" for="lam">λ do SKM</label><input type="number" id="lam" step="0.01" min="0.05" max="0.5"></div>
-        <div class="campo"><label class="rotulo" for="sig">σ = S<sub>sup</sub>/S<sub>fundo</sub></label><input type="number" id="sig" step="0.05" min="0" max="0.9"></div>
-        <div class="campo"><label class="rotulo" for="hsup">Camada superior (m)</label><input type="number" id="hsup" step="0.1" min="1" max="10"></div>
       </div>
     </details>
   </section>
@@ -206,7 +204,7 @@ a { color: var(--water); }
     </section>
     <section class="painel" aria-labelledby="t-vazao">
       <h2 id="t-vazao">Vazão e corrente</h2>
-      <p>Só o rio, sem maré, na seção escolhida: corrente residual na camada superior e média vertical, para cada vazão. Acima de 250 m³/s (área sombreada) o modelo sai da faixa calibrada. O círculo marca a vazão escolhida.</p>
+      <p>Só o rio, sem maré, na seção escolhida: corrente residual na camada superior e média vertical, para cada vazão. Acima de 1.200 m³/s (área sombreada) é extrapolação. O círculo marca a vazão escolhida.</p>
       <div class="legenda"><span class="vaz">camada superior</span><span class="tracejado" style="color:var(--rio)">média vertical</span></div>
       <svg class="g" id="g-vazao" role="img" aria-label="Corrente em função da vazão"></svg>
       <div class="tabela"><table id="t-vaz"></table></div>
@@ -226,7 +224,7 @@ a { color: var(--water); }
     <h2>Como ler e limitações</h2>
     <ul>
       <li>Vazão pela seção: Q = Q<sub>rio</sub> − B·L<sub>ef</sub>·dη/dt, com η a maré na foz defasada do atraso do fluxo. Média vertical: Q / (H·(B<sub>seção</sub> − δ)), com H = profundidade no NR + maré e δ = 2(1 − ln 2)/γ.</li>
-      <li>Duas camadas (cunha salina, Knudsen): a camada superior leva Q<sub>rio</sub>/(1 − σ) mais a vazante de maré; a de fundo traz a água do mar, mais a enchente. σ = 0,7 vem dos fluxos de sal de Zaleski &amp; Schettini (2003); a camada superior de 3,4 m foi calibrada para 2 nós no trecho A às 08:00 de 12/11/2026, quando se observou corrente acima de 2 nós. Vale para a cunha plena, até ~250 m³/s; de 250 a 1.000 m³/s, quando a cunha é expulsa, o painel mistura linearmente com camada única, sem calibração.</li>
+      <li>Duas camadas (cunha salina, Knudsen): a camada superior leva Q<sub>rio</sub>/(1 − σ) mais a vazante de maré; a de fundo traz a água do mar, mais a enchente. σ e a espessura da camada superior variam com a vazão, calibrados em dois pontos: com 230 m³/s, σ = 0,7 e 3,8 m, pelos fluxos de sal de Zaleski &amp; Schettini (2003); com 1.200 m³/s, σ = 0 (cunha expulsa) e 5,1 m, pela corrente acima de 2 nós observada no trecho A às 08:00 de 12/11/2026, quando a curva-chave de Blumenau dá ~900 m³/s lá (~1.200 no porto). Entre os dois, interpolação linear; acima de 1.200 m³/s, extrapolação.</li>
       <li>Perfil junto ao cais pelo método de Shiono &amp; Knight (SKM): U(y) = U<sub>∞</sub>·√(1 − e<sup>−γy</sup>). Com U<sub>∞</sub> fixo, a tensão na parede não depende da profundidade.</li>
       <li>O trecho de enchimento L<sub>ef</sub> é o comprimento de rio, na largura do porto, que, enchendo em fase com a maré na foz, troca o mesmo volume que o rio real, com a largura medida na Carta Náutica 1841 e a maré atenuada e atrasada rio acima. Não é o prisma de maré: o prisma (Dyer &amp; Taylor, 1973) soma, trecho a trecho, o volume na preamar menos o da baixa-mar, largura × amplitude local × comprimento, e mostrado na dica do controle. Como os trechos não enchem ao mesmo tempo, o volume que passa pela foz, que é o que move a corrente, é menor. O L<sub>ef</sub> medido vem de poucos ciclos de maré, usa distâncias pelo rio estimadas pela sinuosidade (1,81 na carta; 1,56 até Blumenau), largura de 200 m além da carta, termina no Salto (Blumenau) e não inclui o Itajaí-Mirim. Trate a corrente de maré como limite inferior, não como valor de projeto.</li>
       <li>No modelo de duas camadas, a vazante de maré vai toda pela camada superior e a enchente toda pela de fundo; por isso a superfície nunca inverte. Medições de 1994–95 (Schettini &amp; Carvalho, 1998) mostram que ela às vezes inverte na enchente. Espessura da camada e σ variam com a maré e a vazão; aqui são fixos.</li>
@@ -256,7 +254,7 @@ const sliderDeQ = q => 1000 * Math.log(q / Q_MIN) / Math.log(Q_MAX / Q_MIN);
 const est = {
   dia: null, q: P0.q_rio, lef: P0.l_ef_km, atr: P0.atraso_fluxo_h,
   prof: P0.prof_zh, larg: P0.b_rio, fd: P0.f_darcy, lam: P0.lambda, sel: null, estacao: 'DC11',
-  sig: P0.sigma, hsup: P0.h_sup, secao: Object.keys(P0.secoes)[0],
+  secao: Object.keys(P0.secoes)[0],
 };
 
 function gamma(h) { return Math.sqrt(2 / est.lam) * Math.pow(est.fd / 8, 0.25) / h; }
@@ -265,11 +263,14 @@ function uDeQ(q, h) { return q / (h * largEf(h)); }
 function tauParede(u) { return Math.sign(u) * P0.rho * Math.sqrt(est.lam / 2) * Math.pow(est.fd / 8, 0.75) * u * u; }
 
 function bSecao() { return P0.secoes[est.secao]; }
+function parametrosCunha(qr) {
+  const f = Math.min(1, Math.max(0, (qr - P0.q_baixa) / (P0.q_alta - P0.q_baixa)));
+  return [P0.sigma_baixa + (P0.sigma_alta - P0.sigma_baixa) * f, P0.h_baixa + (P0.h_alta - P0.h_baixa) * f];
+}
 function camadas(qr, qm, h, b) {
-  const qsup = qr / (1 - est.sig) + Math.max(qm, 0), qinf = qr + qm - qsup;
-  const u2s = qsup / (b * est.hsup), u2i = qinf / (b * (h - est.hsup)), u1 = (qr + qm) / (b * h);
-  const f = Math.min(1, Math.max(0, (qr - P0.q_cunha_plena) / (P0.q_expulsao - P0.q_cunha_plena)));
-  return [(1 - f) * u2s + f * u1, (1 - f) * u2i + f * u1];
+  const [sig, hs] = parametrosCunha(qr);
+  const qsup = qr / (1 - sig) + Math.max(qm, 0), qinf = qr + qm - qsup;
+  return [qsup / (b * hs), qinf / (b * (h - hs))];
 }
 function uMedia(q, h, b) { return q / (h * (b - 2 * (1 - Math.LN2) / gamma(h))); }
 
@@ -408,13 +409,13 @@ function desenharVazao() {
   });
   const W = svg.viewBox.baseVal.width, H = svg.viewBox.baseVal.height, e = 48, d = 22;
   const X = v => e + (Math.log10(v) - Math.log10(Q_MIN)) / (Math.log10(Q_MAX) - Math.log10(Q_MIN)) * (W - e - d);
-  const r = el('rect', { x: X(P0.q_cunha_plena), y: 10, width: W - d - X(P0.q_cunha_plena), height: H - 34, class: 's-tau-area' }, svg);
+  const r = el('rect', { x: X(P0.q_alta), y: 10, width: W - d - X(P0.q_alta), height: H - 34, class: 's-tau-area' }, svg);
   svg.insertBefore(r, svg.firstChild);
   const linhas = [100, 215, 250, 500, 1000, 3000].map(q => {
     const u = camadas(q, 0, hm, b)[0];
-    return `<tr><td class="n">${nf(q, 0)}${q > P0.q_cunha_plena ? ' *' : ''}</td><td class="n">${nf(u / KN, 2)}</td><td class="n">${nf(uMedia(q, hm, b) / KN, 2)}</td><td class="n">${nf(tauParede(u), 2)}</td></tr>`;
+    return `<tr><td class="n">${nf(q, 0)}${q > P0.q_alta ? ' *' : ''}</td><td class="n">${nf(u / KN, 2)}</td><td class="n">${nf(uMedia(q, hm, b) / KN, 2)}</td><td class="n">${nf(tauParede(u), 2)}</td></tr>`;
   }).join('');
-  $('t-vaz').innerHTML = `<thead><tr><th class="n">Vazão (m³/s)</th><th class="n">Superfície (nó)</th><th class="n">Média (nó)</th><th class="n">τ parede (Pa)</th></tr></thead><tbody>${linhas}</tbody><caption style="caption-side:bottom;text-align:left;color:var(--muted);font-size:0.78rem;padding-top:6px">* fora da faixa calibrada (cunha plena até 250 m³/s)</caption>`;
+  $('t-vaz').innerHTML = `<thead><tr><th class="n">Vazão (m³/s)</th><th class="n">Superfície (nó)</th><th class="n">Média (nó)</th><th class="n">τ parede (Pa)</th></tr></thead><tbody>${linhas}</tbody><caption style="caption-side:bottom;text-align:left;color:var(--muted);font-size:0.78rem;padding-top:6px">* acima da vazão de calibração mais alta (1.200 m³/s): extrapolação</caption>`;
 }
 
 function desenharResumo() {
@@ -454,8 +455,9 @@ function montarEstacoes() {
 
 function rotulos() {
   document.querySelectorAll('#secoes button').forEach(bt => bt.setAttribute('aria-pressed', bt.dataset.s === est.secao));
-  $('aviso-q').textContent = est.q > P0.q_cunha_plena ? `Vazão acima de ${P0.q_cunha_plena} m³/s: fora da faixa calibrada do modelo de duas camadas.` : 'Duas camadas calibradas para cunha salina plena (até 250 m³/s).';
-  $('aviso-q').style.color = est.q > P0.q_cunha_plena ? 'var(--tau)' : '';
+  const [sg, hs] = parametrosCunha(est.q);
+  $('aviso-q').textContent = `Cunha salina com esta vazão: σ = ${nf(sg, 2)}, camada superior ${nf(hs, 1)} m` + (est.q > P0.q_alta ? ` (acima de ${nf(P0.q_alta, 0)} m³/s: extrapolação)` : '');
+  $('aviso-q').style.color = est.q > P0.q_alta ? 'var(--tau)' : '';
   $('q-val').textContent = `${nf(est.q, 0)} m³/s`;
   $('lef-val').textContent = `${nf(est.lef, 1)} km`;
   $('atr-val').textContent = `${nf(est.atr, 2)} h`;
@@ -488,7 +490,7 @@ $('lef').addEventListener('input', e => { est.lef = +e.target.value; atualizar()
 $('lef-medido').onclick = () => { est.lef = P0.l_ef_km; $('lef').value = est.lef; atualizar(); };
 $('atr').addEventListener('input', e => { est.atr = +e.target.value; atualizar(); });
 $('atr-medido').onclick = () => { est.atr = P0.atraso_fluxo_h; $('atr').value = est.atr; atualizar(); };
-for (const [id, k] of [['prof', 'prof'], ['larg', 'larg'], ['fd', 'fd'], ['lam', 'lam'], ['sig', 'sig'], ['hsup', 'hsup']]) {
+for (const [id, k] of [['prof', 'prof'], ['larg', 'larg'], ['fd', 'fd'], ['lam', 'lam']]) {
   $(id).value = est[k];
   $(id).addEventListener('change', e => { const v = +e.target.value; if (v > 0) { est[k] = v; atualizar(); } });
 }
