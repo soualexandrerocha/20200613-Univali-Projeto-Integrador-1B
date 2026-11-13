@@ -14,11 +14,20 @@ plotter (SOG, PROF, COG, posição, data/hora). O script:
 Campos que o plotter mostra como "---" (por exemplo, PROF sem sonda
 ligada) ficam vazios no CSV.
 
+Lancha como flutuador (padrão): nos vídeos deste projeto a lancha deriva
+com o motor desligado, então SOG e COG medem a corrente superficial. O CSV
+traz a corrente em m/s e a direção para onde ela vai em graus verdadeiros
+(COG magnético mais a declinação do WMM 2025 no local e na data). Com
+`--motor` (lancha navegando), essas colunas não são geradas.
+
+O vento também empurra o casco. A velocidade medida inclui esse arrasto,
+que costuma ser pequeno com vento fraco.
+
 Requisitos: ffmpeg e tesseract no sistema; `pip install opencv-python-headless
-pytesseract`.
+pytesseract pygeomag`.
 
 Uso:
-    python ferramentas/extrair_video_plotter.py VIDEO.mp4 saida/ [--quadros]
+    python ferramentas/extrair_video_plotter.py VIDEO.mp4 saida/ [--quadros] [--motor]
 """
 
 import argparse
@@ -32,6 +41,8 @@ from pathlib import Path
 
 import cv2
 import pytesseract
+
+NO_EM_MS = 1852 / 3600
 
 # Fração da largura do quadro onde começa o painel de dados (lado direito).
 # O celular se move um pouco; 0.72 deixa folga dos dois lados.
@@ -119,12 +130,26 @@ def distancia_m(a, b):
     return math.hypot(dlat, dlon)
 
 
+def declinacao(lat, lon, data):
+    """Declinação magnética (graus, leste positivo) pelo WMM 2025."""
+    from datetime import date
+
+    from pygeomag import GeoMag
+
+    d = date.fromisoformat(data)
+    ano = d.year + (d.timetuple().tm_yday - 0.5) / 365.25
+    gm = GeoMag(coefficients_file="wmm/WMM_2025.COF")
+    return gm.calculate(glat=lat, glon=lon, alt=0, time=ano).d
+
+
 def main():
     p = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     p.add_argument("video")
     p.add_argument("saida")
     p.add_argument("--quadros", action="store_true",
                    help="salva um PNG por linha do CSV")
+    p.add_argument("--motor", action="store_true",
+                   help="lancha navegando: não converte SOG/COG em corrente")
     args = p.parse_args()
 
     saida = Path(args.saida)
@@ -182,7 +207,21 @@ def main():
                 r["sog_nos"] = None
 
     campos = ["t_video_s", "data", "hora", "lat", "lon", "sog_nos",
-              "cog_graus", "prof_m"] + (["quadro"] if args.quadros else [])
+              "cog_graus", "prof_m"]
+    decl = None
+    if not args.motor:
+        # Lancha como flutuador: SOG/COG são a corrente superficial.
+        ref = next((r for r in linhas if r["lat"] is not None
+                    and r["lon"] is not None and r["data"]), None)
+        if ref:
+            decl = declinacao(ref["lat"], ref["lon"], ref["data"])
+            for r in linhas:
+                if r["sog_nos"] is not None:
+                    r["corr_vel_ms"] = round(r["sog_nos"] * NO_EM_MS, 3)
+                if r["cog_graus"] is not None:
+                    r["corr_dir_verd"] = round((r["cog_graus"] + decl) % 360, 1)
+            campos += ["corr_vel_ms", "corr_dir_verd"]
+    campos += ["quadro"] if args.quadros else []
     with open(saida / "painel.csv", "w", newline="") as f:
         w = csv.DictWriter(f, fieldnames=campos)
         w.writeheader()
@@ -197,6 +236,11 @@ def main():
     print(f"{len(quadros)} quadros, {len(linhas)} horas distintas, "
           f"{sem_hora} quadros sem hora legível")
     print("campos vazios:", vazios)
+    if decl is not None:
+        print(f"lancha como flutuador; declinação {decl:+.1f}° "
+              "(COG magnético -> direção verdadeira da corrente)")
+    elif not args.motor:
+        print("sem posição e data legíveis: colunas de corrente não geradas")
     print("CSV:", saida / "painel.csv")
 
 
