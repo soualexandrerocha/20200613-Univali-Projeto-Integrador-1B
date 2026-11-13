@@ -21,13 +21,28 @@ traz a corrente em m/s e a direção para onde ela vai em graus verdadeiros
 `--motor` (lancha navegando), essas colunas não são geradas.
 
 O vento também empurra o casco. A velocidade medida inclui esse arrasto,
-que costuma ser pequeno com vento fraco.
+que costuma ser pequeno com vento fraco. Com `--vento`, o script desconta
+esse arrasto: supõe que o casco anda com uma fração (`--arrasto`, padrão
+0,03) da velocidade do vento, no sentido para onde o vento sopra, e
+grava também a corrente corrigida. O vento é informado como "vindo de",
+em graus verdadeiros ou pontos da rosa (SE, ESE, NO, NW...):
+
+    --vento 11.5@SE              vento constante
+    --vento vento.csv            leituras com hora; interpola no tempo
+
+O CSV de vento tem as colunas `hora,vel_nos,dir` (hora local, HH:MM ou
+HH:MM:SS, no mesmo relógio do plotter).
+
+A fração de arrasto depende da lancha (área exposta ao vento contra
+área submersa). O padrão de 3% é uma regra prática de busca e salvamento
+para embarcações pequenas, uma ordem de grandeza e não uma medida.
 
 Requisitos: ffmpeg e tesseract no sistema; `pip install opencv-python-headless
 pytesseract pygeomag`.
 
 Uso:
     python ferramentas/extrair_video_plotter.py VIDEO.mp4 saida/ [--quadros] [--motor]
+        [--vento 11.5@SE | --vento vento.csv] [--arrasto 0.03]
 """
 
 import argparse
@@ -142,6 +157,67 @@ def declinacao(lat, lon, data):
     return gm.calculate(glat=lat, glon=lon, alt=0, time=ano).d
 
 
+# Rosa dos ventos de 16 pontos, em inglês e português (O = W).
+_PONTOS = ["N", "NNE", "NE", "ENE", "E", "ESE", "SE", "SSE",
+           "S", "SSW", "SW", "WSW", "W", "WNW", "NW", "NNW"]
+ROSA = {p: i * 22.5 for i, p in enumerate(_PONTOS)}
+ROSA.update({p.replace("W", "O"): g for p, g in ROSA.items() if "W" in p})
+
+
+def direcao(texto):
+    """Graus de uma direção dada em graus ou em ponto da rosa."""
+    t = texto.strip().upper()
+    if t in ROSA:
+        return ROSA[t]
+    g = float(t.replace(",", "."))
+    if not 0 <= g <= 360:
+        raise ValueError(f"direção fora de 0–360: {texto}")
+    return g % 360
+
+
+def segundos(hora):
+    partes = [int(x) for x in hora.split(":")]
+    partes += [0] * (3 - len(partes))
+    return partes[0] * 3600 + partes[1] * 60 + partes[2]
+
+
+def ler_vento(especificacao):
+    """Lista ordenada de (segundos, u, v) do vento em m/s, "indo para".
+
+    u é a componente leste e v a norte. Aceita "VEL@DIR" (vento
+    constante, nós e direção de onde vem) ou um CSV hora,vel_nos,dir.
+    """
+    def vetor(vel_nos, de_graus):
+        para = math.radians(de_graus + 180)
+        vel = vel_nos * NO_EM_MS
+        return vel * math.sin(para), vel * math.cos(para)
+
+    if "@" in especificacao and not Path(especificacao).exists():
+        vel, dirc = especificacao.split("@")
+        return [(0, *vetor(float(vel.replace(",", ".")), direcao(dirc)))]
+    leituras = []
+    with open(especificacao, newline="") as f:
+        for linha in csv.DictReader(f):
+            leituras.append((segundos(linha["hora"]),
+                             *vetor(float(linha["vel_nos"].replace(",", ".")),
+                                    direcao(linha["dir"]))))
+    if not leituras:
+        raise ValueError(f"nenhuma leitura de vento em {especificacao}")
+    return sorted(leituras)
+
+
+def vento_em(leituras, t):
+    """Vento (u, v) no instante t: interpola por componentes; fora do
+    intervalo das leituras, usa a mais próxima."""
+    if t <= leituras[0][0]:
+        return leituras[0][1:]
+    for (t0, u0, v0), (t1, u1, v1) in zip(leituras, leituras[1:]):
+        if t0 <= t <= t1:
+            f = (t - t0) / (t1 - t0) if t1 > t0 else 0
+            return u0 + f * (u1 - u0), v0 + f * (v1 - v0)
+    return leituras[-1][1:]
+
+
 def main():
     p = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     p.add_argument("video")
@@ -150,6 +226,11 @@ def main():
                    help="salva um PNG por linha do CSV")
     p.add_argument("--motor", action="store_true",
                    help="lancha navegando: não converte SOG/COG em corrente")
+    p.add_argument("--vento",
+                   help='"VEL@DIR" (nós, de onde vem) ou CSV hora,vel_nos,dir')
+    p.add_argument("--arrasto", type=float, default=0.03,
+                   help="fração da velocidade do vento com que o casco "
+                        "deriva (padrão 0.03)")
     args = p.parse_args()
 
     saida = Path(args.saida)
@@ -221,6 +302,25 @@ def main():
                 if r["cog_graus"] is not None:
                     r["corr_dir_verd"] = round((r["cog_graus"] + decl) % 360, 1)
             campos += ["corr_vel_ms", "corr_dir_verd"]
+            if args.vento:
+                leituras_vento = ler_vento(args.vento)
+                for r in linhas:
+                    u, v = vento_em(leituras_vento, segundos(r["hora"]))
+                    vel = math.hypot(u, v)
+                    r["vento_nos"] = round(vel / NO_EM_MS, 1)
+                    r["vento_de_verd"] = round(
+                        (math.degrees(math.atan2(u, v)) + 180) % 360, 1)
+                    if r["sog_nos"] is None or r["cog_graus"] is None:
+                        continue
+                    # Deriva medida menos o arrasto do vento no casco.
+                    rumo = math.radians(r["corr_dir_verd"])
+                    cu = r["corr_vel_ms"] * math.sin(rumo) - args.arrasto * u
+                    cv = r["corr_vel_ms"] * math.cos(rumo) - args.arrasto * v
+                    r["corr_vel_ms_sem_vento"] = round(math.hypot(cu, cv), 3)
+                    r["corr_dir_verd_sem_vento"] = round(
+                        math.degrees(math.atan2(cu, cv)) % 360, 1)
+                campos += ["vento_nos", "vento_de_verd",
+                           "corr_vel_ms_sem_vento", "corr_dir_verd_sem_vento"]
     campos += ["quadro"] if args.quadros else []
     with open(saida / "painel.csv", "w", newline="") as f:
         w = csv.DictWriter(f, fieldnames=campos)
@@ -239,6 +339,9 @@ def main():
     if decl is not None:
         print(f"lancha como flutuador; declinação {decl:+.1f}° "
               "(COG magnético -> direção verdadeira da corrente)")
+        if args.vento:
+            print(f"vento descontado com arrasto de {args.arrasto:.0%} "
+                  "(colunas *_sem_vento)")
     elif not args.motor:
         print("sem posição e data legíveis: colunas de corrente não geradas")
     print("CSV:", saida / "painel.csv")
