@@ -161,6 +161,13 @@ NO_PARA_MS = 1852 / 3600  # 1 nó = 0,514444 m/s
 # 10/12/2026: Itajaí 2 (= Berço 2) = 12,8 m; Bacia de evolução 01 = 12,8 m. É a menor
 # profundidade levantada (não a cota de projeto de 14,5 m) e muda a cada
 # levantamento batimétrico; atualizar quando o aviso for renovado.
+# Referência vertical: a Marinha só aceita sondagens de 200 kHz, que refletem
+# no topo da lama fluida. PROF_ZH é, portanto, a coluna de água acima da lama,
+# que é a que escoa (a lama densa quase não acompanha a corrente). Abaixo dela
+# há lama (1,05-1,25 t/m³) até o fundo consolidado, de espessura não medida
+# aqui; ela não entra na corrente, mas aumenta o empuxo lateral no cais e faz a
+# profundidade oficial variar com o assoreamento (por exemplo, a redução de
+# 30 cm no canal em 2026).
 PROF_ZH = 12.8  # m
 INSTANTE = datetime(2026, 11, 12, 12, 0, tzinfo=timezone(timedelta(hours=-3)))
 ETA = mare(INSTANTE)  # m acima do zero hidrográfico
