@@ -1,0 +1,808 @@
+codigo,medido_em,nome,latitude,longitude,nivel_rio_m
+BLU,2026-11-13T07:00:00Z,Rio Itajaí-Açu - Blumenau (AlertaBlu),-26.9186,-49.0656,3.52
+BLU,2026-11-13T08:00:00Z,Rio Itajaí-Açu - Blumenau (AlertaBlu),-26.9186,-49.0656,3.54
+BLU,2026-11-13T09:00:00Z,Rio Itajaí-Açu - Blumenau (AlertaBlu),-26.9186,-49.0656,3.59
+BLU,2026-11-13T10:00:00Z,Rio Itajaí-Açu - Blumenau (AlertaBlu),-26.9186,-49.0656,3.64
+BLU,2026-11-13T11:00:00Z,Rio Itajaí-Açu - Blumenau (AlertaBlu),-26.9186,-49.0656,3.67
+BLU,2026-11-13T12:00:00Z,Rio Itajaí-Açu - Blumenau (AlertaBlu),-26.9186,-49.0656,3.69
+BLU,2026-11-13T13:00:00Z,Rio Itajaí-Açu - Blumenau (AlertaBlu),-26.9186,-49.0656,3.69
+BLU,2026-11-13T14:00:00Z,Rio Itajaí-Açu - Blumenau (AlertaBlu),-26.9186,-49.0656,3.66
+BLU,2026-11-13T15:00:00Z,Rio Itajaí-Açu - Blumenau (AlertaBlu),-26.9186,-49.0656,3.66
+BLU,2026-11-13T16:00:00Z,Rio Itajaí-Açu - Blumenau (AlertaBlu),-26.9186,-49.0656,3.62
+BLU,2026-11-13T17:00:00Z,Rio Itajaí-Açu - Blumenau (AlertaBlu),-26.9186,-49.0656,3.59
+BLU,2026-11-13T18:00:00Z,Rio Itajaí-Açu - Blumenau (AlertaBlu),-26.9186,-49.0656,3.56
+BLU,2026-11-13T19:00:00Z,Rio Itajaí-Açu - Blumenau (AlertaBlu),-26.9186,-49.0656,3.53
+DC01,2026-11-13T07:41:35Z,Rio Itajaí-Açu - ICMBio/CEPSUL,-26.90923,-48.6516,1.39
+DC01,2026-11-13T07:51:35Z,Rio Itajaí-Açu - ICMBio/CEPSUL,-26.90923,-48.6516,1.37
+DC01,2026-11-13T08:01:35Z,Rio Itajaí-Açu - ICMBio/CEPSUL,-26.90923,-48.6516,1.3
+DC01,2026-11-13T08:11:35Z,Rio Itajaí-Açu - ICMBio/CEPSUL,-26.90923,-48.6516,1.3
+DC01,2026-11-13T08:21:35Z,Rio Itajaí-Açu - ICMBio/CEPSUL,-26.90923,-48.6516,1.3
+DC01,2026-11-13T08:31:35Z,Rio Itajaí-Açu - ICMBio/CEPSUL,-26.90923,-48.6516,1.25
+DC01,2026-11-13T08:41:35Z,Rio Itajaí-Açu - ICMBio/CEPSUL,-26.90923,-48.6516,1.22
+DC01,2026-11-13T08:51:35Z,Rio Itajaí-Açu - ICMBio/CEPSUL,-26.90923,-48.6516,1.19
+DC01,2026-11-13T09:01:35Z,Rio Itajaí-Açu - ICMBio/CEPSUL,-26.90923,-48.6516,1.13
+DC01,2026-11-13T09:11:35Z,Rio Itajaí-Açu - ICMBio/CEPSUL,-26.90923,-48.6516,1.08
+DC01,2026-11-13T09:21:35Z,Rio Itajaí-Açu - ICMBio/CEPSUL,-26.90923,-48.6516,1.05
+DC01,2026-11-13T09:31:35Z,Rio Itajaí-Açu - ICMBio/CEPSUL,-26.90923,-48.6516,1.04
+DC01,2026-11-13T09:41:35Z,Rio Itajaí-Açu - ICMBio/CEPSUL,-26.90923,-48.6516,1
+DC01,2026-11-13T09:51:35Z,Rio Itajaí-Açu - ICMBio/CEPSUL,-26.90923,-48.6516,0.97
+DC01,2026-11-13T10:01:35Z,Rio Itajaí-Açu - ICMBio/CEPSUL,-26.90923,-48.6516,0.95
+DC01,2026-11-13T10:11:35Z,Rio Itajaí-Açu - ICMBio/CEPSUL,-26.90923,-48.6516,0.95
+DC01,2026-11-13T10:21:35Z,Rio Itajaí-Açu - ICMBio/CEPSUL,-26.90923,-48.6516,0.95
+DC01,2026-11-13T10:31:35Z,Rio Itajaí-Açu - ICMBio/CEPSUL,-26.90923,-48.6516,0.86
+DC01,2026-11-13T10:41:35Z,Rio Itajaí-Açu - ICMBio/CEPSUL,-26.90923,-48.6516,0.86
+DC01,2026-11-13T10:51:35Z,Rio Itajaí-Açu - ICMBio/CEPSUL,-26.90923,-48.6516,0.85
+DC01,2026-11-13T11:01:35Z,Rio Itajaí-Açu - ICMBio/CEPSUL,-26.90923,-48.6516,0.81
+DC01,2026-11-13T11:11:35Z,Rio Itajaí-Açu - ICMBio/CEPSUL,-26.90923,-48.6516,0.86
+DC01,2026-11-13T11:21:35Z,Rio Itajaí-Açu - ICMBio/CEPSUL,-26.90923,-48.6516,0.81
+DC01,2026-11-13T11:31:35Z,Rio Itajaí-Açu - ICMBio/CEPSUL,-26.90923,-48.6516,0.83
+DC01,2026-11-13T11:41:35Z,Rio Itajaí-Açu - ICMBio/CEPSUL,-26.90923,-48.6516,0.9
+DC01,2026-11-13T11:51:36Z,Rio Itajaí-Açu - ICMBio/CEPSUL,-26.90923,-48.6516,0.86
+DC01,2026-11-13T12:01:35Z,Rio Itajaí-Açu - ICMBio/CEPSUL,-26.90923,-48.6516,0.9
+DC01,2026-11-13T12:11:35Z,Rio Itajaí-Açu - ICMBio/CEPSUL,-26.90923,-48.6516,0.97
+DC01,2026-11-13T12:21:35Z,Rio Itajaí-Açu - ICMBio/CEPSUL,-26.90923,-48.6516,0.99
+DC01,2026-11-13T12:31:35Z,Rio Itajaí-Açu - ICMBio/CEPSUL,-26.90923,-48.6516,1
+DC01,2026-11-13T12:41:35Z,Rio Itajaí-Açu - ICMBio/CEPSUL,-26.90923,-48.6516,1
+DC01,2026-11-13T12:51:35Z,Rio Itajaí-Açu - ICMBio/CEPSUL,-26.90923,-48.6516,0.98
+DC01,2026-11-13T13:01:35Z,Rio Itajaí-Açu - ICMBio/CEPSUL,-26.90923,-48.6516,1.07
+DC01,2026-11-13T13:11:35Z,Rio Itajaí-Açu - ICMBio/CEPSUL,-26.90923,-48.6516,1.15
+DC01,2026-11-13T13:21:35Z,Rio Itajaí-Açu - ICMBio/CEPSUL,-26.90923,-48.6516,1.08
+DC01,2026-11-13T13:31:35Z,Rio Itajaí-Açu - ICMBio/CEPSUL,-26.90923,-48.6516,1.2
+DC01,2026-11-13T13:41:35Z,Rio Itajaí-Açu - ICMBio/CEPSUL,-26.90923,-48.6516,1.17
+DC01,2026-11-13T13:51:35Z,Rio Itajaí-Açu - ICMBio/CEPSUL,-26.90923,-48.6516,1.15
+DC01,2026-11-13T14:01:35Z,Rio Itajaí-Açu - ICMBio/CEPSUL,-26.90923,-48.6516,1.17
+DC01,2026-11-13T14:11:35Z,Rio Itajaí-Açu - ICMBio/CEPSUL,-26.90923,-48.6516,1.2
+DC01,2026-11-13T14:21:35Z,Rio Itajaí-Açu - ICMBio/CEPSUL,-26.90923,-48.6516,1.25
+DC01,2026-11-13T14:31:35Z,Rio Itajaí-Açu - ICMBio/CEPSUL,-26.90923,-48.6516,1.19
+DC01,2026-11-13T14:41:35Z,Rio Itajaí-Açu - ICMBio/CEPSUL,-26.90923,-48.6516,1.17
+DC01,2026-11-13T14:51:35Z,Rio Itajaí-Açu - ICMBio/CEPSUL,-26.90923,-48.6516,1.19
+DC01,2026-11-13T15:01:35Z,Rio Itajaí-Açu - ICMBio/CEPSUL,-26.90923,-48.6516,1.19
+DC01,2026-11-13T15:11:35Z,Rio Itajaí-Açu - ICMBio/CEPSUL,-26.90923,-48.6516,1.17
+DC01,2026-11-13T15:21:35Z,Rio Itajaí-Açu - ICMBio/CEPSUL,-26.90923,-48.6516,1.21
+DC01,2026-11-13T15:31:35Z,Rio Itajaí-Açu - ICMBio/CEPSUL,-26.90923,-48.6516,1.17
+DC01,2026-11-13T15:41:35Z,Rio Itajaí-Açu - ICMBio/CEPSUL,-26.90923,-48.6516,1.15
+DC01,2026-11-13T15:51:35Z,Rio Itajaí-Açu - ICMBio/CEPSUL,-26.90923,-48.6516,1.2
+DC01,2026-11-13T16:01:35Z,Rio Itajaí-Açu - ICMBio/CEPSUL,-26.90923,-48.6516,1.13
+DC01,2026-11-13T16:11:35Z,Rio Itajaí-Açu - ICMBio/CEPSUL,-26.90923,-48.6516,1.13
+DC01,2026-11-13T16:21:36Z,Rio Itajaí-Açu - ICMBio/CEPSUL,-26.90923,-48.6516,1.12
+DC01,2026-11-13T16:31:35Z,Rio Itajaí-Açu - ICMBio/CEPSUL,-26.90923,-48.6516,1.17
+DC01,2026-11-13T16:41:35Z,Rio Itajaí-Açu - ICMBio/CEPSUL,-26.90923,-48.6516,1.22
+DC01,2026-11-13T16:51:35Z,Rio Itajaí-Açu - ICMBio/CEPSUL,-26.90923,-48.6516,1.15
+DC01,2026-11-13T17:01:52Z,Rio Itajaí-Açu - ICMBio/CEPSUL,-26.90923,-48.6516,1.14
+DC01,2026-11-13T17:12:19Z,Rio Itajaí-Açu - ICMBio/CEPSUL,-26.90923,-48.6516,1.2
+DC01,2026-11-13T17:21:49Z,Rio Itajaí-Açu - ICMBio/CEPSUL,-26.90923,-48.6516,1.14
+DC01,2026-11-13T17:31:49Z,Rio Itajaí-Açu - ICMBio/CEPSUL,-26.90923,-48.6516,1.17
+DC01,2026-11-13T17:42:02Z,Rio Itajaí-Açu - ICMBio/CEPSUL,-26.90923,-48.6516,1.13
+DC01,2026-11-13T17:51:35Z,Rio Itajaí-Açu - ICMBio/CEPSUL,-26.90923,-48.6516,1.18
+DC01,2026-11-13T18:01:35Z,Rio Itajaí-Açu - ICMBio/CEPSUL,-26.90923,-48.6516,1.22
+DC01,2026-11-13T18:11:51Z,Rio Itajaí-Açu - ICMBio/CEPSUL,-26.90923,-48.6516,1.25
+DC01,2026-11-13T18:22:03Z,Rio Itajaí-Açu - ICMBio/CEPSUL,-26.90923,-48.6516,1.29
+DC01,2026-11-13T18:31:42Z,Rio Itajaí-Açu - ICMBio/CEPSUL,-26.90923,-48.6516,1.29
+DC01,2026-11-13T18:41:42Z,Rio Itajaí-Açu - ICMBio/CEPSUL,-26.90923,-48.6516,1.24
+DC01,2026-11-13T18:51:35Z,Rio Itajaí-Açu - ICMBio/CEPSUL,-26.90923,-48.6516,1.27
+DC01,2026-11-13T19:01:35Z,Rio Itajaí-Açu - ICMBio/CEPSUL,-26.90923,-48.6516,1.34
+DC01,2026-11-13T19:11:35Z,Rio Itajaí-Açu - ICMBio/CEPSUL,-26.90923,-48.6516,1.3
+DC01,2026-11-13T19:21:52Z,Rio Itajaí-Açu - ICMBio/CEPSUL,-26.90923,-48.6516,1.32
+DC01,2026-11-13T19:31:49Z,Rio Itajaí-Açu - ICMBio/CEPSUL,-26.90923,-48.6516,1.29
+DC02,2026-11-13T07:41:22Z,Rio Itajaí-Açu - Praça Celso Pereira da Silva,-26.875683,-48.710217,0.19
+DC02,2026-11-13T07:51:21Z,Rio Itajaí-Açu - Praça Celso Pereira da Silva,-26.875683,-48.710217,0.19
+DC02,2026-11-13T08:01:21Z,Rio Itajaí-Açu - Praça Celso Pereira da Silva,-26.875683,-48.710217,0.19
+DC02,2026-11-13T08:11:22Z,Rio Itajaí-Açu - Praça Celso Pereira da Silva,-26.875683,-48.710217,0.19
+DC02,2026-11-13T08:21:21Z,Rio Itajaí-Açu - Praça Celso Pereira da Silva,-26.875683,-48.710217,0.19
+DC02,2026-11-13T08:31:21Z,Rio Itajaí-Açu - Praça Celso Pereira da Silva,-26.875683,-48.710217,0.19
+DC02,2026-11-13T08:41:21Z,Rio Itajaí-Açu - Praça Celso Pereira da Silva,-26.875683,-48.710217,0.19
+DC02,2026-11-13T08:51:22Z,Rio Itajaí-Açu - Praça Celso Pereira da Silva,-26.875683,-48.710217,0.19
+DC02,2026-11-13T09:01:21Z,Rio Itajaí-Açu - Praça Celso Pereira da Silva,-26.875683,-48.710217,0.19
+DC02,2026-11-13T09:11:21Z,Rio Itajaí-Açu - Praça Celso Pereira da Silva,-26.875683,-48.710217,0.19
+DC02,2026-11-13T09:21:22Z,Rio Itajaí-Açu - Praça Celso Pereira da Silva,-26.875683,-48.710217,0.19
+DC02,2026-11-13T09:31:21Z,Rio Itajaí-Açu - Praça Celso Pereira da Silva,-26.875683,-48.710217,0.19
+DC02,2026-11-13T09:41:21Z,Rio Itajaí-Açu - Praça Celso Pereira da Silva,-26.875683,-48.710217,0.19
+DC02,2026-11-13T09:51:21Z,Rio Itajaí-Açu - Praça Celso Pereira da Silva,-26.875683,-48.710217,0.19
+DC02,2026-11-13T10:01:21Z,Rio Itajaí-Açu - Praça Celso Pereira da Silva,-26.875683,-48.710217,0.19
+DC02,2026-11-13T10:11:22Z,Rio Itajaí-Açu - Praça Celso Pereira da Silva,-26.875683,-48.710217,0.19
+DC02,2026-11-13T10:21:21Z,Rio Itajaí-Açu - Praça Celso Pereira da Silva,-26.875683,-48.710217,0.19
+DC02,2026-11-13T10:31:21Z,Rio Itajaí-Açu - Praça Celso Pereira da Silva,-26.875683,-48.710217,0.19
+DC02,2026-11-13T10:41:21Z,Rio Itajaí-Açu - Praça Celso Pereira da Silva,-26.875683,-48.710217,0.19
+DC02,2026-11-13T10:51:21Z,Rio Itajaí-Açu - Praça Celso Pereira da Silva,-26.875683,-48.710217,0.19
+DC02,2026-11-13T11:01:21Z,Rio Itajaí-Açu - Praça Celso Pereira da Silva,-26.875683,-48.710217,0.19
+DC02,2026-11-13T11:11:21Z,Rio Itajaí-Açu - Praça Celso Pereira da Silva,-26.875683,-48.710217,0.19
+DC02,2026-11-13T11:21:21Z,Rio Itajaí-Açu - Praça Celso Pereira da Silva,-26.875683,-48.710217,0.19
+DC02,2026-11-13T11:31:21Z,Rio Itajaí-Açu - Praça Celso Pereira da Silva,-26.875683,-48.710217,0.19
+DC02,2026-11-13T11:41:21Z,Rio Itajaí-Açu - Praça Celso Pereira da Silva,-26.875683,-48.710217,0.19
+DC02,2026-11-13T11:51:22Z,Rio Itajaí-Açu - Praça Celso Pereira da Silva,-26.875683,-48.710217,0.19
+DC02,2026-11-13T12:01:21Z,Rio Itajaí-Açu - Praça Celso Pereira da Silva,-26.875683,-48.710217,0.19
+DC02,2026-11-13T12:11:22Z,Rio Itajaí-Açu - Praça Celso Pereira da Silva,-26.875683,-48.710217,0.19
+DC02,2026-11-13T12:21:21Z,Rio Itajaí-Açu - Praça Celso Pereira da Silva,-26.875683,-48.710217,0.19
+DC02,2026-11-13T12:31:21Z,Rio Itajaí-Açu - Praça Celso Pereira da Silva,-26.875683,-48.710217,0.19
+DC02,2026-11-13T12:41:22Z,Rio Itajaí-Açu - Praça Celso Pereira da Silva,-26.875683,-48.710217,0.19
+DC02,2026-11-13T12:51:21Z,Rio Itajaí-Açu - Praça Celso Pereira da Silva,-26.875683,-48.710217,0.19
+DC02,2026-11-13T13:01:21Z,Rio Itajaí-Açu - Praça Celso Pereira da Silva,-26.875683,-48.710217,0.19
+DC02,2026-11-13T13:11:22Z,Rio Itajaí-Açu - Praça Celso Pereira da Silva,-26.875683,-48.710217,0.19
+DC02,2026-11-13T13:21:21Z,Rio Itajaí-Açu - Praça Celso Pereira da Silva,-26.875683,-48.710217,0.19
+DC02,2026-11-13T13:31:21Z,Rio Itajaí-Açu - Praça Celso Pereira da Silva,-26.875683,-48.710217,0.19
+DC02,2026-11-13T13:41:21Z,Rio Itajaí-Açu - Praça Celso Pereira da Silva,-26.875683,-48.710217,0.19
+DC02,2026-11-13T13:51:21Z,Rio Itajaí-Açu - Praça Celso Pereira da Silva,-26.875683,-48.710217,0.19
+DC02,2026-11-13T14:01:21Z,Rio Itajaí-Açu - Praça Celso Pereira da Silva,-26.875683,-48.710217,0.19
+DC02,2026-11-13T14:11:21Z,Rio Itajaí-Açu - Praça Celso Pereira da Silva,-26.875683,-48.710217,0.19
+DC02,2026-11-13T14:21:21Z,Rio Itajaí-Açu - Praça Celso Pereira da Silva,-26.875683,-48.710217,0.19
+DC02,2026-11-13T14:31:21Z,Rio Itajaí-Açu - Praça Celso Pereira da Silva,-26.875683,-48.710217,0.19
+DC02,2026-11-13T14:41:21Z,Rio Itajaí-Açu - Praça Celso Pereira da Silva,-26.875683,-48.710217,0.19
+DC02,2026-11-13T14:51:21Z,Rio Itajaí-Açu - Praça Celso Pereira da Silva,-26.875683,-48.710217,0.19
+DC02,2026-11-13T15:01:22Z,Rio Itajaí-Açu - Praça Celso Pereira da Silva,-26.875683,-48.710217,0.19
+DC02,2026-11-13T15:11:21Z,Rio Itajaí-Açu - Praça Celso Pereira da Silva,-26.875683,-48.710217,0.19
+DC02,2026-11-13T15:21:21Z,Rio Itajaí-Açu - Praça Celso Pereira da Silva,-26.875683,-48.710217,0.19
+DC02,2026-11-13T15:31:21Z,Rio Itajaí-Açu - Praça Celso Pereira da Silva,-26.875683,-48.710217,0.19
+DC02,2026-11-13T15:41:22Z,Rio Itajaí-Açu - Praça Celso Pereira da Silva,-26.875683,-48.710217,0.19
+DC02,2026-11-13T15:51:21Z,Rio Itajaí-Açu - Praça Celso Pereira da Silva,-26.875683,-48.710217,0.19
+DC02,2026-11-13T16:01:21Z,Rio Itajaí-Açu - Praça Celso Pereira da Silva,-26.875683,-48.710217,0.19
+DC02,2026-11-13T16:11:21Z,Rio Itajaí-Açu - Praça Celso Pereira da Silva,-26.875683,-48.710217,0.19
+DC02,2026-11-13T16:21:22Z,Rio Itajaí-Açu - Praça Celso Pereira da Silva,-26.875683,-48.710217,0.19
+DC02,2026-11-13T16:31:22Z,Rio Itajaí-Açu - Praça Celso Pereira da Silva,-26.875683,-48.710217,0.19
+DC02,2026-11-13T16:41:21Z,Rio Itajaí-Açu - Praça Celso Pereira da Silva,-26.875683,-48.710217,0.19
+DC02,2026-11-13T16:51:22Z,Rio Itajaí-Açu - Praça Celso Pereira da Silva,-26.875683,-48.710217,0.19
+DC02,2026-11-13T17:01:38Z,Rio Itajaí-Açu - Praça Celso Pereira da Silva,-26.875683,-48.710217,0.19
+DC02,2026-11-13T17:12:05Z,Rio Itajaí-Açu - Praça Celso Pereira da Silva,-26.875683,-48.710217,0.19
+DC02,2026-11-13T17:21:35Z,Rio Itajaí-Açu - Praça Celso Pereira da Silva,-26.875683,-48.710217,0.19
+DC02,2026-11-13T17:31:35Z,Rio Itajaí-Açu - Praça Celso Pereira da Silva,-26.875683,-48.710217,0.19
+DC02,2026-11-13T17:41:48Z,Rio Itajaí-Açu - Praça Celso Pereira da Silva,-26.875683,-48.710217,0.19
+DC02,2026-11-13T17:51:22Z,Rio Itajaí-Açu - Praça Celso Pereira da Silva,-26.875683,-48.710217,0.19
+DC02,2026-11-13T18:01:21Z,Rio Itajaí-Açu - Praça Celso Pereira da Silva,-26.875683,-48.710217,0.19
+DC02,2026-11-13T18:11:38Z,Rio Itajaí-Açu - Praça Celso Pereira da Silva,-26.875683,-48.710217,0.19
+DC02,2026-11-13T18:21:49Z,Rio Itajaí-Açu - Praça Celso Pereira da Silva,-26.875683,-48.710217,0.19
+DC02,2026-11-13T18:31:28Z,Rio Itajaí-Açu - Praça Celso Pereira da Silva,-26.875683,-48.710217,0.19
+DC02,2026-11-13T18:41:28Z,Rio Itajaí-Açu - Praça Celso Pereira da Silva,-26.875683,-48.710217,0.19
+DC02,2026-11-13T18:51:21Z,Rio Itajaí-Açu - Praça Celso Pereira da Silva,-26.875683,-48.710217,0.19
+DC02,2026-11-13T19:01:21Z,Rio Itajaí-Açu - Praça Celso Pereira da Silva,-26.875683,-48.710217,0.19
+DC02,2026-11-13T19:11:21Z,Rio Itajaí-Açu - Praça Celso Pereira da Silva,-26.875683,-48.710217,0.19
+DC02,2026-11-13T19:21:38Z,Rio Itajaí-Açu - Praça Celso Pereira da Silva,-26.875683,-48.710217,0.19
+DC02,2026-11-13T19:31:35Z,Rio Itajaí-Açu - Praça Celso Pereira da Silva,-26.875683,-48.710217,0.19
+DC03,2026-11-13T07:30:13Z,Rio Itajaí-Mirim (canal retificado) - Captação SEMASA,-26.91182,-48.71922,0.82
+DC03,2026-11-13T07:40:08Z,Rio Itajaí-Mirim (canal retificado) - Captação SEMASA,-26.91182,-48.71922,0.83
+DC03,2026-11-13T07:50:03Z,Rio Itajaí-Mirim (canal retificado) - Captação SEMASA,-26.91182,-48.71922,0.82
+DC03,2026-11-13T08:00:09Z,Rio Itajaí-Mirim (canal retificado) - Captação SEMASA,-26.91182,-48.71922,0.78
+DC03,2026-11-13T08:10:05Z,Rio Itajaí-Mirim (canal retificado) - Captação SEMASA,-26.91182,-48.71922,0.78
+DC03,2026-11-13T08:20:15Z,Rio Itajaí-Mirim (canal retificado) - Captação SEMASA,-26.91182,-48.71922,0.74
+DC03,2026-11-13T08:30:11Z,Rio Itajaí-Mirim (canal retificado) - Captação SEMASA,-26.91182,-48.71922,0.69
+DC03,2026-11-13T08:40:06Z,Rio Itajaí-Mirim (canal retificado) - Captação SEMASA,-26.91182,-48.71922,0.7
+DC03,2026-11-13T08:50:01Z,Rio Itajaí-Mirim (canal retificado) - Captação SEMASA,-26.91182,-48.71922,0.67
+DC03,2026-11-13T09:00:12Z,Rio Itajaí-Mirim (canal retificado) - Captação SEMASA,-26.91182,-48.71922,0.64
+DC03,2026-11-13T09:10:07Z,Rio Itajaí-Mirim (canal retificado) - Captação SEMASA,-26.91182,-48.71922,0.61
+DC03,2026-11-13T09:20:03Z,Rio Itajaí-Mirim (canal retificado) - Captação SEMASA,-26.91182,-48.71922,0.56
+DC03,2026-11-13T09:30:13Z,Rio Itajaí-Mirim (canal retificado) - Captação SEMASA,-26.91182,-48.71922,0.54
+DC03,2026-11-13T09:40:09Z,Rio Itajaí-Mirim (canal retificado) - Captação SEMASA,-26.91182,-48.71922,0.5
+DC03,2026-11-13T09:50:04Z,Rio Itajaí-Mirim (canal retificado) - Captação SEMASA,-26.91182,-48.71922,0.47
+DC03,2026-11-13T10:00:14Z,Rio Itajaí-Mirim (canal retificado) - Captação SEMASA,-26.91182,-48.71922,0.45
+DC03,2026-11-13T10:10:09Z,Rio Itajaí-Mirim (canal retificado) - Captação SEMASA,-26.91182,-48.71922,0.43
+DC03,2026-11-13T10:20:05Z,Rio Itajaí-Mirim (canal retificado) - Captação SEMASA,-26.91182,-48.71922,0.38
+DC03,2026-11-13T10:30:15Z,Rio Itajaí-Mirim (canal retificado) - Captação SEMASA,-26.91182,-48.71922,0.37
+DC03,2026-11-13T10:40:06Z,Rio Itajaí-Mirim (canal retificado) - Captação SEMASA,-26.91182,-48.71922,0.37
+DC03,2026-11-13T10:50:01Z,Rio Itajaí-Mirim (canal retificado) - Captação SEMASA,-26.91182,-48.71922,0.34
+DC03,2026-11-13T11:00:12Z,Rio Itajaí-Mirim (canal retificado) - Captação SEMASA,-26.91182,-48.71922,0.31
+DC03,2026-11-13T11:10:07Z,Rio Itajaí-Mirim (canal retificado) - Captação SEMASA,-26.91182,-48.71922,0.3
+DC03,2026-11-13T11:20:03Z,Rio Itajaí-Mirim (canal retificado) - Captação SEMASA,-26.91182,-48.71922,0.28
+DC03,2026-11-13T11:30:09Z,Rio Itajaí-Mirim (canal retificado) - Captação SEMASA,-26.91182,-48.71922,0.27
+DC03,2026-11-13T11:40:04Z,Rio Itajaí-Mirim (canal retificado) - Captação SEMASA,-26.91182,-48.71922,0.27
+DC03,2026-11-13T11:50:15Z,Rio Itajaí-Mirim (canal retificado) - Captação SEMASA,-26.91182,-48.71922,0.24
+DC03,2026-11-13T12:00:10Z,Rio Itajaí-Mirim (canal retificado) - Captação SEMASA,-26.91182,-48.71922,0.28
+DC03,2026-11-13T12:10:05Z,Rio Itajaí-Mirim (canal retificado) - Captação SEMASA,-26.91182,-48.71922,0.28
+DC03,2026-11-13T12:20:16Z,Rio Itajaí-Mirim (canal retificado) - Captação SEMASA,-26.91182,-48.71922,0.28
+DC03,2026-11-13T12:30:11Z,Rio Itajaí-Mirim (canal retificado) - Captação SEMASA,-26.91182,-48.71922,0.32
+DC03,2026-11-13T12:40:08Z,Rio Itajaí-Mirim (canal retificado) - Captação SEMASA,-26.91182,-48.71922,0.34
+DC03,2026-11-13T12:50:14Z,Rio Itajaí-Mirim (canal retificado) - Captação SEMASA,-26.91182,-48.71922,0.4
+DC03,2026-11-13T13:00:09Z,Rio Itajaí-Mirim (canal retificado) - Captação SEMASA,-26.91182,-48.71922,0.38
+DC03,2026-11-13T13:10:04Z,Rio Itajaí-Mirim (canal retificado) - Captação SEMASA,-26.91182,-48.71922,0.38
+DC03,2026-11-13T13:20:10Z,Rio Itajaí-Mirim (canal retificado) - Captação SEMASA,-26.91182,-48.71922,0.42
+DC03,2026-11-13T13:30:05Z,Rio Itajaí-Mirim (canal retificado) - Captação SEMASA,-26.91182,-48.71922,0.47
+DC03,2026-11-13T13:40:01Z,Rio Itajaí-Mirim (canal retificado) - Captação SEMASA,-26.91182,-48.71922,0.5
+DC03,2026-11-13T13:50:12Z,Rio Itajaí-Mirim (canal retificado) - Captação SEMASA,-26.91182,-48.71922,0.53
+DC03,2026-11-13T14:00:02Z,Rio Itajaí-Mirim (canal retificado) - Captação SEMASA,-26.91182,-48.71922,0.57
+DC03,2026-11-13T14:10:13Z,Rio Itajaí-Mirim (canal retificado) - Captação SEMASA,-26.91182,-48.71922,0.56
+DC03,2026-11-13T14:20:09Z,Rio Itajaí-Mirim (canal retificado) - Captação SEMASA,-26.91182,-48.71922,0.54
+DC03,2026-11-13T14:30:03Z,Rio Itajaí-Mirim (canal retificado) - Captação SEMASA,-26.91182,-48.71922,0.59
+DC03,2026-11-13T14:40:40Z,Rio Itajaí-Mirim (canal retificado) - Captação SEMASA,-26.91182,-48.71922,0.62
+DC03,2026-11-13T14:50:04Z,Rio Itajaí-Mirim (canal retificado) - Captação SEMASA,-26.91182,-48.71922,0.6
+DC03,2026-11-13T15:00:15Z,Rio Itajaí-Mirim (canal retificado) - Captação SEMASA,-26.91182,-48.71922,0.58
+DC03,2026-11-13T15:10:11Z,Rio Itajaí-Mirim (canal retificado) - Captação SEMASA,-26.91182,-48.71922,0.57
+DC03,2026-11-13T15:20:06Z,Rio Itajaí-Mirim (canal retificado) - Captação SEMASA,-26.91182,-48.71922,0.59
+DC03,2026-11-13T15:30:01Z,Rio Itajaí-Mirim (canal retificado) - Captação SEMASA,-26.91182,-48.71922,0.58
+DC03,2026-11-13T15:40:08Z,Rio Itajaí-Mirim (canal retificado) - Captação SEMASA,-26.91182,-48.71922,0.59
+DC03,2026-11-13T15:50:03Z,Rio Itajaí-Mirim (canal retificado) - Captação SEMASA,-26.91182,-48.71922,0.58
+DC03,2026-11-13T16:00:14Z,Rio Itajaí-Mirim (canal retificado) - Captação SEMASA,-26.91182,-48.71922,0.59
+DC03,2026-11-13T16:10:10Z,Rio Itajaí-Mirim (canal retificado) - Captação SEMASA,-26.91182,-48.71922,0.54
+DC03,2026-11-13T16:20:06Z,Rio Itajaí-Mirim (canal retificado) - Captação SEMASA,-26.91182,-48.71922,0.59
+DC03,2026-11-13T16:30:01Z,Rio Itajaí-Mirim (canal retificado) - Captação SEMASA,-26.91182,-48.71922,0.51
+DC03,2026-11-13T16:40:12Z,Rio Itajaí-Mirim (canal retificado) - Captação SEMASA,-26.91182,-48.71922,0.52
+DC03,2026-11-13T16:50:08Z,Rio Itajaí-Mirim (canal retificado) - Captação SEMASA,-26.91182,-48.71922,0.52
+DC03,2026-11-13T17:00:03Z,Rio Itajaí-Mirim (canal retificado) - Captação SEMASA,-26.91182,-48.71922,0.58
+DC03,2026-11-13T17:10:14Z,Rio Itajaí-Mirim (canal retificado) - Captação SEMASA,-26.91182,-48.71922,0.57
+DC03,2026-11-13T17:20:09Z,Rio Itajaí-Mirim (canal retificado) - Captação SEMASA,-26.91182,-48.71922,0.53
+DC03,2026-11-13T17:30:00Z,Rio Itajaí-Mirim (canal retificado) - Captação SEMASA,-26.91182,-48.71922,0.58
+DC03,2026-11-13T17:40:02Z,Rio Itajaí-Mirim (canal retificado) - Captação SEMASA,-26.91182,-48.71922,0.6
+DC03,2026-11-13T17:50:08Z,Rio Itajaí-Mirim (canal retificado) - Captação SEMASA,-26.91182,-48.71922,0.53
+DC03,2026-11-13T18:00:04Z,Rio Itajaí-Mirim (canal retificado) - Captação SEMASA,-26.91182,-48.71922,0.53
+DC03,2026-11-13T18:10:14Z,Rio Itajaí-Mirim (canal retificado) - Captação SEMASA,-26.91182,-48.71922,0.54
+DC03,2026-11-13T18:20:05Z,Rio Itajaí-Mirim (canal retificado) - Captação SEMASA,-26.91182,-48.71922,0.57
+DC03,2026-11-13T18:30:02Z,Rio Itajaí-Mirim (canal retificado) - Captação SEMASA,-26.91182,-48.71922,0.64
+DC03,2026-11-13T18:40:08Z,Rio Itajaí-Mirim (canal retificado) - Captação SEMASA,-26.91182,-48.71922,0.65
+DC03,2026-11-13T18:50:04Z,Rio Itajaí-Mirim (canal retificado) - Captação SEMASA,-26.91182,-48.71922,0.65
+DC03,2026-11-13T19:00:10Z,Rio Itajaí-Mirim (canal retificado) - Captação SEMASA,-26.91182,-48.71922,0.64
+DC03,2026-11-13T19:10:05Z,Rio Itajaí-Mirim (canal retificado) - Captação SEMASA,-26.91182,-48.71922,0.62
+DC03,2026-11-13T19:20:01Z,Rio Itajaí-Mirim (canal retificado) - Captação SEMASA,-26.91182,-48.71922,0.69
+DC03,2026-11-13T19:30:07Z,Rio Itajaí-Mirim (canal retificado) - Captação SEMASA,-26.91182,-48.71922,0.72
+DC04,2026-11-13T07:41:13Z,Rio Itajaí-Mirim (canal retificado e curso antigo) - Vitalmar Pescados,-26.8941,-48.68838,1.54
+DC04,2026-11-13T07:51:12Z,Rio Itajaí-Mirim (canal retificado e curso antigo) - Vitalmar Pescados,-26.8941,-48.68838,1.52
+DC04,2026-11-13T08:01:12Z,Rio Itajaí-Mirim (canal retificado e curso antigo) - Vitalmar Pescados,-26.8941,-48.68838,1.51
+DC04,2026-11-13T08:11:13Z,Rio Itajaí-Mirim (canal retificado e curso antigo) - Vitalmar Pescados,-26.8941,-48.68838,1.48
+DC04,2026-11-13T08:21:12Z,Rio Itajaí-Mirim (canal retificado e curso antigo) - Vitalmar Pescados,-26.8941,-48.68838,1.45
+DC04,2026-11-13T08:31:12Z,Rio Itajaí-Mirim (canal retificado e curso antigo) - Vitalmar Pescados,-26.8941,-48.68838,1.45
+DC04,2026-11-13T08:41:13Z,Rio Itajaí-Mirim (canal retificado e curso antigo) - Vitalmar Pescados,-26.8941,-48.68838,1.42
+DC04,2026-11-13T08:51:13Z,Rio Itajaí-Mirim (canal retificado e curso antigo) - Vitalmar Pescados,-26.8941,-48.68838,1.4
+DC04,2026-11-13T09:01:13Z,Rio Itajaí-Mirim (canal retificado e curso antigo) - Vitalmar Pescados,-26.8941,-48.68838,1.37
+DC04,2026-11-13T09:11:13Z,Rio Itajaí-Mirim (canal retificado e curso antigo) - Vitalmar Pescados,-26.8941,-48.68838,1.33
+DC04,2026-11-13T09:21:13Z,Rio Itajaí-Mirim (canal retificado e curso antigo) - Vitalmar Pescados,-26.8941,-48.68838,1.3
+DC04,2026-11-13T09:31:13Z,Rio Itajaí-Mirim (canal retificado e curso antigo) - Vitalmar Pescados,-26.8941,-48.68838,1.26
+DC04,2026-11-13T09:41:13Z,Rio Itajaí-Mirim (canal retificado e curso antigo) - Vitalmar Pescados,-26.8941,-48.68838,1.24
+DC04,2026-11-13T09:51:12Z,Rio Itajaí-Mirim (canal retificado e curso antigo) - Vitalmar Pescados,-26.8941,-48.68838,1.21
+DC04,2026-11-13T10:01:13Z,Rio Itajaí-Mirim (canal retificado e curso antigo) - Vitalmar Pescados,-26.8941,-48.68838,1.19
+DC04,2026-11-13T10:11:13Z,Rio Itajaí-Mirim (canal retificado e curso antigo) - Vitalmar Pescados,-26.8941,-48.68838,1.16
+DC04,2026-11-13T10:21:13Z,Rio Itajaí-Mirim (canal retificado e curso antigo) - Vitalmar Pescados,-26.8941,-48.68838,1.13
+DC04,2026-11-13T10:31:13Z,Rio Itajaí-Mirim (canal retificado e curso antigo) - Vitalmar Pescados,-26.8941,-48.68838,1.11
+DC04,2026-11-13T10:41:12Z,Rio Itajaí-Mirim (canal retificado e curso antigo) - Vitalmar Pescados,-26.8941,-48.68838,1.09
+DC04,2026-11-13T10:51:13Z,Rio Itajaí-Mirim (canal retificado e curso antigo) - Vitalmar Pescados,-26.8941,-48.68838,1.05
+DC04,2026-11-13T11:01:12Z,Rio Itajaí-Mirim (canal retificado e curso antigo) - Vitalmar Pescados,-26.8941,-48.68838,1.04
+DC04,2026-11-13T11:11:13Z,Rio Itajaí-Mirim (canal retificado e curso antigo) - Vitalmar Pescados,-26.8941,-48.68838,1.02
+DC04,2026-11-13T11:21:13Z,Rio Itajaí-Mirim (canal retificado e curso antigo) - Vitalmar Pescados,-26.8941,-48.68838,1.02
+DC04,2026-11-13T11:31:13Z,Rio Itajaí-Mirim (canal retificado e curso antigo) - Vitalmar Pescados,-26.8941,-48.68838,1
+DC04,2026-11-13T11:41:13Z,Rio Itajaí-Mirim (canal retificado e curso antigo) - Vitalmar Pescados,-26.8941,-48.68838,0.99
+DC04,2026-11-13T11:51:13Z,Rio Itajaí-Mirim (canal retificado e curso antigo) - Vitalmar Pescados,-26.8941,-48.68838,1
+DC04,2026-11-13T12:01:12Z,Rio Itajaí-Mirim (canal retificado e curso antigo) - Vitalmar Pescados,-26.8941,-48.68838,1
+DC04,2026-11-13T12:11:13Z,Rio Itajaí-Mirim (canal retificado e curso antigo) - Vitalmar Pescados,-26.8941,-48.68838,1
+DC04,2026-11-13T12:21:12Z,Rio Itajaí-Mirim (canal retificado e curso antigo) - Vitalmar Pescados,-26.8941,-48.68838,1.02
+DC04,2026-11-13T12:31:12Z,Rio Itajaí-Mirim (canal retificado e curso antigo) - Vitalmar Pescados,-26.8941,-48.68838,1.05
+DC04,2026-11-13T12:41:13Z,Rio Itajaí-Mirim (canal retificado e curso antigo) - Vitalmar Pescados,-26.8941,-48.68838,1.08
+DC04,2026-11-13T12:51:13Z,Rio Itajaí-Mirim (canal retificado e curso antigo) - Vitalmar Pescados,-26.8941,-48.68838,1.08
+DC04,2026-11-13T13:01:13Z,Rio Itajaí-Mirim (canal retificado e curso antigo) - Vitalmar Pescados,-26.8941,-48.68838,1.08
+DC04,2026-11-13T13:11:13Z,Rio Itajaí-Mirim (canal retificado e curso antigo) - Vitalmar Pescados,-26.8941,-48.68838,1.1
+DC04,2026-11-13T13:21:12Z,Rio Itajaí-Mirim (canal retificado e curso antigo) - Vitalmar Pescados,-26.8941,-48.68838,1.12
+DC04,2026-11-13T13:31:12Z,Rio Itajaí-Mirim (canal retificado e curso antigo) - Vitalmar Pescados,-26.8941,-48.68838,1.14
+DC04,2026-11-13T13:41:13Z,Rio Itajaí-Mirim (canal retificado e curso antigo) - Vitalmar Pescados,-26.8941,-48.68838,1.17
+DC04,2026-11-13T13:51:13Z,Rio Itajaí-Mirim (canal retificado e curso antigo) - Vitalmar Pescados,-26.8941,-48.68838,1.21
+DC04,2026-11-13T14:01:13Z,Rio Itajaí-Mirim (canal retificado e curso antigo) - Vitalmar Pescados,-26.8941,-48.68838,1.21
+DC04,2026-11-13T14:11:12Z,Rio Itajaí-Mirim (canal retificado e curso antigo) - Vitalmar Pescados,-26.8941,-48.68838,1.21
+DC04,2026-11-13T14:21:13Z,Rio Itajaí-Mirim (canal retificado e curso antigo) - Vitalmar Pescados,-26.8941,-48.68838,1.22
+DC04,2026-11-13T14:31:12Z,Rio Itajaí-Mirim (canal retificado e curso antigo) - Vitalmar Pescados,-26.8941,-48.68838,1.24
+DC04,2026-11-13T14:41:13Z,Rio Itajaí-Mirim (canal retificado e curso antigo) - Vitalmar Pescados,-26.8941,-48.68838,1.25
+DC04,2026-11-13T14:51:12Z,Rio Itajaí-Mirim (canal retificado e curso antigo) - Vitalmar Pescados,-26.8941,-48.68838,1.24
+DC04,2026-11-13T15:01:13Z,Rio Itajaí-Mirim (canal retificado e curso antigo) - Vitalmar Pescados,-26.8941,-48.68838,1.24
+DC04,2026-11-13T15:11:12Z,Rio Itajaí-Mirim (canal retificado e curso antigo) - Vitalmar Pescados,-26.8941,-48.68838,1.24
+DC04,2026-11-13T15:21:13Z,Rio Itajaí-Mirim (canal retificado e curso antigo) - Vitalmar Pescados,-26.8941,-48.68838,1.23
+DC04,2026-11-13T15:31:12Z,Rio Itajaí-Mirim (canal retificado e curso antigo) - Vitalmar Pescados,-26.8941,-48.68838,1.23
+DC04,2026-11-13T15:41:13Z,Rio Itajaí-Mirim (canal retificado e curso antigo) - Vitalmar Pescados,-26.8941,-48.68838,1.22
+DC04,2026-11-13T15:51:13Z,Rio Itajaí-Mirim (canal retificado e curso antigo) - Vitalmar Pescados,-26.8941,-48.68838,1.22
+DC04,2026-11-13T16:01:12Z,Rio Itajaí-Mirim (canal retificado e curso antigo) - Vitalmar Pescados,-26.8941,-48.68838,1.19
+DC04,2026-11-13T16:11:13Z,Rio Itajaí-Mirim (canal retificado e curso antigo) - Vitalmar Pescados,-26.8941,-48.68838,1.19
+DC04,2026-11-13T16:21:13Z,Rio Itajaí-Mirim (canal retificado e curso antigo) - Vitalmar Pescados,-26.8941,-48.68838,1.14
+DC04,2026-11-13T16:31:13Z,Rio Itajaí-Mirim (canal retificado e curso antigo) - Vitalmar Pescados,-26.8941,-48.68838,1.14
+DC04,2026-11-13T16:41:13Z,Rio Itajaí-Mirim (canal retificado e curso antigo) - Vitalmar Pescados,-26.8941,-48.68838,1.13
+DC04,2026-11-13T16:51:13Z,Rio Itajaí-Mirim (canal retificado e curso antigo) - Vitalmar Pescados,-26.8941,-48.68838,1.14
+DC04,2026-11-13T17:01:29Z,Rio Itajaí-Mirim (canal retificado e curso antigo) - Vitalmar Pescados,-26.8941,-48.68838,1.15
+DC04,2026-11-13T17:11:56Z,Rio Itajaí-Mirim (canal retificado e curso antigo) - Vitalmar Pescados,-26.8941,-48.68838,1.14
+DC04,2026-11-13T17:21:27Z,Rio Itajaí-Mirim (canal retificado e curso antigo) - Vitalmar Pescados,-26.8941,-48.68838,1.15
+DC04,2026-11-13T17:31:27Z,Rio Itajaí-Mirim (canal retificado e curso antigo) - Vitalmar Pescados,-26.8941,-48.68838,1.16
+DC04,2026-11-13T17:41:40Z,Rio Itajaí-Mirim (canal retificado e curso antigo) - Vitalmar Pescados,-26.8941,-48.68838,1.14
+DC04,2026-11-13T17:51:13Z,Rio Itajaí-Mirim (canal retificado e curso antigo) - Vitalmar Pescados,-26.8941,-48.68838,1.14
+DC04,2026-11-13T18:01:13Z,Rio Itajaí-Mirim (canal retificado e curso antigo) - Vitalmar Pescados,-26.8941,-48.68838,1.13
+DC04,2026-11-13T18:11:29Z,Rio Itajaí-Mirim (canal retificado e curso antigo) - Vitalmar Pescados,-26.8941,-48.68838,1.15
+DC04,2026-11-13T18:21:40Z,Rio Itajaí-Mirim (canal retificado e curso antigo) - Vitalmar Pescados,-26.8941,-48.68838,1.19
+DC04,2026-11-13T18:31:20Z,Rio Itajaí-Mirim (canal retificado e curso antigo) - Vitalmar Pescados,-26.8941,-48.68838,1.22
+DC04,2026-11-13T18:41:19Z,Rio Itajaí-Mirim (canal retificado e curso antigo) - Vitalmar Pescados,-26.8941,-48.68838,1.24
+DC04,2026-11-13T18:51:13Z,Rio Itajaí-Mirim (canal retificado e curso antigo) - Vitalmar Pescados,-26.8941,-48.68838,1.25
+DC04,2026-11-13T19:01:12Z,Rio Itajaí-Mirim (canal retificado e curso antigo) - Vitalmar Pescados,-26.8941,-48.68838,1.25
+DC04,2026-11-13T19:11:13Z,Rio Itajaí-Mirim (canal retificado e curso antigo) - Vitalmar Pescados,-26.8941,-48.68838,1.27
+DC04,2026-11-13T19:21:29Z,Rio Itajaí-Mirim (canal retificado e curso antigo) - Vitalmar Pescados,-26.8941,-48.68838,1.3
+DC04,2026-11-13T19:31:26Z,Rio Itajaí-Mirim (canal retificado e curso antigo) - Vitalmar Pescados,-26.8941,-48.68838,1.3
+DC05,2026-11-13T07:41:06Z,Rio Itajaí-Mirim (curso antigo) - Propriedade privada,-26.93336,-48.74776,0.99
+DC05,2026-11-13T07:51:05Z,Rio Itajaí-Mirim (curso antigo) - Propriedade privada,-26.93336,-48.74776,0.99
+DC05,2026-11-13T08:01:06Z,Rio Itajaí-Mirim (curso antigo) - Propriedade privada,-26.93336,-48.74776,0.99
+DC05,2026-11-13T08:11:06Z,Rio Itajaí-Mirim (curso antigo) - Propriedade privada,-26.93336,-48.74776,0.99
+DC05,2026-11-13T08:21:05Z,Rio Itajaí-Mirim (curso antigo) - Propriedade privada,-26.93336,-48.74776,0.99
+DC05,2026-11-13T08:31:05Z,Rio Itajaí-Mirim (curso antigo) - Propriedade privada,-26.93336,-48.74776,0.99
+DC05,2026-11-13T08:41:06Z,Rio Itajaí-Mirim (curso antigo) - Propriedade privada,-26.93336,-48.74776,0.99
+DC05,2026-11-13T08:51:06Z,Rio Itajaí-Mirim (curso antigo) - Propriedade privada,-26.93336,-48.74776,0.99
+DC05,2026-11-13T09:01:06Z,Rio Itajaí-Mirim (curso antigo) - Propriedade privada,-26.93336,-48.74776,0.99
+DC05,2026-11-13T09:11:06Z,Rio Itajaí-Mirim (curso antigo) - Propriedade privada,-26.93336,-48.74776,1
+DC05,2026-11-13T09:21:06Z,Rio Itajaí-Mirim (curso antigo) - Propriedade privada,-26.93336,-48.74776,1
+DC05,2026-11-13T09:31:06Z,Rio Itajaí-Mirim (curso antigo) - Propriedade privada,-26.93336,-48.74776,1
+DC05,2026-11-13T09:41:06Z,Rio Itajaí-Mirim (curso antigo) - Propriedade privada,-26.93336,-48.74776,1
+DC05,2026-11-13T09:51:05Z,Rio Itajaí-Mirim (curso antigo) - Propriedade privada,-26.93336,-48.74776,1
+DC05,2026-11-13T10:01:06Z,Rio Itajaí-Mirim (curso antigo) - Propriedade privada,-26.93336,-48.74776,1
+DC05,2026-11-13T10:11:06Z,Rio Itajaí-Mirim (curso antigo) - Propriedade privada,-26.93336,-48.74776,1.01
+DC05,2026-11-13T10:21:06Z,Rio Itajaí-Mirim (curso antigo) - Propriedade privada,-26.93336,-48.74776,1.02
+DC05,2026-11-13T10:31:06Z,Rio Itajaí-Mirim (curso antigo) - Propriedade privada,-26.93336,-48.74776,1.02
+DC05,2026-11-13T10:41:05Z,Rio Itajaí-Mirim (curso antigo) - Propriedade privada,-26.93336,-48.74776,1.02
+DC05,2026-11-13T10:51:06Z,Rio Itajaí-Mirim (curso antigo) - Propriedade privada,-26.93336,-48.74776,1.02
+DC05,2026-11-13T11:01:06Z,Rio Itajaí-Mirim (curso antigo) - Propriedade privada,-26.93336,-48.74776,1.02
+DC05,2026-11-13T11:11:06Z,Rio Itajaí-Mirim (curso antigo) - Propriedade privada,-26.93336,-48.74776,1.02
+DC05,2026-11-13T11:21:06Z,Rio Itajaí-Mirim (curso antigo) - Propriedade privada,-26.93336,-48.74776,1.02
+DC05,2026-11-13T11:31:06Z,Rio Itajaí-Mirim (curso antigo) - Propriedade privada,-26.93336,-48.74776,1.02
+DC05,2026-11-13T11:41:06Z,Rio Itajaí-Mirim (curso antigo) - Propriedade privada,-26.93336,-48.74776,1.02
+DC05,2026-11-13T11:51:06Z,Rio Itajaí-Mirim (curso antigo) - Propriedade privada,-26.93336,-48.74776,1.02
+DC05,2026-11-13T12:01:06Z,Rio Itajaí-Mirim (curso antigo) - Propriedade privada,-26.93336,-48.74776,1.02
+DC05,2026-11-13T12:11:06Z,Rio Itajaí-Mirim (curso antigo) - Propriedade privada,-26.93336,-48.74776,1.02
+DC05,2026-11-13T12:21:05Z,Rio Itajaí-Mirim (curso antigo) - Propriedade privada,-26.93336,-48.74776,1.02
+DC05,2026-11-13T12:31:06Z,Rio Itajaí-Mirim (curso antigo) - Propriedade privada,-26.93336,-48.74776,1.02
+DC05,2026-11-13T12:41:06Z,Rio Itajaí-Mirim (curso antigo) - Propriedade privada,-26.93336,-48.74776,1.02
+DC05,2026-11-13T12:51:06Z,Rio Itajaí-Mirim (curso antigo) - Propriedade privada,-26.93336,-48.74776,1.02
+DC05,2026-11-13T13:01:06Z,Rio Itajaí-Mirim (curso antigo) - Propriedade privada,-26.93336,-48.74776,1.02
+DC05,2026-11-13T13:11:06Z,Rio Itajaí-Mirim (curso antigo) - Propriedade privada,-26.93336,-48.74776,1.01
+DC05,2026-11-13T13:21:06Z,Rio Itajaí-Mirim (curso antigo) - Propriedade privada,-26.93336,-48.74776,1.02
+DC05,2026-11-13T13:31:06Z,Rio Itajaí-Mirim (curso antigo) - Propriedade privada,-26.93336,-48.74776,1.02
+DC05,2026-11-13T13:41:06Z,Rio Itajaí-Mirim (curso antigo) - Propriedade privada,-26.93336,-48.74776,1.01
+DC05,2026-11-13T13:51:06Z,Rio Itajaí-Mirim (curso antigo) - Propriedade privada,-26.93336,-48.74776,1.01
+DC05,2026-11-13T14:01:06Z,Rio Itajaí-Mirim (curso antigo) - Propriedade privada,-26.93336,-48.74776,1
+DC05,2026-11-13T14:11:06Z,Rio Itajaí-Mirim (curso antigo) - Propriedade privada,-26.93336,-48.74776,1
+DC05,2026-11-13T14:21:06Z,Rio Itajaí-Mirim (curso antigo) - Propriedade privada,-26.93336,-48.74776,1
+DC05,2026-11-13T14:31:06Z,Rio Itajaí-Mirim (curso antigo) - Propriedade privada,-26.93336,-48.74776,1
+DC05,2026-11-13T14:41:06Z,Rio Itajaí-Mirim (curso antigo) - Propriedade privada,-26.93336,-48.74776,1
+DC05,2026-11-13T14:51:05Z,Rio Itajaí-Mirim (curso antigo) - Propriedade privada,-26.93336,-48.74776,1
+DC05,2026-11-13T15:01:06Z,Rio Itajaí-Mirim (curso antigo) - Propriedade privada,-26.93336,-48.74776,1
+DC05,2026-11-13T15:11:06Z,Rio Itajaí-Mirim (curso antigo) - Propriedade privada,-26.93336,-48.74776,1
+DC05,2026-11-13T15:21:06Z,Rio Itajaí-Mirim (curso antigo) - Propriedade privada,-26.93336,-48.74776,1
+DC05,2026-11-13T15:31:05Z,Rio Itajaí-Mirim (curso antigo) - Propriedade privada,-26.93336,-48.74776,1
+DC05,2026-11-13T15:41:06Z,Rio Itajaí-Mirim (curso antigo) - Propriedade privada,-26.93336,-48.74776,1
+DC05,2026-11-13T15:51:06Z,Rio Itajaí-Mirim (curso antigo) - Propriedade privada,-26.93336,-48.74776,1
+DC05,2026-11-13T16:01:05Z,Rio Itajaí-Mirim (curso antigo) - Propriedade privada,-26.93336,-48.74776,0.99
+DC05,2026-11-13T16:11:06Z,Rio Itajaí-Mirim (curso antigo) - Propriedade privada,-26.93336,-48.74776,0.99
+DC05,2026-11-13T16:21:06Z,Rio Itajaí-Mirim (curso antigo) - Propriedade privada,-26.93336,-48.74776,0.99
+DC05,2026-11-13T16:31:06Z,Rio Itajaí-Mirim (curso antigo) - Propriedade privada,-26.93336,-48.74776,0.98
+DC05,2026-11-13T16:41:06Z,Rio Itajaí-Mirim (curso antigo) - Propriedade privada,-26.93336,-48.74776,0.99
+DC05,2026-11-13T16:51:06Z,Rio Itajaí-Mirim (curso antigo) - Propriedade privada,-26.93336,-48.74776,0.98
+DC05,2026-11-13T17:01:22Z,Rio Itajaí-Mirim (curso antigo) - Propriedade privada,-26.93336,-48.74776,0.98
+DC05,2026-11-13T17:11:49Z,Rio Itajaí-Mirim (curso antigo) - Propriedade privada,-26.93336,-48.74776,0.98
+DC05,2026-11-13T17:21:20Z,Rio Itajaí-Mirim (curso antigo) - Propriedade privada,-26.93336,-48.74776,0.98
+DC05,2026-11-13T17:31:20Z,Rio Itajaí-Mirim (curso antigo) - Propriedade privada,-26.93336,-48.74776,0.98
+DC05,2026-11-13T17:41:33Z,Rio Itajaí-Mirim (curso antigo) - Propriedade privada,-26.93336,-48.74776,0.98
+DC05,2026-11-13T17:51:06Z,Rio Itajaí-Mirim (curso antigo) - Propriedade privada,-26.93336,-48.74776,0.98
+DC05,2026-11-13T18:01:06Z,Rio Itajaí-Mirim (curso antigo) - Propriedade privada,-26.93336,-48.74776,0.98
+DC05,2026-11-13T18:11:22Z,Rio Itajaí-Mirim (curso antigo) - Propriedade privada,-26.93336,-48.74776,0.98
+DC05,2026-11-13T18:21:34Z,Rio Itajaí-Mirim (curso antigo) - Propriedade privada,-26.93336,-48.74776,0.98
+DC05,2026-11-13T18:31:13Z,Rio Itajaí-Mirim (curso antigo) - Propriedade privada,-26.93336,-48.74776,0.98
+DC05,2026-11-13T18:41:13Z,Rio Itajaí-Mirim (curso antigo) - Propriedade privada,-26.93336,-48.74776,0.98
+DC05,2026-11-13T18:51:06Z,Rio Itajaí-Mirim (curso antigo) - Propriedade privada,-26.93336,-48.74776,0.98
+DC05,2026-11-13T19:01:05Z,Rio Itajaí-Mirim (curso antigo) - Propriedade privada,-26.93336,-48.74776,0.98
+DC05,2026-11-13T19:11:06Z,Rio Itajaí-Mirim (curso antigo) - Propriedade privada,-26.93336,-48.74776,0.98
+DC05,2026-11-13T19:21:23Z,Rio Itajaí-Mirim (curso antigo) - Propriedade privada,-26.93336,-48.74776,0.98
+DC05,2026-11-13T19:31:19Z,Rio Itajaí-Mirim (curso antigo) - Propriedade privada,-26.93336,-48.74776,0.98
+DC06,2026-11-13T07:40:55Z,Rio Itajaí-Mirim (curso antigo) - Itamirim Clube de Campo,-26.92442,-48.68576,0.98
+DC06,2026-11-13T07:50:55Z,Rio Itajaí-Mirim (curso antigo) - Itamirim Clube de Campo,-26.92442,-48.68576,0.99
+DC06,2026-11-13T08:00:55Z,Rio Itajaí-Mirim (curso antigo) - Itamirim Clube de Campo,-26.92442,-48.68576,1
+DC06,2026-11-13T08:10:56Z,Rio Itajaí-Mirim (curso antigo) - Itamirim Clube de Campo,-26.92442,-48.68576,1
+DC06,2026-11-13T08:20:55Z,Rio Itajaí-Mirim (curso antigo) - Itamirim Clube de Campo,-26.92442,-48.68576,0.98
+DC06,2026-11-13T08:30:55Z,Rio Itajaí-Mirim (curso antigo) - Itamirim Clube de Campo,-26.92442,-48.68576,0.98
+DC06,2026-11-13T08:40:55Z,Rio Itajaí-Mirim (curso antigo) - Itamirim Clube de Campo,-26.92442,-48.68576,0.94
+DC06,2026-11-13T08:50:56Z,Rio Itajaí-Mirim (curso antigo) - Itamirim Clube de Campo,-26.92442,-48.68576,0.93
+DC06,2026-11-13T09:00:55Z,Rio Itajaí-Mirim (curso antigo) - Itamirim Clube de Campo,-26.92442,-48.68576,0.92
+DC06,2026-11-13T09:10:56Z,Rio Itajaí-Mirim (curso antigo) - Itamirim Clube de Campo,-26.92442,-48.68576,0.89
+DC06,2026-11-13T09:20:56Z,Rio Itajaí-Mirim (curso antigo) - Itamirim Clube de Campo,-26.92442,-48.68576,0.87
+DC06,2026-11-13T09:30:55Z,Rio Itajaí-Mirim (curso antigo) - Itamirim Clube de Campo,-26.92442,-48.68576,0.83
+DC06,2026-11-13T09:40:56Z,Rio Itajaí-Mirim (curso antigo) - Itamirim Clube de Campo,-26.92442,-48.68576,0.8
+DC06,2026-11-13T09:50:55Z,Rio Itajaí-Mirim (curso antigo) - Itamirim Clube de Campo,-26.92442,-48.68576,0.77
+DC06,2026-11-13T10:00:55Z,Rio Itajaí-Mirim (curso antigo) - Itamirim Clube de Campo,-26.92442,-48.68576,0.74
+DC06,2026-11-13T10:10:56Z,Rio Itajaí-Mirim (curso antigo) - Itamirim Clube de Campo,-26.92442,-48.68576,0.71
+DC06,2026-11-13T10:20:55Z,Rio Itajaí-Mirim (curso antigo) - Itamirim Clube de Campo,-26.92442,-48.68576,0.69
+DC06,2026-11-13T10:30:55Z,Rio Itajaí-Mirim (curso antigo) - Itamirim Clube de Campo,-26.92442,-48.68576,0.66
+DC06,2026-11-13T10:40:55Z,Rio Itajaí-Mirim (curso antigo) - Itamirim Clube de Campo,-26.92442,-48.68576,0.62
+DC06,2026-11-13T10:50:56Z,Rio Itajaí-Mirim (curso antigo) - Itamirim Clube de Campo,-26.92442,-48.68576,0.6
+DC06,2026-11-13T11:00:55Z,Rio Itajaí-Mirim (curso antigo) - Itamirim Clube de Campo,-26.92442,-48.68576,0.59
+DC06,2026-11-13T11:10:55Z,Rio Itajaí-Mirim (curso antigo) - Itamirim Clube de Campo,-26.92442,-48.68576,0.56
+DC06,2026-11-13T11:20:55Z,Rio Itajaí-Mirim (curso antigo) - Itamirim Clube de Campo,-26.92442,-48.68576,0.53
+DC06,2026-11-13T11:30:55Z,Rio Itajaí-Mirim (curso antigo) - Itamirim Clube de Campo,-26.92442,-48.68576,0.51
+DC06,2026-11-13T11:40:56Z,Rio Itajaí-Mirim (curso antigo) - Itamirim Clube de Campo,-26.92442,-48.68576,0.49
+DC06,2026-11-13T11:50:56Z,Rio Itajaí-Mirim (curso antigo) - Itamirim Clube de Campo,-26.92442,-48.68576,0.48
+DC06,2026-11-13T12:00:56Z,Rio Itajaí-Mirim (curso antigo) - Itamirim Clube de Campo,-26.92442,-48.68576,0.45
+DC06,2026-11-13T12:10:56Z,Rio Itajaí-Mirim (curso antigo) - Itamirim Clube de Campo,-26.92442,-48.68576,0.44
+DC06,2026-11-13T12:20:55Z,Rio Itajaí-Mirim (curso antigo) - Itamirim Clube de Campo,-26.92442,-48.68576,0.45
+DC06,2026-11-13T12:30:55Z,Rio Itajaí-Mirim (curso antigo) - Itamirim Clube de Campo,-26.92442,-48.68576,0.43
+DC06,2026-11-13T12:40:56Z,Rio Itajaí-Mirim (curso antigo) - Itamirim Clube de Campo,-26.92442,-48.68576,0.44
+DC06,2026-11-13T12:50:55Z,Rio Itajaí-Mirim (curso antigo) - Itamirim Clube de Campo,-26.92442,-48.68576,0.48
+DC06,2026-11-13T13:00:55Z,Rio Itajaí-Mirim (curso antigo) - Itamirim Clube de Campo,-26.92442,-48.68576,0.48
+DC06,2026-11-13T13:10:56Z,Rio Itajaí-Mirim (curso antigo) - Itamirim Clube de Campo,-26.92442,-48.68576,0.52
+DC06,2026-11-13T13:20:55Z,Rio Itajaí-Mirim (curso antigo) - Itamirim Clube de Campo,-26.92442,-48.68576,0.51
+DC06,2026-11-13T13:30:55Z,Rio Itajaí-Mirim (curso antigo) - Itamirim Clube de Campo,-26.92442,-48.68576,0.51
+DC06,2026-11-13T13:40:56Z,Rio Itajaí-Mirim (curso antigo) - Itamirim Clube de Campo,-26.92442,-48.68576,0.57
+DC06,2026-11-13T13:50:55Z,Rio Itajaí-Mirim (curso antigo) - Itamirim Clube de Campo,-26.92442,-48.68576,0.6
+DC06,2026-11-13T14:00:56Z,Rio Itajaí-Mirim (curso antigo) - Itamirim Clube de Campo,-26.92442,-48.68576,0.62
+DC06,2026-11-13T14:10:55Z,Rio Itajaí-Mirim (curso antigo) - Itamirim Clube de Campo,-26.92442,-48.68576,0.68
+DC06,2026-11-13T14:20:55Z,Rio Itajaí-Mirim (curso antigo) - Itamirim Clube de Campo,-26.92442,-48.68576,0.67
+DC06,2026-11-13T14:30:55Z,Rio Itajaí-Mirim (curso antigo) - Itamirim Clube de Campo,-26.92442,-48.68576,0.69
+DC06,2026-11-13T14:40:56Z,Rio Itajaí-Mirim (curso antigo) - Itamirim Clube de Campo,-26.92442,-48.68576,0.7
+DC06,2026-11-13T14:50:55Z,Rio Itajaí-Mirim (curso antigo) - Itamirim Clube de Campo,-26.92442,-48.68576,0.74
+DC06,2026-11-13T15:00:56Z,Rio Itajaí-Mirim (curso antigo) - Itamirim Clube de Campo,-26.92442,-48.68576,0.76
+DC06,2026-11-13T15:10:55Z,Rio Itajaí-Mirim (curso antigo) - Itamirim Clube de Campo,-26.92442,-48.68576,0.76
+DC06,2026-11-13T15:20:55Z,Rio Itajaí-Mirim (curso antigo) - Itamirim Clube de Campo,-26.92442,-48.68576,0.74
+DC06,2026-11-13T15:30:55Z,Rio Itajaí-Mirim (curso antigo) - Itamirim Clube de Campo,-26.92442,-48.68576,0.75
+DC06,2026-11-13T15:40:56Z,Rio Itajaí-Mirim (curso antigo) - Itamirim Clube de Campo,-26.92442,-48.68576,0.77
+DC06,2026-11-13T15:50:55Z,Rio Itajaí-Mirim (curso antigo) - Itamirim Clube de Campo,-26.92442,-48.68576,0.75
+DC06,2026-11-13T16:00:55Z,Rio Itajaí-Mirim (curso antigo) - Itamirim Clube de Campo,-26.92442,-48.68576,0.78
+DC06,2026-11-13T16:10:55Z,Rio Itajaí-Mirim (curso antigo) - Itamirim Clube de Campo,-26.92442,-48.68576,0.74
+DC06,2026-11-13T16:20:56Z,Rio Itajaí-Mirim (curso antigo) - Itamirim Clube de Campo,-26.92442,-48.68576,0.74
+DC06,2026-11-13T16:30:56Z,Rio Itajaí-Mirim (curso antigo) - Itamirim Clube de Campo,-26.92442,-48.68576,0.71
+DC06,2026-11-13T16:40:55Z,Rio Itajaí-Mirim (curso antigo) - Itamirim Clube de Campo,-26.92442,-48.68576,0.73
+DC06,2026-11-13T16:50:56Z,Rio Itajaí-Mirim (curso antigo) - Itamirim Clube de Campo,-26.92442,-48.68576,0.69
+DC06,2026-11-13T17:01:12Z,Rio Itajaí-Mirim (curso antigo) - Itamirim Clube de Campo,-26.92442,-48.68576,0.68
+DC06,2026-11-13T17:11:39Z,Rio Itajaí-Mirim (curso antigo) - Itamirim Clube de Campo,-26.92442,-48.68576,0.69
+DC06,2026-11-13T17:21:09Z,Rio Itajaí-Mirim (curso antigo) - Itamirim Clube de Campo,-26.92442,-48.68576,0.74
+DC06,2026-11-13T17:31:09Z,Rio Itajaí-Mirim (curso antigo) - Itamirim Clube de Campo,-26.92442,-48.68576,0.71
+DC06,2026-11-13T17:41:23Z,Rio Itajaí-Mirim (curso antigo) - Itamirim Clube de Campo,-26.92442,-48.68576,0.69
+DC06,2026-11-13T17:50:56Z,Rio Itajaí-Mirim (curso antigo) - Itamirim Clube de Campo,-26.92442,-48.68576,0.71
+DC06,2026-11-13T18:00:55Z,Rio Itajaí-Mirim (curso antigo) - Itamirim Clube de Campo,-26.92442,-48.68576,0.71
+DC06,2026-11-13T18:11:12Z,Rio Itajaí-Mirim (curso antigo) - Itamirim Clube de Campo,-26.92442,-48.68576,0.68
+DC06,2026-11-13T18:21:23Z,Rio Itajaí-Mirim (curso antigo) - Itamirim Clube de Campo,-26.92442,-48.68576,0.7
+DC06,2026-11-13T18:31:02Z,Rio Itajaí-Mirim (curso antigo) - Itamirim Clube de Campo,-26.92442,-48.68576,0.72
+DC06,2026-11-13T18:41:02Z,Rio Itajaí-Mirim (curso antigo) - Itamirim Clube de Campo,-26.92442,-48.68576,0.76
+DC06,2026-11-13T18:50:56Z,Rio Itajaí-Mirim (curso antigo) - Itamirim Clube de Campo,-26.92442,-48.68576,0.8
+DC06,2026-11-13T19:00:55Z,Rio Itajaí-Mirim (curso antigo) - Itamirim Clube de Campo,-26.92442,-48.68576,0.81
+DC06,2026-11-13T19:10:55Z,Rio Itajaí-Mirim (curso antigo) - Itamirim Clube de Campo,-26.92442,-48.68576,0.81
+DC06,2026-11-13T19:21:12Z,Rio Itajaí-Mirim (curso antigo) - Itamirim Clube de Campo,-26.92442,-48.68576,0.8
+DC06,2026-11-13T19:31:09Z,Rio Itajaí-Mirim (curso antigo) - Itamirim Clube de Campo,-26.92442,-48.68576,0.83
+DC07,2026-11-13T07:40:35Z,Ribeirão da Murta - Portal,-26.892699,-48.735573,0.33
+DC07,2026-11-13T07:50:34Z,Ribeirão da Murta - Portal,-26.892699,-48.735573,0.33
+DC07,2026-11-13T08:00:35Z,Ribeirão da Murta - Portal,-26.892699,-48.735573,0.33
+DC07,2026-11-13T08:10:35Z,Ribeirão da Murta - Portal,-26.892699,-48.735573,0.32
+DC07,2026-11-13T08:20:34Z,Ribeirão da Murta - Portal,-26.892699,-48.735573,0.32
+DC07,2026-11-13T08:30:34Z,Ribeirão da Murta - Portal,-26.892699,-48.735573,0.28
+DC07,2026-11-13T08:40:35Z,Ribeirão da Murta - Portal,-26.892699,-48.735573,0.31
+DC07,2026-11-13T08:50:35Z,Ribeirão da Murta - Portal,-26.892699,-48.735573,0.3
+DC07,2026-11-13T09:00:35Z,Ribeirão da Murta - Portal,-26.892699,-48.735573,0.33
+DC07,2026-11-13T09:10:34Z,Ribeirão da Murta - Portal,-26.892699,-48.735573,0.33
+DC07,2026-11-13T09:20:35Z,Ribeirão da Murta - Portal,-26.892699,-48.735573,0.31
+DC07,2026-11-13T09:30:34Z,Ribeirão da Murta - Portal,-26.892699,-48.735573,0.34
+DC07,2026-11-13T09:40:35Z,Ribeirão da Murta - Portal,-26.892699,-48.735573,0.5
+DC07,2026-11-13T09:50:34Z,Ribeirão da Murta - Portal,-26.892699,-48.735573,0.33
+DC07,2026-11-13T10:00:34Z,Ribeirão da Murta - Portal,-26.892699,-48.735573,0.36
+DC07,2026-11-13T10:10:35Z,Ribeirão da Murta - Portal,-26.892699,-48.735573,0.33
+DC07,2026-11-13T10:20:34Z,Ribeirão da Murta - Portal,-26.892699,-48.735573,0.31
+DC07,2026-11-13T10:30:34Z,Ribeirão da Murta - Portal,-26.892699,-48.735573,0.36
+DC07,2026-11-13T10:40:34Z,Ribeirão da Murta - Portal,-26.892699,-48.735573,0.29
+DC07,2026-11-13T10:50:35Z,Ribeirão da Murta - Portal,-26.892699,-48.735573,0.32
+DC07,2026-11-13T11:00:34Z,Ribeirão da Murta - Portal,-26.892699,-48.735573,0.3
+DC07,2026-11-13T11:10:34Z,Ribeirão da Murta - Portal,-26.892699,-48.735573,0.39
+DC07,2026-11-13T11:20:35Z,Ribeirão da Murta - Portal,-26.892699,-48.735573,0.37
+DC07,2026-11-13T11:30:35Z,Ribeirão da Murta - Portal,-26.892699,-48.735573,0.31
+DC07,2026-11-13T11:40:35Z,Ribeirão da Murta - Portal,-26.892699,-48.735573,0.32
+DC07,2026-11-13T11:50:35Z,Ribeirão da Murta - Portal,-26.892699,-48.735573,0.3
+DC07,2026-11-13T12:00:35Z,Ribeirão da Murta - Portal,-26.892699,-48.735573,0.32
+DC07,2026-11-13T12:10:35Z,Ribeirão da Murta - Portal,-26.892699,-48.735573,0.5
+DC07,2026-11-13T12:20:34Z,Ribeirão da Murta - Portal,-26.892699,-48.735573,0.36
+DC07,2026-11-13T12:30:35Z,Ribeirão da Murta - Portal,-26.892699,-48.735573,0.42
+DC07,2026-11-13T12:40:35Z,Ribeirão da Murta - Portal,-26.892699,-48.735573,0.32
+DC07,2026-11-13T12:50:35Z,Ribeirão da Murta - Portal,-26.892699,-48.735573,0.32
+DC07,2026-11-13T13:00:34Z,Ribeirão da Murta - Portal,-26.892699,-48.735573,0.31
+DC07,2026-11-13T13:10:35Z,Ribeirão da Murta - Portal,-26.892699,-48.735573,0.31
+DC07,2026-11-13T13:20:35Z,Ribeirão da Murta - Portal,-26.892699,-48.735573,0.3
+DC07,2026-11-13T13:30:34Z,Ribeirão da Murta - Portal,-26.892699,-48.735573,0.39
+DC07,2026-11-13T13:40:35Z,Ribeirão da Murta - Portal,-26.892699,-48.735573,0.36
+DC07,2026-11-13T13:50:34Z,Ribeirão da Murta - Portal,-26.892699,-48.735573,0.31
+DC07,2026-11-13T14:00:35Z,Ribeirão da Murta - Portal,-26.892699,-48.735573,0.31
+DC07,2026-11-13T14:10:34Z,Ribeirão da Murta - Portal,-26.892699,-48.735573,0.31
+DC07,2026-11-13T14:20:35Z,Ribeirão da Murta - Portal,-26.892699,-48.735573,0.3
+DC07,2026-11-13T14:30:34Z,Ribeirão da Murta - Portal,-26.892699,-48.735573,0.32
+DC07,2026-11-13T14:40:35Z,Ribeirão da Murta - Portal,-26.892699,-48.735573,0.31
+DC07,2026-11-13T14:50:34Z,Ribeirão da Murta - Portal,-26.892699,-48.735573,0.33
+DC07,2026-11-13T15:00:35Z,Ribeirão da Murta - Portal,-26.892699,-48.735573,0.32
+DC07,2026-11-13T15:10:34Z,Ribeirão da Murta - Portal,-26.892699,-48.735573,0.33
+DC07,2026-11-13T15:20:34Z,Ribeirão da Murta - Portal,-26.892699,-48.735573,0.34
+DC07,2026-11-13T15:30:34Z,Ribeirão da Murta - Portal,-26.892699,-48.735573,0.33
+DC07,2026-11-13T15:40:35Z,Ribeirão da Murta - Portal,-26.892699,-48.735573,0.3
+DC07,2026-11-13T15:50:34Z,Ribeirão da Murta - Portal,-26.892699,-48.735573,0.31
+DC07,2026-11-13T16:00:34Z,Ribeirão da Murta - Portal,-26.892699,-48.735573,0.31
+DC07,2026-11-13T16:10:34Z,Ribeirão da Murta - Portal,-26.892699,-48.735573,0.31
+DC07,2026-11-13T16:20:35Z,Ribeirão da Murta - Portal,-26.892699,-48.735573,0.33
+DC07,2026-11-13T16:30:35Z,Ribeirão da Murta - Portal,-26.892699,-48.735573,0.35
+DC07,2026-11-13T16:40:34Z,Ribeirão da Murta - Portal,-26.892699,-48.735573,0.32
+DC07,2026-11-13T16:50:35Z,Ribeirão da Murta - Portal,-26.892699,-48.735573,0.35
+DC07,2026-11-13T17:00:51Z,Ribeirão da Murta - Portal,-26.892699,-48.735573,0.34
+DC07,2026-11-13T17:11:18Z,Ribeirão da Murta - Portal,-26.892699,-48.735573,0.33
+DC07,2026-11-13T17:20:49Z,Ribeirão da Murta - Portal,-26.892699,-48.735573,0.34
+DC07,2026-11-13T17:30:49Z,Ribeirão da Murta - Portal,-26.892699,-48.735573,0.34
+DC07,2026-11-13T17:41:02Z,Ribeirão da Murta - Portal,-26.892699,-48.735573,0.33
+DC07,2026-11-13T17:50:35Z,Ribeirão da Murta - Portal,-26.892699,-48.735573,0.34
+DC07,2026-11-13T18:00:34Z,Ribeirão da Murta - Portal,-26.892699,-48.735573,0.33
+DC07,2026-11-13T18:10:51Z,Ribeirão da Murta - Portal,-26.892699,-48.735573,0.34
+DC07,2026-11-13T18:21:03Z,Ribeirão da Murta - Portal,-26.892699,-48.735573,0.36
+DC07,2026-11-13T18:30:42Z,Ribeirão da Murta - Portal,-26.892699,-48.735573,0.41
+DC07,2026-11-13T18:40:41Z,Ribeirão da Murta - Portal,-26.892699,-48.735573,0.45
+DC07,2026-11-13T18:50:35Z,Ribeirão da Murta - Portal,-26.892699,-48.735573,0.36
+DC07,2026-11-13T19:00:35Z,Ribeirão da Murta - Portal,-26.892699,-48.735573,0.32
+DC07,2026-11-13T19:10:35Z,Ribeirão da Murta - Portal,-26.892699,-48.735573,0.32
+DC07,2026-11-13T19:20:51Z,Ribeirão da Murta - Portal,-26.892699,-48.735573,0.33
+DC07,2026-11-13T19:30:48Z,Ribeirão da Murta - Portal,-26.892699,-48.735573,0.29
+DC08,2026-11-13T07:40:21Z,Ribeirão Canhanduba - Rua Benjamin Dagnoni,-26.979694,-48.711948,1
+DC08,2026-11-13T07:50:21Z,Ribeirão Canhanduba - Rua Benjamin Dagnoni,-26.979694,-48.711948,1
+DC08,2026-11-13T08:00:21Z,Ribeirão Canhanduba - Rua Benjamin Dagnoni,-26.979694,-48.711948,1
+DC08,2026-11-13T08:10:21Z,Ribeirão Canhanduba - Rua Benjamin Dagnoni,-26.979694,-48.711948,1
+DC08,2026-11-13T08:20:21Z,Ribeirão Canhanduba - Rua Benjamin Dagnoni,-26.979694,-48.711948,1
+DC08,2026-11-13T08:30:20Z,Ribeirão Canhanduba - Rua Benjamin Dagnoni,-26.979694,-48.711948,1
+DC08,2026-11-13T08:40:21Z,Ribeirão Canhanduba - Rua Benjamin Dagnoni,-26.979694,-48.711948,1
+DC08,2026-11-13T08:50:21Z,Ribeirão Canhanduba - Rua Benjamin Dagnoni,-26.979694,-48.711948,1
+DC08,2026-11-13T09:00:21Z,Ribeirão Canhanduba - Rua Benjamin Dagnoni,-26.979694,-48.711948,1
+DC08,2026-11-13T09:10:20Z,Ribeirão Canhanduba - Rua Benjamin Dagnoni,-26.979694,-48.711948,1
+DC08,2026-11-13T09:20:21Z,Ribeirão Canhanduba - Rua Benjamin Dagnoni,-26.979694,-48.711948,1
+DC08,2026-11-13T09:30:21Z,Ribeirão Canhanduba - Rua Benjamin Dagnoni,-26.979694,-48.711948,1
+DC08,2026-11-13T09:40:21Z,Ribeirão Canhanduba - Rua Benjamin Dagnoni,-26.979694,-48.711948,1
+DC08,2026-11-13T09:50:20Z,Ribeirão Canhanduba - Rua Benjamin Dagnoni,-26.979694,-48.711948,1
+DC08,2026-11-13T10:00:21Z,Ribeirão Canhanduba - Rua Benjamin Dagnoni,-26.979694,-48.711948,1
+DC08,2026-11-13T10:10:21Z,Ribeirão Canhanduba - Rua Benjamin Dagnoni,-26.979694,-48.711948,1
+DC08,2026-11-13T10:20:21Z,Ribeirão Canhanduba - Rua Benjamin Dagnoni,-26.979694,-48.711948,1
+DC08,2026-11-13T10:30:20Z,Ribeirão Canhanduba - Rua Benjamin Dagnoni,-26.979694,-48.711948,1
+DC08,2026-11-13T10:40:21Z,Ribeirão Canhanduba - Rua Benjamin Dagnoni,-26.979694,-48.711948,1
+DC08,2026-11-13T10:50:21Z,Ribeirão Canhanduba - Rua Benjamin Dagnoni,-26.979694,-48.711948,0.99
+DC08,2026-11-13T11:00:21Z,Ribeirão Canhanduba - Rua Benjamin Dagnoni,-26.979694,-48.711948,1
+DC08,2026-11-13T11:10:21Z,Ribeirão Canhanduba - Rua Benjamin Dagnoni,-26.979694,-48.711948,1
+DC08,2026-11-13T11:20:21Z,Ribeirão Canhanduba - Rua Benjamin Dagnoni,-26.979694,-48.711948,1
+DC08,2026-11-13T11:30:21Z,Ribeirão Canhanduba - Rua Benjamin Dagnoni,-26.979694,-48.711948,1
+DC08,2026-11-13T11:40:21Z,Ribeirão Canhanduba - Rua Benjamin Dagnoni,-26.979694,-48.711948,1
+DC08,2026-11-13T11:50:21Z,Ribeirão Canhanduba - Rua Benjamin Dagnoni,-26.979694,-48.711948,1
+DC08,2026-11-13T12:00:21Z,Ribeirão Canhanduba - Rua Benjamin Dagnoni,-26.979694,-48.711948,1
+DC08,2026-11-13T12:10:21Z,Ribeirão Canhanduba - Rua Benjamin Dagnoni,-26.979694,-48.711948,1
+DC08,2026-11-13T12:20:21Z,Ribeirão Canhanduba - Rua Benjamin Dagnoni,-26.979694,-48.711948,1
+DC08,2026-11-13T12:30:21Z,Ribeirão Canhanduba - Rua Benjamin Dagnoni,-26.979694,-48.711948,1
+DC08,2026-11-13T12:40:21Z,Ribeirão Canhanduba - Rua Benjamin Dagnoni,-26.979694,-48.711948,1
+DC08,2026-11-13T12:50:21Z,Ribeirão Canhanduba - Rua Benjamin Dagnoni,-26.979694,-48.711948,1
+DC08,2026-11-13T13:00:21Z,Ribeirão Canhanduba - Rua Benjamin Dagnoni,-26.979694,-48.711948,1
+DC08,2026-11-13T13:10:21Z,Ribeirão Canhanduba - Rua Benjamin Dagnoni,-26.979694,-48.711948,1
+DC08,2026-11-13T13:20:21Z,Ribeirão Canhanduba - Rua Benjamin Dagnoni,-26.979694,-48.711948,1
+DC08,2026-11-13T13:30:20Z,Ribeirão Canhanduba - Rua Benjamin Dagnoni,-26.979694,-48.711948,1
+DC08,2026-11-13T13:40:20Z,Ribeirão Canhanduba - Rua Benjamin Dagnoni,-26.979694,-48.711948,1
+DC08,2026-11-13T13:50:21Z,Ribeirão Canhanduba - Rua Benjamin Dagnoni,-26.979694,-48.711948,1
+DC08,2026-11-13T14:00:21Z,Ribeirão Canhanduba - Rua Benjamin Dagnoni,-26.979694,-48.711948,1
+DC08,2026-11-13T14:10:21Z,Ribeirão Canhanduba - Rua Benjamin Dagnoni,-26.979694,-48.711948,1
+DC08,2026-11-13T14:20:21Z,Ribeirão Canhanduba - Rua Benjamin Dagnoni,-26.979694,-48.711948,1
+DC08,2026-11-13T14:30:21Z,Ribeirão Canhanduba - Rua Benjamin Dagnoni,-26.979694,-48.711948,1
+DC08,2026-11-13T14:40:21Z,Ribeirão Canhanduba - Rua Benjamin Dagnoni,-26.979694,-48.711948,1
+DC08,2026-11-13T14:50:21Z,Ribeirão Canhanduba - Rua Benjamin Dagnoni,-26.979694,-48.711948,1
+DC08,2026-11-13T15:00:21Z,Ribeirão Canhanduba - Rua Benjamin Dagnoni,-26.979694,-48.711948,1
+DC08,2026-11-13T15:10:21Z,Ribeirão Canhanduba - Rua Benjamin Dagnoni,-26.979694,-48.711948,1
+DC08,2026-11-13T15:20:21Z,Ribeirão Canhanduba - Rua Benjamin Dagnoni,-26.979694,-48.711948,1
+DC08,2026-11-13T15:30:21Z,Ribeirão Canhanduba - Rua Benjamin Dagnoni,-26.979694,-48.711948,1
+DC08,2026-11-13T15:40:21Z,Ribeirão Canhanduba - Rua Benjamin Dagnoni,-26.979694,-48.711948,1
+DC08,2026-11-13T15:50:21Z,Ribeirão Canhanduba - Rua Benjamin Dagnoni,-26.979694,-48.711948,1
+DC08,2026-11-13T16:00:21Z,Ribeirão Canhanduba - Rua Benjamin Dagnoni,-26.979694,-48.711948,1
+DC08,2026-11-13T16:10:21Z,Ribeirão Canhanduba - Rua Benjamin Dagnoni,-26.979694,-48.711948,1
+DC08,2026-11-13T16:20:21Z,Ribeirão Canhanduba - Rua Benjamin Dagnoni,-26.979694,-48.711948,0.99
+DC08,2026-11-13T16:30:21Z,Ribeirão Canhanduba - Rua Benjamin Dagnoni,-26.979694,-48.711948,0.99
+DC08,2026-11-13T16:40:21Z,Ribeirão Canhanduba - Rua Benjamin Dagnoni,-26.979694,-48.711948,0.99
+DC08,2026-11-13T16:50:21Z,Ribeirão Canhanduba - Rua Benjamin Dagnoni,-26.979694,-48.711948,0.99
+DC08,2026-11-13T17:00:37Z,Ribeirão Canhanduba - Rua Benjamin Dagnoni,-26.979694,-48.711948,0.99
+DC08,2026-11-13T17:20:28Z,Ribeirão Canhanduba - Rua Benjamin Dagnoni,-26.979694,-48.711948,0.99
+DC08,2026-11-13T17:30:28Z,Ribeirão Canhanduba - Rua Benjamin Dagnoni,-26.979694,-48.711948,1
+DC08,2026-11-13T17:40:38Z,Ribeirão Canhanduba - Rua Benjamin Dagnoni,-26.979694,-48.711948,1
+DC08,2026-11-13T17:50:21Z,Ribeirão Canhanduba - Rua Benjamin Dagnoni,-26.979694,-48.711948,0.99
+DC08,2026-11-13T18:00:21Z,Ribeirão Canhanduba - Rua Benjamin Dagnoni,-26.979694,-48.711948,1
+DC08,2026-11-13T18:10:27Z,Ribeirão Canhanduba - Rua Benjamin Dagnoni,-26.979694,-48.711948,1
+DC08,2026-11-13T18:20:49Z,Ribeirão Canhanduba - Rua Benjamin Dagnoni,-26.979694,-48.711948,0.99
+DC08,2026-11-13T18:30:28Z,Ribeirão Canhanduba - Rua Benjamin Dagnoni,-26.979694,-48.711948,0.99
+DC08,2026-11-13T18:40:28Z,Ribeirão Canhanduba - Rua Benjamin Dagnoni,-26.979694,-48.711948,0.99
+DC08,2026-11-13T18:50:21Z,Ribeirão Canhanduba - Rua Benjamin Dagnoni,-26.979694,-48.711948,0.99
+DC08,2026-11-13T19:00:21Z,Ribeirão Canhanduba - Rua Benjamin Dagnoni,-26.979694,-48.711948,0.99
+DC08,2026-11-13T19:10:20Z,Ribeirão Canhanduba - Rua Benjamin Dagnoni,-26.979694,-48.711948,0.99
+DC08,2026-11-13T19:20:38Z,Ribeirão Canhanduba - Rua Benjamin Dagnoni,-26.979694,-48.711948,0.99
+DC08,2026-11-13T19:30:34Z,Ribeirão Canhanduba - Rua Benjamin Dagnoni,-26.979694,-48.711948,0.99
+DC09,2026-11-13T07:30:12Z,Ribeirão da Murta - Ponte da Rua Lidia Puel Peixer,-26.879777,-48.700308,1.25
+DC09,2026-11-13T07:40:07Z,Ribeirão da Murta - Ponte da Rua Lidia Puel Peixer,-26.879777,-48.700308,1.28
+DC09,2026-11-13T07:50:03Z,Ribeirão da Murta - Ponte da Rua Lidia Puel Peixer,-26.879777,-48.700308,1.29
+DC09,2026-11-13T08:00:14Z,Ribeirão da Murta - Ponte da Rua Lidia Puel Peixer,-26.879777,-48.700308,1.28
+DC09,2026-11-13T08:10:09Z,Ribeirão da Murta - Ponte da Rua Lidia Puel Peixer,-26.879777,-48.700308,1.27
+DC09,2026-11-13T08:20:05Z,Ribeirão da Murta - Ponte da Rua Lidia Puel Peixer,-26.879777,-48.700308,1.25
+DC09,2026-11-13T08:30:16Z,Ribeirão da Murta - Ponte da Rua Lidia Puel Peixer,-26.879777,-48.700308,1.23
+DC09,2026-11-13T08:40:11Z,Ribeirão da Murta - Ponte da Rua Lidia Puel Peixer,-26.879777,-48.700308,1.21
+DC09,2026-11-13T08:50:08Z,Ribeirão da Murta - Ponte da Rua Lidia Puel Peixer,-26.879777,-48.700308,1.18
+DC09,2026-11-13T09:00:03Z,Ribeirão da Murta - Ponte da Rua Lidia Puel Peixer,-26.879777,-48.700308,1.15
+DC09,2026-11-13T09:10:14Z,Ribeirão da Murta - Ponte da Rua Lidia Puel Peixer,-26.879777,-48.700308,1.13
+DC09,2026-11-13T09:20:10Z,Ribeirão da Murta - Ponte da Rua Lidia Puel Peixer,-26.879777,-48.700308,1.1
+DC09,2026-11-13T09:30:05Z,Ribeirão da Murta - Ponte da Rua Lidia Puel Peixer,-26.879777,-48.700308,1.08
+DC09,2026-11-13T09:40:01Z,Ribeirão da Murta - Ponte da Rua Lidia Puel Peixer,-26.879777,-48.700308,1.05
+DC09,2026-11-13T09:50:11Z,Ribeirão da Murta - Ponte da Rua Lidia Puel Peixer,-26.879777,-48.700308,1.03
+DC09,2026-11-13T10:00:07Z,Ribeirão da Murta - Ponte da Rua Lidia Puel Peixer,-26.879777,-48.700308,1
+DC09,2026-11-13T10:10:02Z,Ribeirão da Murta - Ponte da Rua Lidia Puel Peixer,-26.879777,-48.700308,0.98
+DC09,2026-11-13T10:20:13Z,Ribeirão da Murta - Ponte da Rua Lidia Puel Peixer,-26.879777,-48.700308,0.96
+DC09,2026-11-13T10:30:08Z,Ribeirão da Murta - Ponte da Rua Lidia Puel Peixer,-26.879777,-48.700308,0.94
+DC09,2026-11-13T10:40:04Z,Ribeirão da Murta - Ponte da Rua Lidia Puel Peixer,-26.879777,-48.700308,0.92
+DC09,2026-11-13T10:50:14Z,Ribeirão da Murta - Ponte da Rua Lidia Puel Peixer,-26.879777,-48.700308,0.9
+DC09,2026-11-13T11:00:10Z,Ribeirão da Murta - Ponte da Rua Lidia Puel Peixer,-26.879777,-48.700308,0.89
+DC09,2026-11-13T11:10:06Z,Ribeirão da Murta - Ponte da Rua Lidia Puel Peixer,-26.879777,-48.700308,0.87
+DC09,2026-11-13T11:20:01Z,Ribeirão da Murta - Ponte da Rua Lidia Puel Peixer,-26.879777,-48.700308,0.85
+DC09,2026-11-13T11:30:12Z,Ribeirão da Murta - Ponte da Rua Lidia Puel Peixer,-26.879777,-48.700308,0.84
+DC09,2026-11-13T11:40:08Z,Ribeirão da Murta - Ponte da Rua Lidia Puel Peixer,-26.879777,-48.700308,0.83
+DC09,2026-11-13T11:50:03Z,Ribeirão da Murta - Ponte da Rua Lidia Puel Peixer,-26.879777,-48.700308,0.81
+DC09,2026-11-13T12:00:14Z,Ribeirão da Murta - Ponte da Rua Lidia Puel Peixer,-26.879777,-48.700308,0.8
+DC09,2026-11-13T12:10:09Z,Ribeirão da Murta - Ponte da Rua Lidia Puel Peixer,-26.879777,-48.700308,0.79
+DC09,2026-11-13T12:20:05Z,Ribeirão da Murta - Ponte da Rua Lidia Puel Peixer,-26.879777,-48.700308,0.78
+DC09,2026-11-13T12:30:15Z,Ribeirão da Murta - Ponte da Rua Lidia Puel Peixer,-26.879777,-48.700308,0.79
+DC09,2026-11-13T12:40:10Z,Ribeirão da Murta - Ponte da Rua Lidia Puel Peixer,-26.879777,-48.700308,0.8
+DC09,2026-11-13T12:50:05Z,Ribeirão da Murta - Ponte da Rua Lidia Puel Peixer,-26.879777,-48.700308,0.82
+DC09,2026-11-13T13:00:02Z,Ribeirão da Murta - Ponte da Rua Lidia Puel Peixer,-26.879777,-48.700308,0.82
+DC09,2026-11-13T13:10:12Z,Ribeirão da Murta - Ponte da Rua Lidia Puel Peixer,-26.879777,-48.700308,0.83
+DC09,2026-11-13T13:20:07Z,Ribeirão da Murta - Ponte da Rua Lidia Puel Peixer,-26.879777,-48.700308,0.84
+DC09,2026-11-13T13:30:03Z,Ribeirão da Murta - Ponte da Rua Lidia Puel Peixer,-26.879777,-48.700308,0.86
+DC09,2026-11-13T13:40:14Z,Ribeirão da Murta - Ponte da Rua Lidia Puel Peixer,-26.879777,-48.700308,0.89
+DC09,2026-11-13T13:50:09Z,Ribeirão da Murta - Ponte da Rua Lidia Puel Peixer,-26.879777,-48.700308,0.91
+DC09,2026-11-13T14:00:04Z,Ribeirão da Murta - Ponte da Rua Lidia Puel Peixer,-26.879777,-48.700308,0.94
+DC09,2026-11-13T14:10:16Z,Ribeirão da Murta - Ponte da Rua Lidia Puel Peixer,-26.879777,-48.700308,0.96
+DC09,2026-11-13T14:20:11Z,Ribeirão da Murta - Ponte da Rua Lidia Puel Peixer,-26.879777,-48.700308,0.97
+DC09,2026-11-13T14:30:06Z,Ribeirão da Murta - Ponte da Rua Lidia Puel Peixer,-26.879777,-48.700308,1
+DC09,2026-11-13T14:40:02Z,Ribeirão da Murta - Ponte da Rua Lidia Puel Peixer,-26.879777,-48.700308,1.02
+DC09,2026-11-13T14:50:13Z,Ribeirão da Murta - Ponte da Rua Lidia Puel Peixer,-26.879777,-48.700308,1.03
+DC09,2026-11-13T15:00:08Z,Ribeirão da Murta - Ponte da Rua Lidia Puel Peixer,-26.879777,-48.700308,1.03
+DC09,2026-11-13T15:10:04Z,Ribeirão da Murta - Ponte da Rua Lidia Puel Peixer,-26.879777,-48.700308,1.03
+DC09,2026-11-13T15:20:14Z,Ribeirão da Murta - Ponte da Rua Lidia Puel Peixer,-26.879777,-48.700308,1.05
+DC09,2026-11-13T15:30:10Z,Ribeirão da Murta - Ponte da Rua Lidia Puel Peixer,-26.879777,-48.700308,1.05
+DC09,2026-11-13T15:40:06Z,Ribeirão da Murta - Ponte da Rua Lidia Puel Peixer,-26.879777,-48.700308,1.06
+DC09,2026-11-13T15:50:01Z,Ribeirão da Murta - Ponte da Rua Lidia Puel Peixer,-26.879777,-48.700308,1.05
+DC09,2026-11-13T16:00:12Z,Ribeirão da Murta - Ponte da Rua Lidia Puel Peixer,-26.879777,-48.700308,1.05
+DC09,2026-11-13T16:10:08Z,Ribeirão da Murta - Ponte da Rua Lidia Puel Peixer,-26.879777,-48.700308,1.04
+DC09,2026-11-13T16:20:03Z,Ribeirão da Murta - Ponte da Rua Lidia Puel Peixer,-26.879777,-48.700308,1.05
+DC09,2026-11-13T16:30:14Z,Ribeirão da Murta - Ponte da Rua Lidia Puel Peixer,-26.879777,-48.700308,1.03
+DC09,2026-11-13T16:40:10Z,Ribeirão da Murta - Ponte da Rua Lidia Puel Peixer,-26.879777,-48.700308,1.02
+DC09,2026-11-13T16:50:05Z,Ribeirão da Murta - Ponte da Rua Lidia Puel Peixer,-26.879777,-48.700308,1.01
+DC09,2026-11-13T17:00:16Z,Ribeirão da Murta - Ponte da Rua Lidia Puel Peixer,-26.879777,-48.700308,1.03
+DC09,2026-11-13T17:10:11Z,Ribeirão da Murta - Ponte da Rua Lidia Puel Peixer,-26.879777,-48.700308,1.03
+DC09,2026-11-13T17:20:07Z,Ribeirão da Murta - Ponte da Rua Lidia Puel Peixer,-26.879777,-48.700308,1.02
+DC09,2026-11-13T17:30:02Z,Ribeirão da Murta - Ponte da Rua Lidia Puel Peixer,-26.879777,-48.700308,1.04
+DC09,2026-11-13T17:40:13Z,Ribeirão da Murta - Ponte da Rua Lidia Puel Peixer,-26.879777,-48.700308,1.05
+DC09,2026-11-13T17:50:08Z,Ribeirão da Murta - Ponte da Rua Lidia Puel Peixer,-26.879777,-48.700308,1.03
+DC09,2026-11-13T18:00:04Z,Ribeirão da Murta - Ponte da Rua Lidia Puel Peixer,-26.879777,-48.700308,1.02
+DC09,2026-11-13T18:10:15Z,Ribeirão da Murta - Ponte da Rua Lidia Puel Peixer,-26.879777,-48.700308,1.02
+DC09,2026-11-13T18:20:11Z,Ribeirão da Murta - Ponte da Rua Lidia Puel Peixer,-26.879777,-48.700308,1.03
+DC09,2026-11-13T18:30:07Z,Ribeirão da Murta - Ponte da Rua Lidia Puel Peixer,-26.879777,-48.700308,1.07
+DC09,2026-11-13T18:40:03Z,Ribeirão da Murta - Ponte da Rua Lidia Puel Peixer,-26.879777,-48.700308,1.08
+DC09,2026-11-13T18:50:14Z,Ribeirão da Murta - Ponte da Rua Lidia Puel Peixer,-26.879777,-48.700308,1.1
+DC09,2026-11-13T19:00:09Z,Ribeirão da Murta - Ponte da Rua Lidia Puel Peixer,-26.879777,-48.700308,1.1
+DC09,2026-11-13T19:10:05Z,Ribeirão da Murta - Ponte da Rua Lidia Puel Peixer,-26.879777,-48.700308,1.1
+DC09,2026-11-13T19:20:15Z,Ribeirão da Murta - Ponte da Rua Lidia Puel Peixer,-26.879777,-48.700308,1.13
+DC09,2026-11-13T19:30:10Z,Ribeirão da Murta - Ponte da Rua Lidia Puel Peixer,-26.879777,-48.700308,1.16
+DC10,2026-11-13T07:30:13Z,Rio Itajaí-Mirim – Bairro Limoeiro,-27.03353,-48.861419,3.85
+DC10,2026-11-13T07:40:08Z,Rio Itajaí-Mirim – Bairro Limoeiro,-27.03353,-48.861419,3.81
+DC10,2026-11-13T07:50:04Z,Rio Itajaí-Mirim – Bairro Limoeiro,-27.03353,-48.861419,3.84
+DC10,2026-11-13T08:00:15Z,Rio Itajaí-Mirim – Bairro Limoeiro,-27.03353,-48.861419,3.8
+DC10,2026-11-13T08:10:11Z,Rio Itajaí-Mirim – Bairro Limoeiro,-27.03353,-48.861419,3.81
+DC10,2026-11-13T08:20:06Z,Rio Itajaí-Mirim – Bairro Limoeiro,-27.03353,-48.861419,3.79
+DC10,2026-11-13T08:30:01Z,Rio Itajaí-Mirim – Bairro Limoeiro,-27.03353,-48.861419,3.8
+DC10,2026-11-13T08:40:12Z,Rio Itajaí-Mirim – Bairro Limoeiro,-27.03353,-48.861419,3.79
+DC10,2026-11-13T08:50:07Z,Rio Itajaí-Mirim – Bairro Limoeiro,-27.03353,-48.861419,3.8
+DC10,2026-11-13T09:00:03Z,Rio Itajaí-Mirim – Bairro Limoeiro,-27.03353,-48.861419,3.78
+DC10,2026-11-13T09:10:14Z,Rio Itajaí-Mirim – Bairro Limoeiro,-27.03353,-48.861419,3.77
+DC10,2026-11-13T09:20:09Z,Rio Itajaí-Mirim – Bairro Limoeiro,-27.03353,-48.861419,3.79
+DC10,2026-11-13T09:30:05Z,Rio Itajaí-Mirim – Bairro Limoeiro,-27.03353,-48.861419,3.77
+DC10,2026-11-13T09:40:15Z,Rio Itajaí-Mirim – Bairro Limoeiro,-27.03353,-48.861419,3.72
+DC10,2026-11-13T09:50:11Z,Rio Itajaí-Mirim – Bairro Limoeiro,-27.03353,-48.861419,3.76
+DC10,2026-11-13T10:00:06Z,Rio Itajaí-Mirim – Bairro Limoeiro,-27.03353,-48.861419,3.76
+DC10,2026-11-13T10:10:01Z,Rio Itajaí-Mirim – Bairro Limoeiro,-27.03353,-48.861419,3.76
+DC10,2026-11-13T10:20:12Z,Rio Itajaí-Mirim – Bairro Limoeiro,-27.03353,-48.861419,3.73
+DC10,2026-11-13T10:30:08Z,Rio Itajaí-Mirim – Bairro Limoeiro,-27.03353,-48.861419,3.75
+DC10,2026-11-13T10:40:03Z,Rio Itajaí-Mirim – Bairro Limoeiro,-27.03353,-48.861419,3.76
+DC10,2026-11-13T10:50:13Z,Rio Itajaí-Mirim – Bairro Limoeiro,-27.03353,-48.861419,3.73
+DC10,2026-11-13T11:00:09Z,Rio Itajaí-Mirim – Bairro Limoeiro,-27.03353,-48.861419,3.72
+DC10,2026-11-13T11:10:04Z,Rio Itajaí-Mirim – Bairro Limoeiro,-27.03353,-48.861419,3.7
+DC10,2026-11-13T11:20:14Z,Rio Itajaí-Mirim – Bairro Limoeiro,-27.03353,-48.861419,3.74
+DC10,2026-11-13T11:30:10Z,Rio Itajaí-Mirim – Bairro Limoeiro,-27.03353,-48.861419,3.69
+DC10,2026-11-13T11:40:04Z,Rio Itajaí-Mirim – Bairro Limoeiro,-27.03353,-48.861419,3.73
+DC10,2026-11-13T11:50:15Z,Rio Itajaí-Mirim – Bairro Limoeiro,-27.03353,-48.861419,3.72
+DC10,2026-11-13T12:00:11Z,Rio Itajaí-Mirim – Bairro Limoeiro,-27.03353,-48.861419,3.7
+DC10,2026-11-13T12:10:06Z,Rio Itajaí-Mirim – Bairro Limoeiro,-27.03353,-48.861419,3.69
+DC10,2026-11-13T12:20:01Z,Rio Itajaí-Mirim – Bairro Limoeiro,-27.03353,-48.861419,3.69
+DC10,2026-11-13T12:30:12Z,Rio Itajaí-Mirim – Bairro Limoeiro,-27.03353,-48.861419,3.71
+DC10,2026-11-13T12:40:07Z,Rio Itajaí-Mirim – Bairro Limoeiro,-27.03353,-48.861419,3.69
+DC10,2026-11-13T12:50:02Z,Rio Itajaí-Mirim – Bairro Limoeiro,-27.03353,-48.861419,3.71
+DC10,2026-11-13T13:00:13Z,Rio Itajaí-Mirim – Bairro Limoeiro,-27.03353,-48.861419,3.67
+DC10,2026-11-13T13:10:08Z,Rio Itajaí-Mirim – Bairro Limoeiro,-27.03353,-48.861419,3.69
+DC10,2026-11-13T13:20:04Z,Rio Itajaí-Mirim – Bairro Limoeiro,-27.03353,-48.861419,3.71
+DC10,2026-11-13T13:30:06Z,Rio Itajaí-Mirim – Bairro Limoeiro,-27.03353,-48.861419,3.68
+DC10,2026-11-13T13:40:01Z,Rio Itajaí-Mirim – Bairro Limoeiro,-27.03353,-48.861419,3.71
+DC10,2026-11-13T13:50:12Z,Rio Itajaí-Mirim – Bairro Limoeiro,-27.03353,-48.861419,3.7
+DC10,2026-11-13T14:00:08Z,Rio Itajaí-Mirim – Bairro Limoeiro,-27.03353,-48.861419,3.7
+DC10,2026-11-13T14:10:03Z,Rio Itajaí-Mirim – Bairro Limoeiro,-27.03353,-48.861419,3.67
+DC10,2026-11-13T14:20:13Z,Rio Itajaí-Mirim – Bairro Limoeiro,-27.03353,-48.861419,3.71
+DC10,2026-11-13T14:30:09Z,Rio Itajaí-Mirim – Bairro Limoeiro,-27.03353,-48.861419,3.67
+DC10,2026-11-13T14:40:04Z,Rio Itajaí-Mirim – Bairro Limoeiro,-27.03353,-48.861419,3.68
+DC10,2026-11-13T14:50:15Z,Rio Itajaí-Mirim – Bairro Limoeiro,-27.03353,-48.861419,3.66
+DC10,2026-11-13T15:00:10Z,Rio Itajaí-Mirim – Bairro Limoeiro,-27.03353,-48.861419,3.68
+DC10,2026-11-13T15:10:06Z,Rio Itajaí-Mirim – Bairro Limoeiro,-27.03353,-48.861419,3.66
+DC10,2026-11-13T15:20:01Z,Rio Itajaí-Mirim – Bairro Limoeiro,-27.03353,-48.861419,3.67
+DC10,2026-11-13T15:30:12Z,Rio Itajaí-Mirim – Bairro Limoeiro,-27.03353,-48.861419,3.7
+DC10,2026-11-13T15:40:07Z,Rio Itajaí-Mirim – Bairro Limoeiro,-27.03353,-48.861419,3.68
+DC10,2026-11-13T15:50:04Z,Rio Itajaí-Mirim – Bairro Limoeiro,-27.03353,-48.861419,3.68
+DC10,2026-11-13T16:00:15Z,Rio Itajaí-Mirim – Bairro Limoeiro,-27.03353,-48.861419,3.66
+DC10,2026-11-13T16:10:10Z,Rio Itajaí-Mirim – Bairro Limoeiro,-27.03353,-48.861419,3.65
+DC10,2026-11-13T16:20:06Z,Rio Itajaí-Mirim – Bairro Limoeiro,-27.03353,-48.861419,3.69
+DC10,2026-11-13T16:30:01Z,Rio Itajaí-Mirim – Bairro Limoeiro,-27.03353,-48.861419,3.66
+DC10,2026-11-13T16:40:12Z,Rio Itajaí-Mirim – Bairro Limoeiro,-27.03353,-48.861419,3.68
+DC10,2026-11-13T16:50:08Z,Rio Itajaí-Mirim – Bairro Limoeiro,-27.03353,-48.861419,3.67
+DC10,2026-11-13T17:00:03Z,Rio Itajaí-Mirim – Bairro Limoeiro,-27.03353,-48.861419,3.7
+DC10,2026-11-13T17:10:14Z,Rio Itajaí-Mirim – Bairro Limoeiro,-27.03353,-48.861419,3.67
+DC10,2026-11-13T17:20:10Z,Rio Itajaí-Mirim – Bairro Limoeiro,-27.03353,-48.861419,3.67
+DC10,2026-11-13T17:30:06Z,Rio Itajaí-Mirim – Bairro Limoeiro,-27.03353,-48.861419,3.69
+DC10,2026-11-13T17:40:01Z,Rio Itajaí-Mirim – Bairro Limoeiro,-27.03353,-48.861419,3.67
+DC10,2026-11-13T17:50:12Z,Rio Itajaí-Mirim – Bairro Limoeiro,-27.03353,-48.861419,3.7
+DC10,2026-11-13T18:00:07Z,Rio Itajaí-Mirim – Bairro Limoeiro,-27.03353,-48.861419,3.69
+DC10,2026-11-13T18:10:03Z,Rio Itajaí-Mirim – Bairro Limoeiro,-27.03353,-48.861419,3.72
+DC10,2026-11-13T18:20:14Z,Rio Itajaí-Mirim – Bairro Limoeiro,-27.03353,-48.861419,3.69
+DC10,2026-11-13T18:30:09Z,Rio Itajaí-Mirim – Bairro Limoeiro,-27.03353,-48.861419,3.7
+DC10,2026-11-13T18:40:05Z,Rio Itajaí-Mirim – Bairro Limoeiro,-27.03353,-48.861419,3.7
+DC10,2026-11-13T18:50:11Z,Rio Itajaí-Mirim – Bairro Limoeiro,-27.03353,-48.861419,3.73
+DC10,2026-11-13T19:00:06Z,Rio Itajaí-Mirim – Bairro Limoeiro,-27.03353,-48.861419,3.73
+DC10,2026-11-13T19:10:12Z,Rio Itajaí-Mirim – Bairro Limoeiro,-27.03353,-48.861419,3.74
+DC10,2026-11-13T19:20:08Z,Rio Itajaí-Mirim – Bairro Limoeiro,-27.03353,-48.861419,3.75
+DC10,2026-11-13T19:30:04Z,Rio Itajaí-Mirim – Bairro Limoeiro,-27.03353,-48.861419,3.71
+DC11,2026-11-13T07:40:05Z,Rio Itajaí-Açú – Santa Regina (Volta de Cima),-26.879641,-48.761549,2.96
+DC11,2026-11-13T07:50:15Z,Rio Itajaí-Açú – Santa Regina (Volta de Cima),-26.879641,-48.761549,2.98
+DC11,2026-11-13T08:00:11Z,Rio Itajaí-Açú – Santa Regina (Volta de Cima),-26.879641,-48.761549,2.99
+DC11,2026-11-13T08:10:06Z,Rio Itajaí-Açú – Santa Regina (Volta de Cima),-26.879641,-48.761549,3
+DC11,2026-11-13T08:20:02Z,Rio Itajaí-Açú – Santa Regina (Volta de Cima),-26.879641,-48.761549,3.01
+DC11,2026-11-13T08:30:13Z,Rio Itajaí-Açú – Santa Regina (Volta de Cima),-26.879641,-48.761549,2.97
+DC11,2026-11-13T08:40:08Z,Rio Itajaí-Açú – Santa Regina (Volta de Cima),-26.879641,-48.761549,2.97
+DC11,2026-11-13T08:50:04Z,Rio Itajaí-Açú – Santa Regina (Volta de Cima),-26.879641,-48.761549,2.94
+DC11,2026-11-13T09:00:15Z,Rio Itajaí-Açú – Santa Regina (Volta de Cima),-26.879641,-48.761549,2.9
+DC11,2026-11-13T09:10:11Z,Rio Itajaí-Açú – Santa Regina (Volta de Cima),-26.879641,-48.761549,2.92
+DC11,2026-11-13T09:20:06Z,Rio Itajaí-Açú – Santa Regina (Volta de Cima),-26.879641,-48.761549,2.89
+DC11,2026-11-13T09:30:02Z,Rio Itajaí-Açú – Santa Regina (Volta de Cima),-26.879641,-48.761549,2.87
+DC11,2026-11-13T09:40:13Z,Rio Itajaí-Açú – Santa Regina (Volta de Cima),-26.879641,-48.761549,2.85
+DC11,2026-11-13T09:50:09Z,Rio Itajaí-Açú – Santa Regina (Volta de Cima),-26.879641,-48.761549,2.81
+DC11,2026-11-13T10:00:05Z,Rio Itajaí-Açú – Santa Regina (Volta de Cima),-26.879641,-48.761549,2.81
+DC11,2026-11-13T10:10:01Z,Rio Itajaí-Açú – Santa Regina (Volta de Cima),-26.879641,-48.761549,2.77
+DC11,2026-11-13T10:20:12Z,Rio Itajaí-Açú – Santa Regina (Volta de Cima),-26.879641,-48.761549,2.74
+DC11,2026-11-13T10:30:07Z,Rio Itajaí-Açú – Santa Regina (Volta de Cima),-26.879641,-48.761549,2.74
+DC11,2026-11-13T10:40:02Z,Rio Itajaí-Açú – Santa Regina (Volta de Cima),-26.879641,-48.761549,2.71
+DC11,2026-11-13T10:50:13Z,Rio Itajaí-Açú – Santa Regina (Volta de Cima),-26.879641,-48.761549,2.69
+DC11,2026-11-13T11:00:08Z,Rio Itajaí-Açú – Santa Regina (Volta de Cima),-26.879641,-48.761549,2.67
+DC11,2026-11-13T11:10:03Z,Rio Itajaí-Açú – Santa Regina (Volta de Cima),-26.879641,-48.761549,2.66
+DC11,2026-11-13T11:20:10Z,Rio Itajaí-Açú – Santa Regina (Volta de Cima),-26.879641,-48.761549,2.65
+DC11,2026-11-13T11:30:05Z,Rio Itajaí-Açú – Santa Regina (Volta de Cima),-26.879641,-48.761549,2.62
+DC11,2026-11-13T11:40:00Z,Rio Itajaí-Açú – Santa Regina (Volta de Cima),-26.879641,-48.761549,2.61
+DC11,2026-11-13T11:50:11Z,Rio Itajaí-Açú – Santa Regina (Volta de Cima),-26.879641,-48.761549,2.6
+DC11,2026-11-13T12:00:06Z,Rio Itajaí-Açú – Santa Regina (Volta de Cima),-26.879641,-48.761549,2.58
+DC11,2026-11-13T12:10:02Z,Rio Itajaí-Açú – Santa Regina (Volta de Cima),-26.879641,-48.761549,2.58
+DC11,2026-11-13T12:20:13Z,Rio Itajaí-Açú – Santa Regina (Volta de Cima),-26.879641,-48.761549,2.55
+DC11,2026-11-13T12:30:08Z,Rio Itajaí-Açú – Santa Regina (Volta de Cima),-26.879641,-48.761549,2.57
+DC11,2026-11-13T12:40:03Z,Rio Itajaí-Açú – Santa Regina (Volta de Cima),-26.879641,-48.761549,2.58
+DC11,2026-11-13T12:50:14Z,Rio Itajaí-Açú – Santa Regina (Volta de Cima),-26.879641,-48.761549,2.57
+DC11,2026-11-13T13:00:09Z,Rio Itajaí-Açú – Santa Regina (Volta de Cima),-26.879641,-48.761549,2.58
+DC11,2026-11-13T13:10:05Z,Rio Itajaí-Açú – Santa Regina (Volta de Cima),-26.879641,-48.761549,2.6
+DC11,2026-11-13T13:20:12Z,Rio Itajaí-Açú – Santa Regina (Volta de Cima),-26.879641,-48.761549,2.63
+DC11,2026-11-13T13:30:07Z,Rio Itajaí-Açú – Santa Regina (Volta de Cima),-26.879641,-48.761549,2.63
+DC11,2026-11-13T13:40:02Z,Rio Itajaí-Açú – Santa Regina (Volta de Cima),-26.879641,-48.761549,2.63
+DC11,2026-11-13T13:50:13Z,Rio Itajaí-Açú – Santa Regina (Volta de Cima),-26.879641,-48.761549,2.65
+DC11,2026-11-13T14:00:08Z,Rio Itajaí-Açú – Santa Regina (Volta de Cima),-26.879641,-48.761549,2.68
+DC11,2026-11-13T14:10:15Z,Rio Itajaí-Açú – Santa Regina (Volta de Cima),-26.879641,-48.761549,2.72
+DC11,2026-11-13T14:20:10Z,Rio Itajaí-Açú – Santa Regina (Volta de Cima),-26.879641,-48.761549,2.73
+DC11,2026-11-13T14:30:05Z,Rio Itajaí-Açú – Santa Regina (Volta de Cima),-26.879641,-48.761549,2.76
+DC11,2026-11-13T14:40:15Z,Rio Itajaí-Açú – Santa Regina (Volta de Cima),-26.879641,-48.761549,2.76
+DC11,2026-11-13T14:50:11Z,Rio Itajaí-Açú – Santa Regina (Volta de Cima),-26.879641,-48.761549,2.75
+DC11,2026-11-13T15:00:06Z,Rio Itajaí-Açú – Santa Regina (Volta de Cima),-26.879641,-48.761549,2.78
+DC11,2026-11-13T15:10:02Z,Rio Itajaí-Açú – Santa Regina (Volta de Cima),-26.879641,-48.761549,2.8
+DC11,2026-11-13T15:20:13Z,Rio Itajaí-Açú – Santa Regina (Volta de Cima),-26.879641,-48.761549,2.8
+DC11,2026-11-13T15:30:08Z,Rio Itajaí-Açú – Santa Regina (Volta de Cima),-26.879641,-48.761549,2.79
+DC11,2026-11-13T15:40:04Z,Rio Itajaí-Açú – Santa Regina (Volta de Cima),-26.879641,-48.761549,2.79
+DC11,2026-11-13T15:50:15Z,Rio Itajaí-Açú – Santa Regina (Volta de Cima),-26.879641,-48.761549,2.8
+DC11,2026-11-13T16:00:11Z,Rio Itajaí-Açú – Santa Regina (Volta de Cima),-26.879641,-48.761549,2.8
+DC11,2026-11-13T16:10:06Z,Rio Itajaí-Açú – Santa Regina (Volta de Cima),-26.879641,-48.761549,2.81
+DC11,2026-11-13T16:20:13Z,Rio Itajaí-Açú – Santa Regina (Volta de Cima),-26.879641,-48.761549,2.8
+DC11,2026-11-13T16:30:08Z,Rio Itajaí-Açú – Santa Regina (Volta de Cima),-26.879641,-48.761549,2.81
+DC11,2026-11-13T16:40:03Z,Rio Itajaí-Açú – Santa Regina (Volta de Cima),-26.879641,-48.761549,2.78
+DC11,2026-11-13T16:50:14Z,Rio Itajaí-Açú – Santa Regina (Volta de Cima),-26.879641,-48.761549,2.8
+DC11,2026-11-13T17:00:10Z,Rio Itajaí-Açú – Santa Regina (Volta de Cima),-26.879641,-48.761549,2.75
+DC11,2026-11-13T17:10:05Z,Rio Itajaí-Açú – Santa Regina (Volta de Cima),-26.879641,-48.761549,2.75
+DC11,2026-11-13T17:20:01Z,Rio Itajaí-Açú – Santa Regina (Volta de Cima),-26.879641,-48.761549,2.76
+DC11,2026-11-13T17:30:08Z,Rio Itajaí-Açú – Santa Regina (Volta de Cima),-26.879641,-48.761549,2.79
+DC11,2026-11-13T17:40:03Z,Rio Itajaí-Açú – Santa Regina (Volta de Cima),-26.879641,-48.761549,2.79
+DC11,2026-11-13T17:50:14Z,Rio Itajaí-Açú – Santa Regina (Volta de Cima),-26.879641,-48.761549,2.76
+DC11,2026-11-13T18:00:10Z,Rio Itajaí-Açú – Santa Regina (Volta de Cima),-26.879641,-48.761549,2.79
+DC11,2026-11-13T18:10:05Z,Rio Itajaí-Açú – Santa Regina (Volta de Cima),-26.879641,-48.761549,2.81
+DC11,2026-11-13T18:20:01Z,Rio Itajaí-Açú – Santa Regina (Volta de Cima),-26.879641,-48.761549,2.77
+DC11,2026-11-13T18:30:11Z,Rio Itajaí-Açú – Santa Regina (Volta de Cima),-26.879641,-48.761549,2.77
+DC11,2026-11-13T18:40:07Z,Rio Itajaí-Açú – Santa Regina (Volta de Cima),-26.879641,-48.761549,2.76
+DC11,2026-11-13T18:50:14Z,Rio Itajaí-Açú – Santa Regina (Volta de Cima),-26.879641,-48.761549,2.77
+DC11,2026-11-13T19:00:10Z,Rio Itajaí-Açú – Santa Regina (Volta de Cima),-26.879641,-48.761549,2.83
+DC11,2026-11-13T19:10:06Z,Rio Itajaí-Açú – Santa Regina (Volta de Cima),-26.879641,-48.761549,2.82
+DC11,2026-11-13T19:20:01Z,Rio Itajaí-Açú – Santa Regina (Volta de Cima),-26.879641,-48.761549,2.85
+DC11,2026-11-13T19:30:12Z,Rio Itajaí-Açú – Santa Regina (Volta de Cima),-26.879641,-48.761549,2.84
