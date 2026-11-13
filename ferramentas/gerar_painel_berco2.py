@@ -101,11 +101,14 @@ if __name__ == '__main__':
     modelo = open(os.path.join(pasta, 'modelo_berco2.html'), encoding='utf-8').read()
     nucleo = open(os.path.join(pasta, 'nucleo_mare.js'), encoding='utf-8').read()
     obs = observacoes()
+    with open(os.path.join(RAIZ, 'dados', 'mapa_itajai_acu.json')) as f:
+        mapa = json.load(f)
     gerado = datetime.now(timezone.utc).strftime('%Y-%m-%dT%H:%MZ')
     html = (modelo.replace('/*NUCLEO*/', nucleo)
                   .replace('/*DADOS*/', json.dumps(d, separators=(',', ':')))
                   .replace('/*PARAM*/', json.dumps(parametros(), separators=(',', ':')))
                   .replace('/*OBS*/', json.dumps(obs, separators=(',', ':')))
+                  .replace('/*MAPA*/', json.dumps(mapa, separators=(',', ':')))
                   .replace('/*GERADO*/', json.dumps(gerado)))
     saida = os.path.join(pasta, 'berco2.html')
     with open(saida, 'w', encoding='utf-8') as f:
