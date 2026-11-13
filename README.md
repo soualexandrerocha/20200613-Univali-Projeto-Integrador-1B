@@ -304,9 +304,32 @@ a corrente vai, em graus verdadeiros: COG magnético mais a declinação do
 WMM 2025, cerca de −20,3° em Itajaí em nov/2026. Com `--motor`, essas
 colunas não são geradas.
 
+**Desconto do vento.** Com `--vento`, o script desconta o arrasto do vento
+no casco e acrescenta as colunas `vento_nos`, `vento_de_verd`,
+`corr_vel_ms_sem_vento` e `corr_dir_verd_sem_vento`. O vento é informado
+como "vindo de", em graus verdadeiros ou ponto da rosa:
+
+```bash
+python ferramentas/extrair_video_plotter.py VIDEO.mp4 saida/ --vento 11.5@SE
+python ferramentas/extrair_video_plotter.py VIDEO.mp4 saida/ --vento vento.csv --arrasto 0.04
+```
+
+O CSV de vento tem as colunas `hora,vel_nos,dir` (por exemplo
+`07:31,11,SE`), no mesmo relógio do plotter. Entre duas leituras, o vento
+é interpolado por componentes; fora do intervalo, vale a leitura mais
+próxima. O casco anda com uma fração `--arrasto` da velocidade do vento,
+padrão 0,03. Esse valor é uma regra prática para embarcações pequenas, não
+uma medida desta lancha.
+
+No vídeo de 13/11/2026 o vento da praticagem era de 11–12 nós de SE,
+quase contrário à deriva. Com arrasto de 3%, a corrente passa de 0,84 para
+cerca de 1,01 m/s, e a direção vai de cerca de 155° para cerca de 151° V.
+
 Cuidados:
 - O vento empurra o casco, e esse arrasto entra na velocidade medida. Vale
-  anotar ou dizer no vídeo a intensidade e a direção do vento.
+  anotar ou dizer no vídeo a intensidade e a direção do vento, e informar
+  com `--vento`.
+- O vento de uma estação em terra pode não representar o vento sobre a água.
 - A medida representa a camada da água até o calado da lancha, não a coluna
   inteira.
 - A resolução da tela é de 0,1 nó (cerca de 0,05 m/s) e 1° no COG.
