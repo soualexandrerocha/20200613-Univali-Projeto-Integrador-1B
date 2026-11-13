@@ -138,7 +138,7 @@ Vale para cunha salina plena (até ~250 m³/s).
 Baixa as séries de 12 h da telemetria da Defesa Civil de Itajaí
 (monitoramento.defesacivil.itajai.sc.gov.br) e o nível de 24 h do AlertaBlu
 em Blumenau, acumula em
-`dados/niveis_defesacivil_itajai.csv` e ajusta, para cada estação, a razão
+`dados/niveis/` (um arquivo por coleta) e ajusta, para cada estação, a razão
 de amplitude e o atraso da maré em relação à foz. Com DC11 e Blumenau, calcula o
 trecho de enchimento do Itajaí-Açu fechado no Salto, onde a maré termina.
 
@@ -149,7 +149,8 @@ Carta Náutica 1841 (DHN) em GeoTIFF, que não fica no repositório:
 python ferramentas/larguras_carta1841.py PASTA_DOS_TIF   # requer rasterio, scipy e scikit-image
 ``` O workflow
 `.github/workflows/coleta-niveis.yml` roda a coleta a cada 6 h e commita as
-leituras novas, pois o site não guarda histórico.
+leituras novas, pois o site não guarda histórico. Só o workflow commita `dados/niveis/` e
+`pagina/berco2.html`; as regras para sessões estão em `CLAUDE.md`.
 
 ```bash
 python analise_propagacao_mare.py              # coleta e analisa

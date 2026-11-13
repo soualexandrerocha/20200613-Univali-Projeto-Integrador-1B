@@ -1,7 +1,9 @@
 # Coleta automática dos níveis da telemetria da Defesa Civil de Itajaí e
 # regeneração do painel pagina/berco2.html com as leituras novas.
 # O site só publica as últimas 12 h; rodando a cada 6 h, as janelas se
-# sobrepõem e a série em dados/niveis_defesacivil_itajai.csv fica contínua.
+# sobrepõem e a série fica contínua. Cada execução grava um arquivo novo em
+# dados/niveis/ (nenhum arquivo é editado depois), o que evita conflitos.
+# Só este workflow commita dados/niveis/ e pagina/berco2.html (ver CLAUDE.md).
 # Agendamentos (schedule) só rodam na branch padrão do repositório.
 name: Coleta de níveis (Defesa Civil de Itajaí)
 
@@ -9,9 +11,6 @@ on:
   schedule:
     - cron: '17 */6 * * *'  # UTC; minuto 17 para fugir do pico do início da hora
   workflow_dispatch:
-  push:
-    paths:
-      - '.github/workflows/coleta-niveis.yml'
 
 permissions:
   contents: write
@@ -40,7 +39,7 @@ jobs:
         id: coleta
         run: |
           python analise_propagacao_mare.py --so-coletar
-          if git diff --quiet -- dados/; then
+          if [ -z "$(git status --porcelain -- dados/)" ]; then
             echo "novas=false" >> "$GITHUB_OUTPUT"
             echo "Nenhuma leitura nova."
           else
