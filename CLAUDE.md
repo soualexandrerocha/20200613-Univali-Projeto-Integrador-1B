@@ -13,11 +13,14 @@ workflow agendado commita na `master` a cada 6 h. Para não gerar conflitos:
 O workflow `.github/workflows/coleta-niveis.yml` é o único que commita:
 - `dados/niveis/*.csv`: leituras de nível coletadas (um arquivo por coleta,
   nunca editado depois);
+- `dados/vazao_montante/*.csv`: vazão a montante (ANA, usinas Salto Pilão),
+  um arquivo por coleta, também nunca editado depois;
 - `pagina/berco2.html`: painel gerado por `ferramentas/gerar_painel_berco2.py`.
 
 Numa branch, não commite esses arquivos, mesmo que você os tenha gerado ou
 coletado localmente para testar: descarte com
-`git checkout -- pagina/berco2.html` e apague os CSV novos em `dados/niveis/`.
+`git checkout -- pagina/berco2.html` e apague os CSV novos em `dados/niveis/` e
+`dados/vazao_montante/`.
 Mudou o modelo do painel (`pagina/modelo_berco2.html`) ou o gerador? Commite
 só eles; o workflow regenera a página depois do merge. Para conferir a página
 localmente, gere-a, teste e descarte.
@@ -33,5 +36,6 @@ localmente, gere-a, teste e descarte.
 - `mare_itajai.py`: maré astronômica (tábuas CHM 2024–2026).
 - `cisalhamento_berco2_zp21.py`: corrente e tensão no Berço 2 (duas camadas).
 - `analise_propagacao_mare.py`: coleta de níveis e propagação da maré.
+- `vazao_montante.py`: coleta da vazão a montante (ANA, usinas Salto Pilão).
 - `ferramentas/`: geradores das páginas e extração de dados.
 - `README.md`: descrição de cada parte e como rodar.

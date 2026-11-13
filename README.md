@@ -276,3 +276,19 @@ estão escritas no próprio painel. A geometria (margens, eixo, estações) est�
 python ferramentas/larguras_carta1841.py PASTA_DOS_TIF --mapa
 ```
 
+## Vazão a montante — `vazao_montante.py`
+
+Coleta a vazão horária das usinas Salto Pilão (alto Itajaí-Açu e seus três
+braços) pela telemetria da ANA, a única fonte de vazão recente que
+conseguimos acessar para a bacia. O workflow roda a coleta a cada 6 h, com
+janela de 14 dias, e grava um arquivo por coleta em `dados/vazao_montante/`.
+
+```bash
+python vazao_montante.py              # coleta e resume
+python vazao_montante.py --offline    # só resume
+```
+
+O resumo compara a vazão de Blumenau, pela curva-chave sobre o AlertaBlu, com a
+de Salto Pilão Jusante, o que verifica a curva-chave e a fração usada para
+chegar à vazão no porto.
+
