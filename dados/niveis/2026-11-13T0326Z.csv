@@ -1,0 +1,42 @@
+codigo,medido_em,nome,latitude,longitude,nivel_rio_m
+BLU,2026-11-13T03:00:00Z,Rio Itajaí-Açu - Blumenau (AlertaBlu),-26.9186,-49.0656,3.56
+DC01,2026-11-13T02:51:35Z,Rio Itajaí-Açu - ICMBio/CEPSUL,-26.90923,-48.6516,0.8
+DC01,2026-11-13T03:01:35Z,Rio Itajaí-Açu - ICMBio/CEPSUL,-26.90923,-48.6516,0.85
+DC01,2026-11-13T03:11:35Z,Rio Itajaí-Açu - ICMBio/CEPSUL,-26.90923,-48.6516,0.81
+DC02,2026-11-13T02:51:21Z,Rio Itajaí-Açu - Praça Celso Pereira da Silva,-26.875683,-48.710217,0.19
+DC02,2026-11-13T03:01:21Z,Rio Itajaí-Açu - Praça Celso Pereira da Silva,-26.875683,-48.710217,0.19
+DC02,2026-11-13T03:11:21Z,Rio Itajaí-Açu - Praça Celso Pereira da Silva,-26.875683,-48.710217,0.19
+DC03,2026-11-13T02:50:01Z,Rio Itajaí-Mirim (canal retificado) - Captação SEMASA,-26.91182,-48.71922,0.02
+DC03,2026-11-13T03:00:12Z,Rio Itajaí-Mirim (canal retificado) - Captação SEMASA,-26.91182,-48.71922,0.1
+DC03,2026-11-13T03:10:07Z,Rio Itajaí-Mirim (canal retificado) - Captação SEMASA,-26.91182,-48.71922,0.06
+DC03,2026-11-13T03:20:02Z,Rio Itajaí-Mirim (canal retificado) - Captação SEMASA,-26.91182,-48.71922,0.2
+DC04,2026-11-13T02:51:12Z,Rio Itajaí-Mirim (canal retificado e curso antigo) - Vitalmar Pescados,-26.8941,-48.68838,0.78
+DC04,2026-11-13T03:01:13Z,Rio Itajaí-Mirim (canal retificado e curso antigo) - Vitalmar Pescados,-26.8941,-48.68838,0.77
+DC04,2026-11-13T03:11:12Z,Rio Itajaí-Mirim (canal retificado e curso antigo) - Vitalmar Pescados,-26.8941,-48.68838,0.84
+DC05,2026-11-13T02:51:06Z,Rio Itajaí-Mirim (curso antigo) - Propriedade privada,-26.93336,-48.74776,1
+DC05,2026-11-13T03:01:06Z,Rio Itajaí-Mirim (curso antigo) - Propriedade privada,-26.93336,-48.74776,1
+DC05,2026-11-13T03:11:05Z,Rio Itajaí-Mirim (curso antigo) - Propriedade privada,-26.93336,-48.74776,1
+DC06,2026-11-13T02:50:56Z,Rio Itajaí-Mirim (curso antigo) - Itamirim Clube de Campo,-26.92442,-48.68576,0.23
+DC06,2026-11-13T03:00:55Z,Rio Itajaí-Mirim (curso antigo) - Itamirim Clube de Campo,-26.92442,-48.68576,0.22
+DC06,2026-11-13T03:10:55Z,Rio Itajaí-Mirim (curso antigo) - Itamirim Clube de Campo,-26.92442,-48.68576,0.24
+DC06,2026-11-13T03:20:55Z,Rio Itajaí-Mirim (curso antigo) - Itamirim Clube de Campo,-26.92442,-48.68576,0.25
+DC07,2026-11-13T02:50:35Z,Ribeirão da Murta - Portal,-26.892699,-48.735573,0.32
+DC07,2026-11-13T03:00:35Z,Ribeirão da Murta - Portal,-26.892699,-48.735573,0.32
+DC07,2026-11-13T03:10:34Z,Ribeirão da Murta - Portal,-26.892699,-48.735573,0.32
+DC07,2026-11-13T03:20:34Z,Ribeirão da Murta - Portal,-26.892699,-48.735573,0.32
+DC08,2026-11-13T02:50:21Z,Ribeirão Canhanduba - Rua Benjamin Dagnoni,-26.979694,-48.711948,1
+DC08,2026-11-13T03:00:21Z,Ribeirão Canhanduba - Rua Benjamin Dagnoni,-26.979694,-48.711948,1
+DC08,2026-11-13T03:10:21Z,Ribeirão Canhanduba - Rua Benjamin Dagnoni,-26.979694,-48.711948,1
+DC08,2026-11-13T03:20:21Z,Ribeirão Canhanduba - Rua Benjamin Dagnoni,-26.979694,-48.711948,1
+DC09,2026-11-13T02:50:04Z,Ribeirão da Murta - Ponte da Rua Lidia Puel Peixer,-26.879777,-48.700308,0.51
+DC09,2026-11-13T03:00:15Z,Ribeirão da Murta - Ponte da Rua Lidia Puel Peixer,-26.879777,-48.700308,0.53
+DC09,2026-11-13T03:10:10Z,Ribeirão da Murta - Ponte da Rua Lidia Puel Peixer,-26.879777,-48.700308,0.52
+DC09,2026-11-13T03:20:06Z,Ribeirão da Murta - Ponte da Rua Lidia Puel Peixer,-26.879777,-48.700308,0.55
+DC10,2026-11-13T02:50:06Z,Rio Itajaí-Mirim – Bairro Limoeiro,-27.03353,-48.861419,3.7
+DC10,2026-11-13T03:00:12Z,Rio Itajaí-Mirim – Bairro Limoeiro,-27.03353,-48.861419,3.69
+DC10,2026-11-13T03:10:07Z,Rio Itajaí-Mirim – Bairro Limoeiro,-27.03353,-48.861419,3.67
+DC10,2026-11-13T03:20:03Z,Rio Itajaí-Mirim – Bairro Limoeiro,-27.03353,-48.861419,3.71
+DC11,2026-11-13T02:50:07Z,Rio Itajaí-Açú – Santa Regina (Volta de Cima),-26.879641,-48.761549,2.28
+DC11,2026-11-13T03:00:02Z,Rio Itajaí-Açú – Santa Regina (Volta de Cima),-26.879641,-48.761549,2.3
+DC11,2026-11-13T03:10:13Z,Rio Itajaí-Açú – Santa Regina (Volta de Cima),-26.879641,-48.761549,2.31
+DC11,2026-11-13T03:20:08Z,Rio Itajaí-Açú – Santa Regina (Volta de Cima),-26.879641,-48.761549,2.29
