@@ -276,3 +276,24 @@ estão escritas no próprio painel. A geometria (margens, eixo, estações) est�
 python ferramentas/larguras_carta1841.py PASTA_DOS_TIF --mapa
 ```
 
+
+## Dados de vídeo do plotter — `ferramentas/extrair_video_plotter.py`
+
+Converte um vídeo de celular apontado para a tela de um chartplotter num CSV
+com uma linha por segundo da hora mostrada na tela: data, hora, latitude e
+longitude (graus decimais), SOG (nós), COG (graus **magnéticos**, como
+mostrado na tela) e profundidade. Usa ffmpeg para tirar um quadro por
+segundo e Tesseract para ler o painel da direita, com voto entre dois modos
+de OCR. Leituras duvidosas ficam vazias em vez de erradas: um dígito em
+transição, uma posição que salta mais de 50 m ou um SOG que difere mais de
+0,3 nó dos vizinhos. Um campo que a tela mostra como `---` também fica
+vazio. Com `--quadros`, grava também o PNG de cada linha, para uma IA que
+lê imagens.
+
+```bash
+# requer ffmpeg, tesseract-ocr e: pip install opencv-python-headless pytesseract
+python ferramentas/extrair_video_plotter.py VIDEO.mp4 saida/ --quadros
+```
+
+SOG e COG são do barco em relação ao fundo, vindos do GPS. Não são a
+corrente. Os vídeos e as saídas não vão para o repositório.
