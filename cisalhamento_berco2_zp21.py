@@ -93,35 +93,40 @@ Incertezas: as sinuosidades e a largura de 200 m além da carta são
 estimativas (as hipóteses de 1,56 a 1,81 até DC11 e de 150 a 200 m de
 largura dão A_ef de 4,3 a 5,0 km²); o prisma do Itajaí-Mirim, que
 também tem maré (DC03, DC04, DC06) e deságua a montante do berço, não está
-incluído; poucos ciclos de dados. Duas camadas (cunha salina): o Itajaí-Açu é altamente estratificado. A
-vazante sai por uma camada superficial de espessura H_SUP, e a água do mar
-entra por baixo. Pelo balanço de volume e sal de Knudsen (Zaleski &
-Schettini, 2003, Notas Téc. Facimar 7:63-72), com sigma = S_sup/S_fundo:
+incluído; poucos ciclos de dados. Duas camadas (cunha salina): o Itajaí-Açu é estratificado. A vazante sai
+por uma camada superficial de espessura h_sup, e a água do mar entra por
+baixo. Pelo balanço de volume e sal de Knudsen (Zaleski & Schettini, 2003,
+Notas Téc. Facimar 7:63-72), com sigma = S_sup/S_fundo:
 
     Q_sup = Q_RIO / (1 - sigma) + max(Q_mare, 0)       (sai, + = vazante)
     Q_inf = Q_RIO + Q_mare - Q_sup                      (entra, < 0 sem vazante de maré)
-    u_sup = Q_sup / (B * H_SUP),   u_inf = Q_inf / (B * (H - H_SUP))
+    u_sup = Q_sup / (B * h_sup),   u_inf = Q_inf / (B * (H - h_sup))
 
-com a vazante de maré pela camada de cima e a enchente pela de baixo. Acima
-de Q_EXPULSAO (~1000 m³/s) a cunha é expulsa (Schettini): entre
-Q_CUNHA_PLENA (250 m³/s, topo da faixa em que Zaleski & Schettini viram a
-cunha plena) e Q_EXPULSAO, as velocidades passam linearmente do regime de
-duas camadas para o de camada única. Essa faixa está fora da calibração: o
-regime de duas camadas concentra ~3,3 x Q_RIO em 3,4 m, e a camada única
-espalha Q_RIO por toda a coluna, então a transição real é desconhecida. sigma = 0,7 sai dos
-fluxos de sal medidos por Zaleski & Schettini junto à barra; H_SUP = 3,4 m
-foi calibrado para dar 2 nós na superfície do trecho A (canal entre as
-bacias, 280 m de largura na Carta 1841) às 08:00 de 12/11/2026, quando se
-observaram mais de 2 nós (logo, H_SUP é um limite superior). Conferência
-independente: com Q = 151 m³/s e o canal de ~8 m de 2000, o modelo dá
-residual de 0,42 m/s na superfície e 0,22 m/s no fundo; os fluxos de sal do
-artigo indicam ~0,35-0,8 e ~0,26-0,37 m/s. A tensão no cais usa a corrente
-da camada superior.
+com a vazante de maré pela camada de cima e a enchente pela de baixo.
+
+sigma e h_sup variam com a vazão do rio, calibrados em dois pontos:
+  - vazão baixa (Q_BAIXA = 230 m³/s no porto): sigma = 0,7 e h_sup = 3,8 m,
+    pelos fluxos de sal de Zaleski & Schettini junto à barra em janeiro de
+    2000 (Indaial a 162 m³/s nos dados consistidos da ANA, / 0,70 de área);
+    a razão entre os fluxos de fundo e de superfície dá a camada de cima com
+    ~48% dos ~8 m do canal da época. Conferência: com esses valores e a
+    geometria de 2000, residual de 0,58 m/s na superfície e 0,37 m/s no
+    fundo; o artigo indica ~0,35-0,8 e ~0,26-0,37 m/s;
+  - vazão alta (Q_ALTA = 1200 m³/s no porto): sigma = 0 (cunha expulsa
+    acima de ~1000 m³/s, segundo Schettini) e h_sup = 5,1 m, que dá 2 nós
+    na superfície do trecho A (280 m) às 08:00 de 12/11/2026, quando se
+    observaram mais de 2 nós (h_sup é, portanto, um limite superior). A
+    vazão daquele dia vem da curva-chave de Blumenau
+    (ferramentas/curva_chave_blumenau.py): ~900 m³/s em Blumenau com o
+    AlertaBlu em 3,61 m, / ~0,75 de área (estimativa) para chegar ao porto.
+Entre os dois pontos, sigma e h_sup variam linearmente com a vazão; fora
+deles, ficam constantes (acima de Q_ALTA é extrapolação). h_sup = 3,8 m vem
+do canal de 2000, com ~8 m; no canal atual, de ~13 m, a camada pode ser
+outra. A tensão no cais usa a corrente da camada superior.
 
 As medições de Schettini & Carvalho (1998), com variação de 77 a
 140 cm/s ao longo do ciclo, são de 1994-95, com o canal a ~8 m, e não servem
-para validar. O modelo ignora a estratificação da cunha salina, que separa
-a corrente de superfície (vazante) da de fundo (enchente).
+para validar.
 """
 
 from datetime import datetime, timedelta, timezone
@@ -183,8 +188,16 @@ C_CAIS = 300.0  # m, trecho de cais representado
 B_CANAL = 100.0  # m, distância ao cais representada (borda aberta)
 
 B_RIO = 400.0  # m, largura do rio no Berço 2
-# Vazão fluvial média do Itajaí-Açu no estuário, ~215 m³/s (Zaleski &
-# Schettini, 2003, Notas Téc. Facimar 7:63-72). Trocar pela vazão do dia.
+# Vazão do rio no porto (m³/s). 215 é a média dos dias do experimento de
+# Zaleski & Schettini (2003, Notas Téc. Facimar 7:63-72, Tabela 2), janeiro
+# de 2000, medida em Indaial (ANA 83690000, ~90 km acima, ~70% da bacia); não
+# é média de longo prazo. Pela série de Indaial 1929-2021
+# (ferramentas/vazao_indaial.py): média 229, mediana 139, P10 56, P90 494
+# m³/s; escalando pela área (/0,70), no porto a mediana fica em ~200 e a média
+# em ~330 m³/s. 215 representa um dia típico no porto. A vazão real de
+# 12/11/2026 (~900 m³/s em Blumenau, ~1200 no porto) vem da curva-chave de
+# Blumenau (ferramentas/curva_chave_blumenau.py), não deste valor.
+# Trocar pela vazão do dia quando houver.
 Q_RIO = 215.0  # m³/s
 # Propagação da maré medida (analise_propagacao_mare.py, 11-12/11/2026):
 # (distância pelo rio da foz em km, razão de amplitude, atraso em min)
@@ -204,11 +217,9 @@ A_MONTANTE, ATRASO_FLUXO_S, A_PRISMA = areas_efetivas(
 L_EFETIVO = A_MONTANTE / B_RIO  # m, trecho de enchimento equivalente na largura do porto
 L_PRISMA = A_PRISMA / B_RIO     # m; prisma de maré = A_PRISMA * amplitude
 
-# Duas camadas (cunha salina); ver docstring
-SIGMA_SAL = 0.7      # S_sup / S_fundo junto à barra (Zaleski & Schettini, 2003)
-H_SUP = 3.4          # m, camada superior; calibrada: >2 nós no trecho A às 08:00 de 12/11/2026
-Q_CUNHA_PLENA = 250.0  # m³/s, até aqui a cunha fica plena (Zaleski & Schettini: 116-240 m³/s)
-Q_EXPULSAO = 1000.0  # m³/s, vazão que expulsa a cunha salina
+# Duas camadas (cunha salina), calibradas em dois pontos de vazão; ver docstring
+Q_BAIXA, SIGMA_BAIXA, H_SUP_BAIXA = 230.0, 0.7, 3.8  # Zaleski & Schettini, jan/2000
+Q_ALTA, SIGMA_ALTA, H_SUP_ALTA = 1200.0, 0.0, 5.1    # observação de 12/11/2026, trecho A
 SECOES = {'Berço 2': 400.0, 'Trecho A (canal entre as bacias)': 280.0}  # largura (m), Carta 1841
 
 
@@ -355,21 +366,19 @@ def serie_corrente(inicio, horas=24, passo_min=10, q_rio=None, area=A_MONTANTE):
     return tempos, eta, h, u, np.sign(u) * tensao_parede(u)
 
 
-def camadas(q_rio, q_mare, h, largura):
-    """(u_sup, u_inf) em m/s para vazão do rio, vazão de maré (+ vazante), coluna h e largura.
+def parametros_cunha(q_rio):
+    """(sigma, h_sup) para a vazão do rio, interpolando entre Q_BAIXA e Q_ALTA."""
+    f = min(1.0, max(0.0, (q_rio - Q_BAIXA) / (Q_ALTA - Q_BAIXA)))
+    return SIGMA_BAIXA + (SIGMA_ALTA - SIGMA_BAIXA) * f, H_SUP_BAIXA + (H_SUP_ALTA - H_SUP_BAIXA) * f
 
-    Até Q_CUNHA_PLENA: duas camadas (Knudsen) com SIGMA_SAL e H_SUP calibrados.
-    A partir de Q_EXPULSAO: camada única, u = Q / (B * h). Entre os dois, mistura
-    linear das velocidades: fora da faixa calibrada e incerto.
-    """
+
+def camadas(q_rio, q_mare, h, largura):
+    """(u_sup, u_inf) em m/s para vazão do rio, vazão de maré (+ vazante), coluna h e largura."""
     q_mare, h = np.asarray(q_mare, float), np.asarray(h, float)
-    q_sup = q_rio / (1 - SIGMA_SAL) + np.maximum(q_mare, 0)
+    sigma, h_sup = parametros_cunha(q_rio)
+    q_sup = q_rio / (1 - sigma) + np.maximum(q_mare, 0)
     q_inf = q_rio + q_mare - q_sup
-    u2_sup = q_sup / (largura * H_SUP)
-    u2_inf = q_inf / (largura * (h - H_SUP))
-    u1 = (q_rio + q_mare) / (largura * h)
-    f = min(1.0, max(0.0, (q_rio - Q_CUNHA_PLENA) / (Q_EXPULSAO - Q_CUNHA_PLENA)))
-    return (1 - f) * u2_sup + f * u1, (1 - f) * u2_inf + f * u1
+    return q_sup / (largura * h_sup), q_inf / (largura * (h - h_sup))
 
 
 def serie_camadas(inicio, largura, horas=24, passo_min=10, q_rio=None):
@@ -384,8 +393,9 @@ def serie_camadas(inicio, largura, horas=24, passo_min=10, q_rio=None):
 def tabela_camadas(inicio=None):
     """Máximos de corrente na superfície e no fundo, por seção, no dia do INSTANTE."""
     inicio = inicio or INSTANTE.replace(hour=0, minute=0, second=0, microsecond=0)
-    print(f'\nDuas camadas, {inicio:%d/%m/%Y} (sigma = {SIGMA_SAL}, camada superior {H_SUP} m, '
-          f'Q_rio = {Q_RIO:.0f} m³/s)')
+    sigma, h_sup = parametros_cunha(Q_RIO)
+    print(f'\nDuas camadas, {inicio:%d/%m/%Y} (Q_rio = {Q_RIO:.0f} m³/s: sigma = {sigma:.2f}, '
+          f'camada superior {h_sup:.1f} m)')
     for nome, larg in SECOES.items():
         tempos, us, ui, tau = serie_camadas(inicio, larg)
         i, j = int(np.argmax(us)), int(np.argmin(ui))

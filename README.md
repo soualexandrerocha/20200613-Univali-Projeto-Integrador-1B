@@ -121,17 +121,29 @@ praticagem (Itajaí 2 = Berço 2, 12,8 m) mais a maré de `mare_itajai.py`.
 Ao rodar, também imprime:
 
 - a vazão equivalente a cada velocidade (largura do rio de 400 m);
-- a corrente ao longo do dia: vazão fluvial (215 m³/s, média) mais a
+- a corrente ao longo do dia: vazão fluvial (215 m³/s, um dia típico no porto) mais a
   corrente de maré pelo método do prisma de maré, com a atenuação medida rio acima.
 
 Com velocidade fixa, a tensão na parede não depende da profundidade; a
 maré só pesa por meio da vazão e da corrente de maré.
 
 A corrente é calculada em duas camadas (cunha salina, balanço de Knudsen):
-a camada superior leva Q_rio/(1 − σ) mais a vazante de maré. σ = 0,7 vem de
-Zaleski & Schettini (2003); a espessura de 3,4 m foi calibrada com a corrente
-de superfície acima de 2 nós observada no trecho A às 08:00 de 12/11/2026.
-Vale para cunha salina plena (até ~250 m³/s).
+a camada superior leva Q_rio/(1 − σ) mais a vazante de maré. σ e a espessura
+da camada variam com a vazão, calibrados em dois pontos: 230 m³/s (σ = 0,7,
+3,8 m), pelos fluxos de sal de Zaleski & Schettini (2003); e 1.200 m³/s
+(σ = 0, 5,1 m), pela corrente acima de 2 nós observada no trecho A às 08:00
+de 12/11/2026, com a vazão do dia estimada pela curva-chave de Blumenau.
+
+## Curva-chave de Blumenau — `ferramentas/curva_chave_blumenau.py`
+
+Ajusta Q = a·(h − h₀)ᵇ às séries de cota e vazão da ANA em Blumenau (83800002;
+`dados/cota_vazao_blumenau_83800002.csv`) e converte o nível do AlertaBlu
+coletado em vazão. Em 12/11/2026, com 3,5–3,6 m, deu ~870–920 m³/s.
+
+```bash
+python ferramentas/curva_chave_blumenau.py            # baixa, ajusta e aplica
+python ferramentas/curva_chave_blumenau.py --offline  # usa o CSV gravado
+```
 
 ## Propagação da maré e coleta de níveis — `analise_propagacao_mare.py`
 
@@ -235,3 +247,16 @@ astronômica, com as limitações descritas acima.
 python ferramentas/gerar_painel_ukc.py     # regenera a página
 python ferramentas/testar_painel_ukc.py    # confere o JavaScript contra o Python (precisa de node)
 ```
+
+## Vazão do rio em Indaial — `ferramentas/vazao_indaial.py`
+
+Baixa da ANA a série diária de vazão de Indaial (estação 83690000, ~70% da
+bacia), grava `dados/vazao_indaial_83690000.csv` e resume: em 1929–2021,
+média de 229 m³/s, mediana de 139 m³/s, P90 de 494 m³/s. A série consistida
+termina em 2021.
+
+```bash
+python ferramentas/vazao_indaial.py            # baixa e resume
+python ferramentas/vazao_indaial.py --offline  # só resume
+```
+
