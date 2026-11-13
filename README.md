@@ -300,3 +300,66 @@ O resumo compara a vazão de Blumenau, pela curva-chave sobre o AlertaBlu, com a
 de Salto Pilão Jusante, o que verifica a curva-chave e a fração usada para
 chegar à vazão no porto.
 
+
+## Dados de vídeo do plotter — `ferramentas/extrair_video_plotter.py`
+
+Converte um vídeo de celular apontado para a tela de um chartplotter num CSV
+com uma linha por segundo da hora mostrada na tela: data, hora, latitude e
+longitude (graus decimais), SOG (nós), COG (graus **magnéticos**, como
+mostrado na tela) e profundidade. Usa ffmpeg para tirar um quadro por
+segundo e Tesseract para ler o painel da direita, com voto entre dois modos
+de OCR. Leituras duvidosas ficam vazias em vez de erradas: um dígito em
+transição, uma posição que salta mais de 50 m ou um SOG que difere mais de
+0,3 nó dos vizinhos. Um campo que a tela mostra como `---` também fica
+vazio. Com `--quadros`, grava também o PNG de cada linha, para uma IA que
+lê imagens.
+
+```bash
+# requer ffmpeg, tesseract-ocr e: pip install opencv-python-headless pytesseract pygeomag
+python ferramentas/extrair_video_plotter.py VIDEO.mp4 saida/ --quadros
+python ferramentas/extrair_video_plotter.py VIDEO.mp4 saida/ --motor   # lancha navegando
+```
+
+**Lancha como flutuador (padrão).** Nas filmagens deste projeto a lancha
+deriva com o motor desligado, salvo indicação em contrário. Assim, SOG e COG
+(relativos ao fundo, pelo GPS) medem a corrente superficial. O script
+acrescenta `corr_vel_ms` (SOG em m/s) e `corr_dir_verd`, a direção para onde
+a corrente vai, em graus verdadeiros: COG magnético mais a declinação do
+WMM 2025, cerca de −20,3° em Itajaí em nov/2026. Com `--motor`, essas
+colunas não são geradas.
+
+**Desconto do vento.** Com `--vento`, o script desconta o arrasto do vento
+no casco e acrescenta as colunas `vento_nos`, `vento_de_verd`,
+`corr_vel_ms_sem_vento` e `corr_dir_verd_sem_vento`. O vento é informado
+como "vindo de", em graus verdadeiros ou ponto da rosa:
+
+```bash
+python ferramentas/extrair_video_plotter.py VIDEO.mp4 saida/ --vento 11.5@SE
+python ferramentas/extrair_video_plotter.py VIDEO.mp4 saida/ --vento vento.csv --arrasto 0.04
+```
+
+O CSV de vento tem as colunas `hora,vel_nos,dir` (por exemplo
+`07:31,11,SE`), no mesmo relógio do plotter. Entre duas leituras, o vento
+é interpolado por componentes; fora do intervalo, vale a leitura mais
+próxima. O casco anda com uma fração `--arrasto` da velocidade do vento,
+padrão 0,03. Esse valor é uma regra prática para embarcações pequenas, não
+uma medida desta lancha.
+
+No vídeo de 13/11/2026 o vento da praticagem era de 11–12 nós de SE,
+quase contrário à deriva. Com arrasto de 3%, a corrente passa de 0,84 para
+cerca de 1,01 m/s, e a direção vai de cerca de 155° para cerca de 151° V.
+
+Cuidados:
+- O vento empurra o casco, e esse arrasto entra na velocidade medida. Vale
+  anotar ou dizer no vídeo a intensidade e a direção do vento, e informar
+  com `--vento`.
+- O vento de uma estação em terra pode não representar o vento sobre a água.
+- A medida representa a camada da água até o calado da lancha, não a coluna
+  inteira.
+- A resolução da tela é de 0,1 nó (cerca de 0,05 m/s) e 1° no COG.
+
+No vídeo de 13/11/2026, das 07:31 às 07:34, a direção calculada só pelas
+posições (sem bússola) dá 153–156° V, e a do COG convertido dá cerca de
+154° V. As velocidades também batem: 0,84 m/s pelas posições e pelo SOG.
+
+Os vídeos e as saídas não vão para o repositório.
