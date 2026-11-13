@@ -13,7 +13,7 @@ A página recebe:
     (razão de amplitude, atraso, zero da régua e tendência).
 
 O modelo físico é recalculado no navegador, então os controles da página
-(data, vazão, prisma de maré, profundidade) mudam todos os painéis.
+(data, vazão, trecho de enchimento da maré, profundidade) mudam todos os painéis.
 """
 
 import json
@@ -34,7 +34,7 @@ import analise_propagacao_mare as ap  # noqa: E402
 import cisalhamento_berco2_zp21 as cb  # noqa: E402
 import gerar_pagina  # noqa: E402
 
-ESTACOES_COM_MARE = ('DC01', 'DC11', 'DC03', 'DC04', 'DC06', 'DC09')
+ESTACOES_COM_MARE = ('DC01', 'DC11', 'BLU', 'DC03', 'DC04', 'DC06', 'DC09')
 
 
 def parametros():
@@ -46,10 +46,13 @@ def parametros():
         'lambda': cb.LAMBDA,
         'rho': cb.RHO,
         'g': cb.G,
-        'razao': cb.RAZAO_AMPLITUDE,
-        'atraso_nivel_min': cb.ATRASO_NIVEL_MIN,
-        'dist_km': cb.DIST_KM,
+        'pontos_acu': cb.PONTOS_ACU,
+        'x_salto_km': cb.X_SALTO_KM,
         'l_ef_km': round(float(cb.L_EFETIVO) / 1e3, 2),
+        'l_prisma_km': round(float(cb.L_PRISMA) / 1e3, 2),
+        'sigma': cb.SIGMA_SAL, 'h_sup': cb.H_SUP,
+        'q_cunha_plena': cb.Q_CUNHA_PLENA, 'q_expulsao': cb.Q_EXPULSAO,
+        'secoes': cb.SECOES,
         'atraso_fluxo_h': round(float(cb.ATRASO_FLUXO_S) / 3600, 3),
         'no_ms': cb.NO_PARA_MS,
     }
@@ -76,7 +79,7 @@ def observacoes():
             't0_ms': int(t[0] * 1000), 'dt_s': np.diff(t).astype(int).tolist(),
             'h_cm': np.rint(h * 100).astype(int).tolist(),
         }
-        if c != ap.REFERENCIA and 0 < r < 1 and atraso > 0:
+        if c != ap.REFERENCIA and ap.R_MIN <= r < 1 and atraso > 0:
             L, tq = ap.comprimento_efetivo(r, atraso, x)
             item['l_ef_km'] = round(float(L), 1)
             item['atraso_fluxo_h'] = round(float(tq) / 3600, 2)

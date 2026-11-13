@@ -39,9 +39,18 @@ from pathlib import Path
 import numpy as np
 
 URL = 'https://monitoramento.defesacivil.itajai.sc.gov.br/monitoramento/rios'
+# Nível oficial do Itajaí-Açu em Blumenau (AlertaBlu): leituras horárias, últimas 24 h.
+URL_BLUMENAU = 'https://defesacivil.blumenau.sc.gov.br/static/data/nivel_oficial.json'
+# Posição aproximada da régua (a da estação ANA 83800002, Blumenau PCD).
+BLUMENAU = {'codigo': 'BLU', 'nome': 'Rio Itajaí-Açu - Blumenau (AlertaBlu)',
+            'latitude': -26.9186, 'longitude': -49.0656}
+# Fim do estuário: a maré sobe o Itajaí-Açu até o Salto (barragem da PCH Salto, Blumenau).
+SALTO = ('Salto (Blumenau)', -26.8800, -49.1089)
+ACU = ('DC01', 'DC11', 'BLU')  # pontos medidos no Itajaí-Açu, da foz para montante
 ARQ = Path(__file__).with_name('dados') / 'niveis_defesacivil_itajai.csv'
 REFERENCIA = 'DC01'  # Rio Itajaí-Açu - ICMBio/CEPSUL, junto à foz e ao porto
 W_M2 = 2 * np.pi / (12.4206012 * 3600)  # rad/s
+R_MIN = 0.05  # razão de amplitude abaixo disso é tratada como sem maré
 _MARE = None
 
 
@@ -58,6 +67,14 @@ def baixar():
       time.sleep(30 * 2**tentativa)
   dados = json.loads(html.unescape(re.search(r'data-page="([^"]*)"', pagina).group(1)))
   return [e for e in dados['props']['estacoes'] if 'rios' in e['capacidades']]
+
+
+def baixar_blumenau():
+  """Série de 24 h do AlertaBlu no mesmo formato das estações de Itajaí."""
+  req = urllib.request.Request(URL_BLUMENAU, headers={'User-Agent': 'projeto-academico-mare/1.0'})
+  dados = json.loads(urllib.request.urlopen(req, timeout=120).read().decode('utf-8'))
+  serie = [{'medido_em': n['horaLeitura'], 'nivel_rio_m': n['nivel']} for n in dados['niveis']]
+  return dict(BLUMENAU, serie_12_h=serie)
 
 
 def acumular(estacoes):
@@ -102,8 +119,8 @@ def distancia_km(a, b):
   return 6371 * np.hypot(la2 - la1, (lo2 - lo1) * np.cos(la1))
 
 
-def ajustar(serie, atrasos_min=range(-30, 181, 5)):
-  """(r, atraso_min, rms_m) do melhor ajuste nivel = r*eta(t - atraso) + c0 + c1*t."""
+def ajustar(serie, atrasos_min=range(-30, 481, 5)):
+  """(r, atraso_min, rms_m) do melhor ajuste nivel = r*eta(t - atraso) + c0 + c1*t, com r > 0."""
   from mare_itajai import Mare  # importado aqui: a coleta não precisa de utide/plotly
   global _MARE
   if _MARE is None:
@@ -115,9 +132,69 @@ def ajustar(serie, atrasos_min=range(-30, 181, 5)):
     A = np.c_[eta, np.ones_like(eta), (t - t.mean()) / 86400]
     c, *_ = np.linalg.lstsq(A, h, rcond=None)
     rms = float(np.sqrt(np.mean((h - A @ c) ** 2)))
-    if melhor is None or rms < melhor[2]:
+    if c[0] > 0 and (melhor is None or rms < melhor[2]):
       melhor = (float(c[0]), atraso, rms)
-  return melhor
+  return melhor or (0.0, 0, float('nan'))
+
+
+def trecho_enchimento(pontos, x_fim_km):
+  """(L_ef em km, atraso do fluxo em s) com o estuário fechado em x_fim_km.
+
+  pontos: [(x_km, r, atraso_min), ...] da foz (0, 1, 0) para montante. Entre
+  pontos, a amplitude complexa r*exp(-i*w*atraso) varia exponencialmente;
+  do último ponto até o fim, fica constante. O fluxo na foz é
+  i*w*B*integral(rho dx), então L_ef = |integral| e o atraso sai da fase.
+  """
+  rho = lambda r, a: r * np.exp(-1j * W_M2 * 60 * a)
+  soma = 0j
+  for (x0, r0, a0), (x1, r1, a1) in zip(pontos[:-1], pontos[1:]):
+    p0, p1 = rho(r0, a0), rho(r1, a1)
+    k = -np.log(p1 / p0) / (x1 - x0)
+    soma += p0 * (1 - p1 / p0) / k
+  x, r, a = pontos[-1]
+  soma += rho(r, a) * max(0.0, x_fim_km - x)
+  return abs(soma), -np.angle(soma) / W_M2
+
+
+def areas_efetivas(pontos, x_fim_km, s_km, largura_m, largura_alem_m, n=20001):
+  """(A_ef em m², atraso do fluxo em s, área do prisma em m²) com largura variável.
+
+  pontos: [(s_km pelo rio, r, atraso_min), ...] da foz para montante, até o
+  fim do estuário em x_fim_km. A amplitude complexa varia exponencialmente
+  entre pontos e fica constante depois do último. s_km e largura_m dão o
+  perfil de largura medido; além dele, vale largura_alem_m.
+    A_ef      = |integral B(s) rho(s) ds|   (volume líquido pela foz por metro de maré)
+    A_prisma  = integral B(s) |rho(s)| ds   (prisma de maré por metro de amplitude)
+  """
+  x = np.linspace(0.0, x_fim_km, n)
+  rho = np.empty(n, complex)
+  for (x0, r0, a0), (x1, r1, a1) in zip(pontos[:-1], pontos[1:]):
+    p0 = r0 * np.exp(-1j * W_M2 * 60 * a0)
+    p1 = r1 * np.exp(-1j * W_M2 * 60 * a1)
+    m = (x >= x0) & (x <= x1)
+    rho[m] = p0 * (p1 / p0) ** ((x[m] - x0) / (x1 - x0))
+  xu, ru, au = pontos[-1]
+  rho[x > xu] = ru * np.exp(-1j * W_M2 * 60 * au)
+  b = np.interp(x, s_km, largura_m)
+  b[x > s_km[-1] + 0.25] = largura_alem_m
+  integral = np.trapezoid(b * rho, x * 1e3)
+  return abs(integral), -np.angle(integral) / W_M2, float(np.trapezoid(b * np.abs(rho), x * 1e3))
+
+
+def comprimento_prisma(pontos, x_fim_km):
+  """Integral da razão de amplitude r(x) da foz ao fim do estuário (km).
+
+  Multiplicada pela largura e pela amplitude da maré na foz, dá o prisma de
+  maré no sentido clássico (Dyer & Taylor, 1973): a soma, trecho a trecho,
+  do volume na preamar menos o volume na baixa-mar, sem descontar a
+  defasagem entre trechos. Difere de L_ef, que desconta a defasagem e dá o
+  volume líquido que passa pela foz.
+  """
+  soma = 0.0
+  for (x0, r0, _), (x1, r1, _) in zip(pontos[:-1], pontos[1:]):
+    soma += (r0 - r1) * (x1 - x0) / np.log(r0 / r1) if r0 != r1 else r0 * (x1 - x0)
+  x, r, _ = pontos[-1]
+  return soma + r * max(0.0, x_fim_km - x)
 
 
 def comprimento_efetivo(r, atraso_min, x_km):
@@ -128,26 +205,38 @@ def comprimento_efetivo(r, atraso_min, x_km):
 
 def main():
   if '--offline' not in sys.argv:
-    print(f'{acumular(baixar())} leituras novas gravadas em {ARQ}')
+    estacoes = baixar()
+    try:
+      estacoes.append(baixar_blumenau())
+    except (OSError, ValueError, KeyError) as erro:
+      print(f'Aviso: Blumenau (AlertaBlu) não respondeu: {erro}')
+    print(f'{acumular(estacoes)} leituras novas gravadas em {ARQ}')
   if '--so-coletar' in sys.argv:
     return
   series, meta = ler()
+  resultados = {}
   print(f"\n{'estação':<6} {'nome':<52} {'dist (km)':>9} {'horas':>6} {'r':>5} "
         f"{'atraso':>7} {'RMS':>6}  L_ef / atraso do fluxo")
   for c in sorted(series):
     s = series[c]
     horas = (s[-1, 0] - s[0, 0]) / 3600
-    if len(s) < 36 or np.ptp(s[:, 1]) < 0.05:
+    if horas < 20 or np.ptp(s[:, 1]) < 0.05:
       print(f'{c:<6} {meta[c][0][:52]:<52} {"":>9} {horas:>6.0f}  sem sinal de maré ou poucos dados')
       continue
     r, atraso, rms = ajustar(s)
     x = distancia_km(meta[REFERENCIA], meta[c])
     extra = ''
-    if c != REFERENCIA and 0 < r < 1 and atraso > 0:
+    if c != REFERENCIA and R_MIN <= r < 1 and atraso > 0:
       L, tq = comprimento_efetivo(r, atraso, x)
       extra = f'{L:5.1f} km / {tq / 3600:.1f} h'
     print(f'{c:<6} {meta[c][0][:52]:<52} {x:>9.1f} {horas:>6.0f} {r:>5.2f} '
           f'{atraso:>+5d} m {rms * 100:>5.1f}cm  {extra}')
+    resultados[c] = (x, r, atraso)
+  pontos = [(0.0, 1.0, 0)] + [resultados[c] for c in ACU[1:] if c in resultados and resultados[c][1] >= R_MIN]
+  x_salto = distancia_km(meta[REFERENCIA], (SALTO[0], SALTO[1], SALTO[2]))
+  L, tq = trecho_enchimento(pontos, x_salto)
+  print(f'\nItajaí-Açu fechado no {SALTO[0]} ({x_salto:.1f} km), com '
+        f'{", ".join(c for c in ACU[1:] if c in resultados)}: L_ef = {L:.1f} km, atraso do fluxo {tq / 3600:.2f} h')
 
 
 if __name__ == '__main__':

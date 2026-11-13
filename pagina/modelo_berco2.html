@@ -148,7 +148,7 @@ a { color: var(--water); }
       <div class="linha"><span class="dica">Média ~215 m³/s; cheia &gt; 4.000</span><button type="button" id="q-media">Média</button></div>
     </div>
     <div class="campo">
-      <div class="linha"><label class="rotulo" for="lef">Prisma de maré (L<sub>ef</sub>)</label><span class="valor" id="lef-val"></span></div>
+      <div class="linha"><label class="rotulo" for="lef">Trecho de enchimento (L<sub>ef</sub>)</label><span class="valor" id="lef-val"></span></div>
       <input type="range" id="lef" min="0" max="90" step="0.1">
       <div class="linha"><span class="dica" id="lef-dica"></span><button type="button" id="lef-medido">Medido</button></div>
     </div>
@@ -157,21 +157,28 @@ a { color: var(--water); }
       <input type="range" id="atr" min="0" max="4" step="0.05">
       <div class="linha"><span class="dica">Em relação à maré na foz</span><button type="button" id="atr-medido">Medido</button></div>
     </div>
+    <div class="campo">
+      <span class="rotulo">Seção</span>
+      <div class="escolha" id="secoes" role="group" aria-label="Seção do canal"></div>
+      <div class="dica" id="aviso-q"></div>
+    </div>
     <details class="mais">
-      <summary>Geometria e atrito</summary>
+      <summary>Geometria, atrito e cunha salina</summary>
       <div class="mais-grade">
         <div class="campo"><label class="rotulo" for="prof">Profundidade no NR (m)</label><input type="number" id="prof" step="0.1" min="5" max="25"></div>
         <div class="campo"><label class="rotulo" for="larg">Largura do rio (m)</label><input type="number" id="larg" step="10" min="100" max="1000"></div>
         <div class="campo"><label class="rotulo" for="fd">Atrito de fundo f</label><input type="number" id="fd" step="0.001" min="0.005" max="0.08"></div>
         <div class="campo"><label class="rotulo" for="lam">λ do SKM</label><input type="number" id="lam" step="0.01" min="0.05" max="0.5"></div>
+        <div class="campo"><label class="rotulo" for="sig">σ = S<sub>sup</sub>/S<sub>fundo</sub></label><input type="number" id="sig" step="0.05" min="0" max="0.9"></div>
+        <div class="campo"><label class="rotulo" for="hsup">Camada superior (m)</label><input type="number" id="hsup" step="0.1" min="1" max="10"></div>
       </div>
     </details>
   </section>
 
   <section class="leitura" aria-label="Resumo do dia">
     <div><div class="rotulo">Profundidade no berço</div><div class="medio num" id="r-h"></div><div class="sub" id="r-h-sub"></div></div>
-    <div><div class="rotulo">Vazante máxima</div><div class="medio num vaz" id="r-vaz"></div><div class="sub" id="r-vaz-sub"></div></div>
-    <div><div class="rotulo">Enchente máxima</div><div class="medio num enc" id="r-enc"></div><div class="sub" id="r-enc-sub"></div></div>
+    <div><div class="rotulo">Vazante máxima na superfície</div><div class="medio num vaz" id="r-vaz"></div><div class="sub" id="r-vaz-sub"></div></div>
+    <div><div class="rotulo">Entrada máxima no fundo</div><div class="medio num enc" id="r-enc"></div><div class="sub" id="r-enc-sub"></div></div>
     <div><div class="rotulo">Tensão máxima no cais</div><div class="medio num tauc" id="r-tau"></div><div class="sub" id="r-tau-sub"></div></div>
     <div><div class="rotulo">Camada junto ao cais</div><div class="medio num" id="r-cam"></div><div class="sub">3/γ, onde a corrente cai a ~97%</div></div>
   </section>
@@ -181,10 +188,10 @@ a { color: var(--water); }
     <p>Passe o dedo ou o mouse sobre os gráficos para escolher a hora; o perfil junto ao cais, mais abaixo, acompanha.</p>
     <div class="rotulo" style="margin-top:6px">Maré (m acima do NR)</div>
     <svg class="g" id="g-mare" role="img" aria-label="Maré ao longo do dia"></svg>
-    <div class="rotulo">Corrente longe do cais (nós; + vazante, − enchente)</div>
-    <div class="legenda"><span class="vaz">total</span><span class="tracejado" style="color:var(--rio)">só o rio</span><span class="enc">só a maré</span></div>
+    <div class="rotulo">Corrente longe do cais (nós; + saindo, − entrando)</div>
+    <div class="legenda"><span class="vaz">camada superior</span><span class="tracejado" style="color:var(--rio)">média vertical</span><span class="enc">camada de fundo</span></div>
     <svg class="g" id="g-corr" role="img" aria-label="Corrente ao longo do dia"></svg>
-    <div class="rotulo">Tensão na parede do cais (Pa; sinal da corrente)</div>
+    <div class="rotulo">Tensão na parede do cais com a corrente da camada superior (Pa)</div>
     <svg class="g" id="g-tau" role="img" aria-label="Tensão no cais ao longo do dia"></svg>
   </section>
 
@@ -199,8 +206,8 @@ a { color: var(--water); }
     </section>
     <section class="painel" aria-labelledby="t-vazao">
       <h2 id="t-vazao">Vazão e corrente</h2>
-      <p>Só o rio, sem maré: velocidade longe do cais para cada vazão, na baixa-mar e na preamar do dia. O círculo marca a vazão escolhida.</p>
-      <div class="legenda"><span style="color:var(--bm)">baixa-mar</span><span class="tracejado" style="color:var(--pm)">preamar</span></div>
+      <p>Só o rio, sem maré, na seção escolhida: corrente residual na camada superior e média vertical, para cada vazão. Acima de 250 m³/s (área sombreada) o modelo sai da faixa calibrada. O círculo marca a vazão escolhida.</p>
+      <div class="legenda"><span class="vaz">camada superior</span><span class="tracejado" style="color:var(--rio)">média vertical</span></div>
       <svg class="g" id="g-vazao" role="img" aria-label="Corrente em função da vazão"></svg>
       <div class="tabela"><table id="t-vaz"></table></div>
     </section>
@@ -208,7 +215,7 @@ a { color: var(--water); }
 
   <section class="painel" aria-labelledby="t-prop">
     <h2 id="t-prop">Propagação medida da maré</h2>
-    <p>Nível medido pela telemetria da Defesa Civil de Itajaí e o ajuste nível = r·maré(t − atraso) + zero da régua + tendência. A razão r e o atraso de DC11 definem o prisma de maré medido.</p>
+    <p>Nível medido pela telemetria da Defesa Civil de Itajaí e o ajuste nível = r·maré(t − atraso) + zero da régua + tendência. DC11 e Blumenau (BLU, AlertaBlu) definem o trecho de enchimento medido, com o estuário fechado no Salto, em Blumenau, onde a maré termina. A coluna L<sub>ef</sub> da tabela usa só aquele ponto, supondo rio sem fim.</p>
     <div class="escolha" id="estacoes" role="group" aria-label="Estação"></div>
     <div class="legenda"><span class="pontos" style="color:var(--obs)">medido</span><span class="tracejado" style="color:var(--water)">ajuste pela maré prevista</span></div>
     <svg class="g" id="g-obs" role="img" aria-label="Nível medido e ajustado"></svg>
@@ -218,10 +225,11 @@ a { color: var(--water); }
   <section class="notas">
     <h2>Como ler e limitações</h2>
     <ul>
-      <li>Corrente longe do cais: U = (Q<sub>rio</sub> − B·L<sub>ef</sub>·dη/dt) / (H·(B − δ)), com η a maré na foz defasada do atraso do fluxo, H = profundidade no NR + maré e δ = 2(1 − ln 2)/γ.</li>
+      <li>Vazão pela seção: Q = Q<sub>rio</sub> − B·L<sub>ef</sub>·dη/dt, com η a maré na foz defasada do atraso do fluxo. Média vertical: Q / (H·(B<sub>seção</sub> − δ)), com H = profundidade no NR + maré e δ = 2(1 − ln 2)/γ.</li>
+      <li>Duas camadas (cunha salina, Knudsen): a camada superior leva Q<sub>rio</sub>/(1 − σ) mais a vazante de maré; a de fundo traz a água do mar, mais a enchente. σ = 0,7 vem dos fluxos de sal de Zaleski &amp; Schettini (2003); a camada superior de 3,4 m foi calibrada para 2 nós no trecho A às 08:00 de 12/11/2026, quando se observou corrente acima de 2 nós. Vale para a cunha plena, até ~250 m³/s; de 250 a 1.000 m³/s, quando a cunha é expulsa, o painel mistura linearmente com camada única, sem calibração.</li>
       <li>Perfil junto ao cais pelo método de Shiono &amp; Knight (SKM): U(y) = U<sub>∞</sub>·√(1 − e<sup>−γy</sup>). Com U<sub>∞</sub> fixo, a tensão na parede não depende da profundidade.</li>
-      <li>O prisma medido (L<sub>ef</sub>) vem de poucos ciclos de maré, usa distância em linha reta e não inclui o Itajaí-Mirim. Trate a corrente de maré como limite inferior, não como valor de projeto.</li>
-      <li>O modelo usa a média na vertical e ignora a cunha salina, que separa a corrente de superfície da de fundo.</li>
+      <li>O trecho de enchimento L<sub>ef</sub> é o comprimento de rio, na largura do porto, que, enchendo em fase com a maré na foz, troca o mesmo volume que o rio real, com a largura medida na Carta Náutica 1841 e a maré atenuada e atrasada rio acima. Não é o prisma de maré: o prisma (Dyer &amp; Taylor, 1973) soma, trecho a trecho, o volume na preamar menos o da baixa-mar, largura × amplitude local × comprimento, e mostrado na dica do controle. Como os trechos não enchem ao mesmo tempo, o volume que passa pela foz, que é o que move a corrente, é menor. O L<sub>ef</sub> medido vem de poucos ciclos de maré, usa distâncias pelo rio estimadas pela sinuosidade (1,81 na carta; 1,56 até Blumenau), largura de 200 m além da carta, termina no Salto (Blumenau) e não inclui o Itajaí-Mirim. Trate a corrente de maré como limite inferior, não como valor de projeto.</li>
+      <li>No modelo de duas camadas, a vazante de maré vai toda pela camada superior e a enchente toda pela de fundo; por isso a superfície nunca inverte. Medições de 1994–95 (Schettini &amp; Carvalho, 1998) mostram que ela às vezes inverte na enchente. Espessura da camada e σ variam com a maré e a vazão; aqui são fixos.</li>
       <li>Maré astronômica de <span class="num">mare_itajai.py</span> (tábuas CHM 2024–2026). Profundidade de 12,8 m no Berço 2 pelo aviso da praticagem válido até 10/12/2026.</li>
     </ul>
   </section>
@@ -248,6 +256,7 @@ const sliderDeQ = q => 1000 * Math.log(q / Q_MIN) / Math.log(Q_MAX / Q_MIN);
 const est = {
   dia: null, q: P0.q_rio, lef: P0.l_ef_km, atr: P0.atraso_fluxo_h,
   prof: P0.prof_zh, larg: P0.b_rio, fd: P0.f_darcy, lam: P0.lambda, sel: null, estacao: 'DC11',
+  sig: P0.sigma, hsup: P0.h_sup, secao: Object.keys(P0.secoes)[0],
 };
 
 function gamma(h) { return Math.sqrt(2 / est.lam) * Math.pow(est.fd / 8, 0.25) / h; }
@@ -255,17 +264,26 @@ function largEf(h) { return est.larg - 2 * (1 - Math.LN2) / gamma(h); }
 function uDeQ(q, h) { return q / (h * largEf(h)); }
 function tauParede(u) { return Math.sign(u) * P0.rho * Math.sqrt(est.lam / 2) * Math.pow(est.fd / 8, 0.75) * u * u; }
 
+function bSecao() { return P0.secoes[est.secao]; }
+function camadas(qr, qm, h, b) {
+  const qsup = qr / (1 - est.sig) + Math.max(qm, 0), qinf = qr + qm - qsup;
+  const u2s = qsup / (b * est.hsup), u2i = qinf / (b * (h - est.hsup)), u1 = (qr + qm) / (b * h);
+  const f = Math.min(1, Math.max(0, (qr - P0.q_cunha_plena) / (P0.q_expulsao - P0.q_cunha_plena)));
+  return [(1 - f) * u2s + f * u1, (1 - f) * u2i + f * u1];
+}
+function uMedia(q, h, b) { return q / (h * (b - 2 * (1 - Math.LN2) / gamma(h))); }
+
 function meiaNoite(diaStr) { const [a, m, d] = diaStr.split('-').map(Number); return Date.UTC(a, m - 1, d) - FUSO_MS; }
 
 function calcularDia() {
   const t0 = meiaNoite(est.dia), passo = 10 * 60e3, n = 24 * 6 + 1;
   const atrMs = est.atr * H_MS, dt = 300e3, area = est.larg * est.lef * 1e3;
-  const R = { t: [], eta: [], h: [], u: [], urio: [], umare: [], tau: [] };
+  const R = { t: [], eta: [], h: [], u: [], umed: [], uinf: [], tau: [] }, b = bSecao();
   for (let i = 0; i < n; i++) {
     const t = t0 + i * passo, eta = MARE.altura(t), h = est.prof + eta;
     const deta = (MARE.altura(t - atrMs + dt) - MARE.altura(t - atrMs - dt)) / (2 * dt / 1e3);
-    const urio = uDeQ(est.q, h), u = uDeQ(est.q - area * deta, h);
-    R.t.push(t); R.eta.push(eta); R.h.push(h); R.u.push(u); R.urio.push(urio); R.umare.push(u - urio); R.tau.push(tauParede(u));
+    const qm = -area * deta, [us, ui] = camadas(est.q, qm, h, b);
+    R.t.push(t); R.eta.push(eta); R.h.push(h); R.u.push(us); R.umed.push(uMedia(est.q + qm, h, b)); R.uinf.push(ui); R.tau.push(tauParede(us));
   }
   R.ext = MARE.extremos(t0, t0 + 24 * H_MS);
   return R;
@@ -342,7 +360,7 @@ function desenharDia() {
     pontos: R.ext.map(e => ({ x: e.t, y: e.h, cls: e.tipo === 'PM' ? 'm-pm' : 'm-bm', tcls: e.tipo === 'PM' ? 't-pm' : 't-bm', rot: hhmm(e.t), abaixo: e.tipo === 'BM' })),
     cursor: sel == null ? null : { x: R.t[sel], y: R.eta[sel] }, aoEscolher: escolher,
   });
-  const uk = R.u.map(v => v / KN), urk = R.urio.map(v => v / KN), umk = R.umare.map(v => v / KN);
+  const uk = R.u.map(v => v / KN), urk = R.umed.map(v => v / KN), umk = R.uinf.map(v => v / KN);
   const [c0, c1] = extensao([uk, urk, umk, [0]]);
   grafico($('g-corr'), {
     x0: t0, x1: t1, y0: c0, y1: c1, xticks: xt, zero: true, altura: 170,
@@ -362,8 +380,9 @@ function desenharSelecao() {
   const sel = desenharDia();
   const k = sel == null ? 0 : sel;
   const t = R.t[k], h = R.h[k], u = R.u[k], g = gamma(h);
-  $('cursor-info').textContent = `${hhmm(t)} · maré ${nf(R.eta[k], 2)} m · H ${nf(h, 2)} m · U ${u >= 0 ? '+' : '−'}${nf(Math.abs(u / KN), 2)} nó · τ ${nf(R.tau[k], 3)} Pa`;
-  $('perfil-sub').textContent = `${ddmm(t)} às ${hhmm(t)}: corrente longe do cais ${nf(Math.abs(u / KN), 2)} nó (${u >= 0 ? 'vazante' : 'enchente'}), H = ${nf(h, 2)} m, tensão na parede ${nf(Math.abs(R.tau[k]), 3)} Pa.`;
+  const sn = v => (v >= 0 ? '+' : '−') + nf(Math.abs(v / KN), 2);
+  $('cursor-info').textContent = `${hhmm(t)} · maré ${nf(R.eta[k], 2)} m · superfície ${sn(u)} nó · fundo ${sn(R.uinf[k])} nó · τ ${nf(R.tau[k], 2)} Pa`;
+  $('perfil-sub').textContent = `${est.secao}, ${ddmm(t)} às ${hhmm(t)}: camada superior ${nf(Math.abs(u / KN), 2)} nó (${u >= 0 ? 'saindo' : 'entrando'}), H = ${nf(h, 2)} m, tensão na parede ${nf(Math.abs(R.tau[k]), 2)} Pa.`;
   const ys = [], us = [], ts = [];
   for (let j = 0; j <= 200; j++) {
     const y = 100 * j / 200; ys.push(y);
@@ -376,23 +395,26 @@ function desenharSelecao() {
 }
 
 function desenharVazao() {
-  const hs = R.ext.length ? R.ext.map(e => est.prof + e.h) : [est.prof];
-  const hBM = Math.min(...hs), hPM = Math.max(...hs);
+  const b = bSecao(), hm = est.prof + MARE.z0;
   const qs = []; for (let j = 0; j <= 120; j++) qs.push(Q_MIN * Math.pow(Q_MAX / Q_MIN, j / 120));
-  const ubm = qs.map(q => uDeQ(q, hBM) / KN), upm = qs.map(q => uDeQ(q, hPM) / KN);
+  const us = qs.map(q => camadas(q, 0, hm, b)[0] / KN), um = qs.map(q => uMedia(q, hm, b) / KN);
   const xt = [50, 100, 200, 500, 1000, 2000, 5000].map(v => ({ v, r: v >= 1000 ? (v / 1000) + ' mil' : String(v) }));
-  const hm = (hBM + hPM) / 2;
-  grafico($('g-vazao'), {
-    x0: Q_MIN, x1: Q_MAX, logx: true, y0: 0, y1: Math.max(...ubm), xticks: xt, altura: 190,
-    series: [{ x: qs, y: ubm, cls: 's-bm' }, { x: qs, y: upm, cls: 's-pm' }],
-    pontos: [{ x: est.q, y: uDeQ(est.q, hm) / KN, cls: 'm-q', r: 5 }],
+  const svg = $('g-vazao');
+  grafico(svg, {
+    x0: Q_MIN, x1: Q_MAX, logx: true, y0: 0, y1: Math.max(...us, ...um), xticks: xt, altura: 190,
+    series: [{ x: qs, y: um, cls: 's-rio' }, { x: qs, y: us, cls: 's-total' }],
+    pontos: [{ x: est.q, y: camadas(est.q, 0, hm, b)[0] / KN, cls: 'm-q', r: 5 }],
     aoEscolher: q => { est.q = Math.round(q); $('q').value = sliderDeQ(est.q); atualizar(); },
   });
-  const linhas = [0.5, 1, 1.5, 2, 2.5].map(n => {
-    const u = n * KN;
-    return `<tr><td class="n">${nf(n, 1)} nó</td><td class="n">${nf(u * hBM * largEf(hBM), 0)}</td><td class="n">${nf(u * hPM * largEf(hPM), 0)}</td><td class="n">${nf(Math.abs(tauParede(u)), 2)}</td></tr>`;
+  const W = svg.viewBox.baseVal.width, H = svg.viewBox.baseVal.height, e = 48, d = 22;
+  const X = v => e + (Math.log10(v) - Math.log10(Q_MIN)) / (Math.log10(Q_MAX) - Math.log10(Q_MIN)) * (W - e - d);
+  const r = el('rect', { x: X(P0.q_cunha_plena), y: 10, width: W - d - X(P0.q_cunha_plena), height: H - 34, class: 's-tau-area' }, svg);
+  svg.insertBefore(r, svg.firstChild);
+  const linhas = [100, 215, 250, 500, 1000, 3000].map(q => {
+    const u = camadas(q, 0, hm, b)[0];
+    return `<tr><td class="n">${nf(q, 0)}${q > P0.q_cunha_plena ? ' *' : ''}</td><td class="n">${nf(u / KN, 2)}</td><td class="n">${nf(uMedia(q, hm, b) / KN, 2)}</td><td class="n">${nf(tauParede(u), 2)}</td></tr>`;
   }).join('');
-  $('t-vaz').innerHTML = `<thead><tr><th class="n">Corrente</th><th class="n">Vazão na BM (m³/s)</th><th class="n">Vazão na PM (m³/s)</th><th class="n">τ parede (Pa)</th></tr></thead><tbody>${linhas}</tbody>`;
+  $('t-vaz').innerHTML = `<thead><tr><th class="n">Vazão (m³/s)</th><th class="n">Superfície (nó)</th><th class="n">Média (nó)</th><th class="n">τ parede (Pa)</th></tr></thead><tbody>${linhas}</tbody><caption style="caption-side:bottom;text-align:left;color:var(--muted);font-size:0.78rem;padding-top:6px">* fora da faixa calibrada (cunha plena até 250 m³/s)</caption>`;
 }
 
 function desenharResumo() {
@@ -400,12 +422,12 @@ function desenharResumo() {
   $('r-h').innerHTML = `${nf(hMin, 1)}–${nf(hMax, 1)}<small>m</small>`;
   $('r-h-sub').textContent = `${nf(est.prof, 1)} m no NR + maré de ${nf(Math.min(...R.eta), 2)} a ${nf(Math.max(...R.eta), 2)} m`;
   let iv = 0, ie = 0, it = 0;
-  R.u.forEach((u, i) => { if (u > R.u[iv]) iv = i; if (u < R.u[ie]) ie = i; if (Math.abs(R.tau[i]) > Math.abs(R.tau[it])) it = i; });
+  R.u.forEach((u, i) => { if (u > R.u[iv]) iv = i; if (R.uinf[i] < R.uinf[ie]) ie = i; if (Math.abs(R.tau[i]) > Math.abs(R.tau[it])) it = i; });
   $('r-vaz').innerHTML = R.u[iv] > 0 ? `${nf(R.u[iv] / KN, 2)}<small>nó</small>` : '—';
   $('r-vaz-sub').textContent = R.u[iv] > 0 ? `às ${hhmm(R.t[iv])} · ${nf(R.u[iv], 2)} m/s` : 'sem vazante no dia';
-  $('r-enc').innerHTML = R.u[ie] < 0 ? `${nf(-R.u[ie] / KN, 2)}<small>nó</small>` : '—';
-  $('r-enc-sub').textContent = R.u[ie] < 0 ? `às ${hhmm(R.t[ie])} · ${nf(-R.u[ie], 2)} m/s` : 'o rio vence a maré o dia todo';
-  $('r-tau').innerHTML = `${nf(Math.abs(R.tau[it]), 3)}<small>Pa</small>`;
+  $('r-enc').innerHTML = R.uinf[ie] < 0 ? `${nf(-R.uinf[ie] / KN, 2)}<small>nó</small>` : '—';
+  $('r-enc-sub').textContent = R.uinf[ie] < 0 ? `às ${hhmm(R.t[ie])} · ${nf(-R.uinf[ie], 2)} m/s` : 'sem entrada no fundo';
+  $('r-tau').innerHTML = `${nf(Math.abs(R.tau[it]), 2)}<small>Pa</small>`;
   $('r-tau-sub').textContent = `às ${hhmm(R.t[it])} (${R.tau[it] >= 0 ? 'vazante' : 'enchente'})`;
   $('r-cam').innerHTML = `${nf(3 / gamma((hMin + hMax) / 2), 0)}<small>m</small>`;
 }
@@ -426,14 +448,16 @@ function montarEstacoes() {
   $('estacoes').innerHTML = OBS.estacoes.map(e => `<button type="button" data-c="${e.codigo}">${e.codigo}</button>`).join('');
   $('estacoes').onclick = ev => { const b = ev.target.closest('button'); if (b) { est.estacao = b.dataset.c; desenharObs(); } };
   const linhas = OBS.estacoes.map(e => `<tr><td>${e.codigo}</td><td>${e.nome}</td><td class="n">${nf(e.dist_km, 1)}</td><td class="n">${nf(e.r, 2)}</td><td class="n">${e.atraso_min > 0 ? '+' : ''}${e.atraso_min} min</td><td class="n">${nf(e.rms_cm, 1)}</td><td class="n">${e.l_ef_km != null ? nf(e.l_ef_km, 1) + ' km' : '—'}</td></tr>`).join('');
-  $('t-est').innerHTML = `<thead><tr><th>Estação</th><th>Local</th><th class="n">Dist. (km)</th><th class="n">r</th><th class="n">Atraso</th><th class="n">Resíduo (cm)</th><th class="n">L<sub>ef</sub></th></tr></thead><tbody>${linhas}</tbody>`;
+  $('t-est').innerHTML = `<thead><tr><th>Estação</th><th>Local</th><th class="n">Dist. (km)</th><th class="n">r</th><th class="n">Atraso</th><th class="n">Resíduo (cm)</th><th class="n">L<sub>ef</sub> só deste ponto</th></tr></thead><tbody>${linhas}</tbody>`;
   $('obs-ate').textContent = `${ddmm(OBS.fim_ms)} ${hhmm(OBS.fim_ms)}`;
 }
 
 function rotulos() {
+  document.querySelectorAll('#secoes button').forEach(bt => bt.setAttribute('aria-pressed', bt.dataset.s === est.secao));
+  $('aviso-q').textContent = est.q > P0.q_cunha_plena ? `Vazão acima de ${P0.q_cunha_plena} m³/s: fora da faixa calibrada do modelo de duas camadas.` : 'Duas camadas calibradas para cunha salina plena (até 250 m³/s).';
+  $('aviso-q').style.color = est.q > P0.q_cunha_plena ? 'var(--tau)' : '';
   $('q-val').textContent = `${nf(est.q, 0)} m³/s`;
   $('lef-val').textContent = `${nf(est.lef, 1)} km`;
-  $('lef-dica').textContent = `Medido: ${nf(P0.l_ef_km, 1)} km (DC11)`;
   $('atr-val').textContent = `${nf(est.atr, 2)} h`;
 }
 
@@ -443,6 +467,8 @@ function atualizar() {
   if (est.sel == null || est.sel < R.t[0] || est.sel > R.t[R.t.length - 1]) {
     let iv = 0; R.u.forEach((u, i) => { if (u > R.u[iv]) iv = i; }); est.sel = R.t[iv];
   }
+  const amp = R.ext.length > 1 ? Math.max(...R.ext.slice(1).map((e, i) => Math.abs(e.h - R.ext[i].h))) : 0;
+  $('lef-dica').textContent = `Medido: ${nf(P0.l_ef_km, 1)} km · prisma de maré do dia ≈ ${nf(est.larg * P0.l_prisma_km * 1e3 * amp / 1e6, 1)} mi m³`;
   desenharResumo(); desenharSelecao(); desenharVazao();
 }
 
@@ -462,11 +488,13 @@ $('lef').addEventListener('input', e => { est.lef = +e.target.value; atualizar()
 $('lef-medido').onclick = () => { est.lef = P0.l_ef_km; $('lef').value = est.lef; atualizar(); };
 $('atr').addEventListener('input', e => { est.atr = +e.target.value; atualizar(); });
 $('atr-medido').onclick = () => { est.atr = P0.atraso_fluxo_h; $('atr').value = est.atr; atualizar(); };
-for (const [id, k] of [['prof', 'prof'], ['larg', 'larg'], ['fd', 'fd'], ['lam', 'lam']]) {
+for (const [id, k] of [['prof', 'prof'], ['larg', 'larg'], ['fd', 'fd'], ['lam', 'lam'], ['sig', 'sig'], ['hsup', 'hsup']]) {
   $(id).value = est[k];
   $(id).addEventListener('change', e => { const v = +e.target.value; if (v > 0) { est[k] = v; atualizar(); } });
 }
 $('q').value = sliderDeQ(est.q); $('lef').value = est.lef; $('atr').value = est.atr;
+$('secoes').innerHTML = Object.entries(P0.secoes).map(([n, b]) => `<button type="button" data-s="${n}">${n} · ${b} m</button>`).join('');
+$('secoes').onclick = ev => { const bt = ev.target.closest('button'); if (bt) { est.secao = bt.dataset.s; atualizar(); } };
 montarEstacoes();
 definirDia(diaDe(Date.now()));
 if (!est.dia) definirDia(diaDe(OBS.fim_ms));
