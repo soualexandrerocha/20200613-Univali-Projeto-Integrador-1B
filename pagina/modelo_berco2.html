@@ -114,8 +114,25 @@ svg.g .s-ajuste { fill: none; stroke: var(--water); stroke-width: 2; stroke-dash
 svg.g .m-pm { fill: var(--pm); } svg.g .m-bm { fill: var(--bm); }
 svg.g .m-q { fill: var(--surface); stroke: var(--ink); stroke-width: 2; }
 svg.g text.t-pm { fill: var(--pm); } svg.g text.t-bm { fill: var(--bm); }
+svg.g .m-agua { fill: var(--water-soft); stroke: var(--water); stroke-width: 1; fill-rule: evenodd; }
+svg.g .m-eixo { fill: none; stroke: var(--muted); stroke-width: 1; stroke-dasharray: 2 4; opacity: 0.8; }
+svg.g .m-seta-sup { stroke: var(--water); fill: var(--water); }
+svg.g .m-seta-fundo { stroke: var(--bm); fill: var(--bm); }
+svg.g .m-seta-media { stroke: var(--rio); fill: var(--rio); }
+svg.g .m-seta { stroke-width: 2.4; stroke-linecap: round; }
+svg.g .m-incerta { opacity: 0.4; }
+svg.g .m-faixa { fill: var(--tau); opacity: 0.12; }
+svg.g .m-rot { fill: var(--muted); paint-order: stroke; stroke: var(--surface); stroke-width: 3px; stroke-linejoin: round; }
+svg.g .m-rot-forte { fill: var(--ink); font-weight: 600; paint-order: stroke; stroke: var(--surface); stroke-width: 3px; stroke-linejoin: round; }
 svg.g .cursor { stroke: var(--ink); stroke-width: 1; stroke-dasharray: 3 3; }
 svg.g .cursor-pt { fill: var(--surface); stroke: var(--ink); stroke-width: 1.5; }
+.mapa-ctl { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 18px; }
+.mapa-ctl label { font-size: 0.78rem; color: var(--muted); display: flex; align-items: center; gap: 8px; }
+.mapa-ctl input[type="range"] { width: 200px; max-width: 100%; }
+svg#g-mapa { max-width: 760px; margin: 0 auto; }
+details.limites { border: 1px solid var(--line); border-left: 4px solid var(--tau); border-radius: 6px; padding: 8px 14px; background: var(--bg); }
+details.limites summary { cursor: pointer; font-weight: 600; }
+details.limites ul { margin: 8px 0 2px; padding-left: 18px; display: flex; flex-direction: column; gap: 5px; color: var(--ink); font-size: 0.86rem; }
 .escolha { display: flex; flex-wrap: wrap; gap: 6px; }
 .tabela { overflow-x: auto; }
 table { border-collapse: collapse; width: 100%; font-size: 0.85rem; }
@@ -198,6 +215,28 @@ a { color: var(--water); }
     <svg class="g" id="g-tau" role="img" aria-label="Tensão no cais ao longo do dia"></svg>
   </section>
 
+  <section class="painel" aria-labelledby="t-mapa">
+    <div class="linha"><h2 id="t-mapa">Vetores de corrente ao longo do rio</h2><div class="cursor-info" id="mapa-info" aria-live="polite"></div></div>
+    <p>Cada seta é a corrente que o modelo calcula em uma seção do eixo do rio, na hora escolhida: apontada para o mar na vazante, para o rio na enchente. O modelo é unidimensional, ao longo do canal. <strong>Não é um campo bidimensional</strong>: não há variação entre as margens, remansos nem giros. Setas esmaecidas: nos alargamentos (foz e bacia), onde a largura passa de <span id="lim-larg" class="num"></span> m, o modelo é menos confiável.</p>
+    <div class="mapa-ctl">
+      <div class="escolha" id="camadas" role="group" aria-label="Camada"></div>
+      <label>Hora <input type="range" id="mapa-hora" min="0" max="144" step="1"><span class="num" id="mapa-hora-val"></span></label>
+    </div>
+    <svg class="g" id="g-mapa" role="img" aria-label="Vetores de corrente ao longo do Itajaí-Açu"></svg>
+    <div class="tabela"><table id="t-mapa-tab"></table></div>
+    <details class="limites" open>
+      <summary>O que este mapa não mostra</summary>
+      <ul>
+        <li><strong>Só o sentido do eixo.</strong> A direção da seta é a do eixo do rio, suavizado em 150 m. Nas curvas, no alargamento da bacia e junto a cais, píeres e estruturas, a corrente real muda de direção e de intensidade, e há remansos e giros que o modelo não tem.</li>
+        <li><strong>Uma velocidade por seção.</strong> É a média da camada na seção, de margem a margem, incluindo os baixios, com a largura medida na Carta 1841. O canal dragado, mais fundo, corre mais que os baixios.</li>
+        <li><strong>A vazão de maré é a da foz em todos os pontos.</strong> Rio acima, o volume que ainda enche é menor, então a parte de maré das setas mais distantes está superestimada. Afluentes (Itajaí-Mirim) e o Saco da Fazenda não entram.</li>
+        <li><strong>Profundidade única</strong> (nível de referência da praticagem + maré) e <strong>cunha salina presente em todo o trecho</strong>, com espessura da camada superior e σ calibrados em uma só observação (corrente acima de 2 nós no trecho A, 08:00 de 12/11/2026).</li>
+        <li><strong>Sem a camada junto ao cais</strong> (dezenas de metros) e sem tensão: para tensão no cais, veja os gráficos acima.</li>
+        <li><strong>Margens e eixo extraídos da carta de forma automática</strong>: podem ter falhas perto de píeres e estruturas.</li>
+      </ul>
+    </details>
+  </section>
+
   <div class="duas">
     <section class="painel" aria-labelledby="t-perfil">
       <h2 id="t-perfil">Perfil junto ao cais</h2>
@@ -244,6 +283,7 @@ a { color: var(--water); }
 const MARE = criarMare(/*DADOS*/);
 const P0 = /*PARAM*/;
 const OBS = /*OBS*/;
+const MAPA = /*MAPA*/;
 const GERADO = /*GERADO*/;
 
 const $ = id => document.getElementById(id);
@@ -285,12 +325,12 @@ function meiaNoite(diaStr) { const [a, m, d] = diaStr.split('-').map(Number); re
 function calcularDia() {
   const t0 = meiaNoite(est.dia), passo = 10 * 60e3, n = 24 * 6 + 1;
   const atrMs = est.atr * H_MS, dt = 300e3, area = est.larg * est.lef * 1e3;
-  const R = { t: [], eta: [], h: [], u: [], umed: [], uinf: [], tau: [] }, b = bSecao();
+  const R = { t: [], eta: [], h: [], qm: [], u: [], umed: [], uinf: [], tau: [] }, b = bSecao();
   for (let i = 0; i < n; i++) {
     const t = t0 + i * passo, eta = MARE.altura(t), h = est.prof + eta;
     const deta = (MARE.altura(t - atrMs + dt) - MARE.altura(t - atrMs - dt)) / (2 * dt / 1e3);
     const qm = -area * deta, [us, ui] = camadas(est.q, qm, h, b);
-    R.t.push(t); R.eta.push(eta); R.h.push(h); R.u.push(us); R.umed.push(uMedia(est.q + qm, h, b)); R.uinf.push(ui); R.tau.push(tauParede(us));
+    R.t.push(t); R.eta.push(eta); R.h.push(h); R.qm.push(qm); R.u.push(us); R.umed.push(uMedia(est.q + qm, h, b)); R.uinf.push(ui); R.tau.push(tauParede(us));
   }
   R.ext = MARE.extremos(t0, t0 + 24 * H_MS);
   return R;
@@ -383,6 +423,70 @@ function desenharDia() {
   return sel;
 }
 
+/* ---------- Mapa de vetores ---------- */
+const LIM_LARG_M = 380;      // acima disto (foz e bacia), o vetor é só indicativo
+const M_POR_NO = 170;        // comprimento da seta no mapa por nó (m do mapa)
+const CAMADAS = [['sup', 'Camada superior'], ['fundo', 'Camada de fundo'], ['media', 'Média vertical']];
+function valoresEstacoes(k) {
+  const h = R.h[k], qm = R.qm[k];
+  return MAPA.estacoes.map(e => {
+    const [us, ui] = camadas(est.q, qm, h, e.largura_m);
+    return { e, sup: us, fundo: ui, media: uMedia(est.q + qm, h, e.largura_m) };
+  });
+}
+function desenharMapa(k) {
+  const svg = $('g-mapa'), [x0, y0, x1, y1] = MAPA.bbox;
+  const W = Math.min(760, Math.max(300, svg.parentNode.clientWidth - 32)), sc = W / (x1 - x0), H = Math.round((y1 - y0) * sc);
+  svg.setAttribute('viewBox', `0 0 ${W} ${H}`); svg.setAttribute('width', W); svg.setAttribute('height', H); svg.innerHTML = '';
+  const X = x => (x - x0) * sc, Y = y => (y1 - y) * sc;
+  let d = '';
+  for (const poly of MAPA.margens) d += 'M' + poly.map(p => X(p[0]).toFixed(1) + ' ' + Y(p[1]).toFixed(1)).join('L') + 'Z';
+  el('path', { d, class: 'm-agua' }, svg);
+  el('path', { d: 'M' + MAPA.eixo.map(p => X(p[0]).toFixed(1) + ' ' + Y(p[1]).toFixed(1)).join('L'), class: 'm-eixo' }, svg);
+  const v = valoresEstacoes(k), cam = est.camada || 'sup';
+  // faixa do trecho A (0,3 a 1,25 km do eixo)
+  const eixoK = km => MAPA.eixo[Math.min(MAPA.eixo.length - 1, Math.round(km * 1000 / MAPA.passo_eixo_m))];
+  const pA = [3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map(i => MAPA.eixo[i]);
+  el('path', { d: 'M' + pA.map(p => X(p[0]).toFixed(1) + ' ' + Y(p[1]).toFixed(1)).join('L'), class: 'm-faixa', fill: 'none', stroke: 'var(--tau)', 'stroke-width': 14, 'stroke-linecap': 'round', opacity: 0.14 }, svg);
+  const a = pA[4]; el('text', { x: X(a[0]) - 14, y: Y(a[1]) + 26, 'text-anchor': 'end', class: 'm-rot-forte' }, svg).textContent = 'trecho A';
+  // marcas de distância
+  for (const km of [1, 2, 3, 4, 5]) {
+    const p = eixoK(km); el('circle', { cx: X(p[0]), cy: Y(p[1]), r: 2.5, fill: 'var(--muted)' }, svg);
+    const t = el('text', { x: X(p[0]) + 7, y: Y(p[1]) + 14, class: 'm-rot' }, svg); t.textContent = km + ' km';
+  }
+  const f0 = MAPA.eixo[0]; el('circle', { cx: X(f0[0]), cy: Y(f0[1]), r: 4, fill: 'var(--ink)' }, svg);
+  el('text', { x: X(f0[0]) - 6, y: Y(f0[1]) + 18, 'text-anchor': 'end', class: 'm-rot-forte' }, svg).textContent = 'DC01 (foz)';
+  // setas
+  for (const o of v) {
+    const e = o.e, u = o[cam], r = e.rumo * Math.PI / 180;
+    const jus = [-Math.sin(r), -Math.cos(r)];                 // sentido do mar, em x/y do mapa
+    const sinal = u >= 0 ? 1 : -1, len = Math.abs(u) / KN * M_POR_NO * sc;
+    const dx = jus[0] * sinal * len, dy = -jus[1] * sinal * len; // y do SVG é invertido
+    const cx = X(e.x), cy = Y(e.y), g = el('g', { class: e.largura_m > LIM_LARG_M ? 'm-incerta' : '' }, svg);
+    if (len < 3) { el('circle', { cx, cy, r: 2.2, class: 'm-seta-' + cam }, g); continue; }
+    const x2 = cx + dx / 2, y2 = cy + dy / 2, x1_ = cx - dx / 2, y1_ = cy - dy / 2, ang = Math.atan2(dy, dx), hs = Math.min(9, len * 0.45);
+    el('line', { x1: x1_, y1: y1_, x2: x2 - Math.cos(ang) * hs * 0.6, y2: y2 - Math.sin(ang) * hs * 0.6, class: 'm-seta m-seta-' + cam }, g);
+    el('polygon', { points: `${x2},${y2} ${x2 - hs * Math.cos(ang - 0.45)},${y2 - hs * Math.sin(ang - 0.45)} ${x2 - hs * Math.cos(ang + 0.45)},${y2 - hs * Math.sin(ang + 0.45)}`, class: 'm-seta-' + cam }, g);
+  }
+  // escala: seta de 1 nó, barra de 500 m e norte
+  const bx = 14, by = H - 16;
+  el('line', { x1: bx, y1: by, x2: bx + M_POR_NO * sc, y2: by, class: 'm-seta m-seta-' + cam }, svg);
+  el('text', { x: bx, y: by - 7, class: 'm-rot-forte' }, svg).textContent = 'seta de 1 nó';
+  el('line', { x1: bx, y1: by - 34, x2: bx + 500 * sc, y2: by - 34, stroke: 'var(--ink)', 'stroke-width': 2 }, svg);
+  el('text', { x: bx, y: by - 41, class: 'm-rot' }, svg).textContent = '500 m';
+  el('line', { x1: W - 24, y1: 44, x2: W - 24, y2: 14, stroke: 'var(--ink)', 'stroke-width': 2 }, svg);
+  el('polygon', { points: `${W - 24},8 ${W - 29},19 ${W - 19},19`, fill: 'var(--ink)' }, svg);
+  el('text', { x: W - 24, y: 58, 'text-anchor': 'middle', class: 'm-rot-forte' }, svg).textContent = 'N';
+  // texto e tabela
+  const t = R.t[k], nome = Object.fromEntries(CAMADAS)[cam];
+  $('mapa-info').textContent = `${hhmm(t)} · maré ${nf(R.eta[k], 2)} m · ${nome.toLowerCase()}`;
+  $('mapa-hora').value = k; $('mapa-hora-val').textContent = hhmm(t);
+  document.querySelectorAll('#camadas button').forEach(bt => bt.setAttribute('aria-pressed', bt.dataset.c === cam));
+  const sn = x => (x >= 0 ? '+' : '−') + nf(Math.abs(x / KN), 2);
+  const linhas = v.map(o => `<tr><td class="n">${nf(o.e.s_m / 1000, 1)}</td><td class="n">${o.e.largura_m}</td><td class="n">${sn(o.sup)}</td><td class="n">${sn(o.fundo)}</td><td class="n">${sn(o.media)}</td><td>${o.e.largura_m > LIM_LARG_M ? 'indicativo (alargamento)' : ''}</td></tr>`).join('');
+  $('t-mapa-tab').innerHTML = `<thead><tr><th class="n">Dist. da foz (km)</th><th class="n">Largura (m)</th><th class="n">Superfície (nó)</th><th class="n">Fundo (nó)</th><th class="n">Média (nó)</th><th>Nota</th></tr></thead><tbody>${linhas}</tbody><caption style="caption-side:bottom;text-align:left;color:var(--muted);font-size:0.78rem;padding-top:6px">+ saindo para o mar (vazante), − entrando (enchente). Distâncias pelo eixo do rio, a partir de DC01.</caption>`;
+}
+
 function desenharSelecao() {
   const sel = desenharDia();
   const k = sel == null ? 0 : sel;
@@ -398,6 +502,7 @@ function desenharSelecao() {
   }
   const xt = [0, 20, 40, 60, 80, 100].map(v => ({ v, r: v + ' m' }));
   grafico($('g-perfil-u'), { x0: 0, x1: 100, y0: 0, y1: Math.max(...us) * 1.05 || 0.1, xticks: xt, altura: 150, series: [{ x: ys, y: us, cls: 's-total', area: 's-mare-area' }] });
+  desenharMapa(k);
   grafico($('g-perfil-tau'), { x0: 0, x1: 100, y0: 0, y1: Math.max(...ts) * 1.05 || 0.01, xticks: xt, altura: 150, series: [{ x: ys, y: ts, cls: 's-tau', area: 's-tau-area' }] });
 }
 
@@ -537,6 +642,10 @@ for (const [id, k] of [['prof', 'prof'], ['larg', 'larg'], ['fd', 'fd'], ['lam',
   $(id).addEventListener('change', e => { const v = +e.target.value; if (v > 0) { est[k] = v; atualizar(); } });
 }
 $('q').value = sliderDeQ(est.q); $('lef').value = est.lef; $('atr').value = est.atr;
+$('lim-larg').textContent = LIM_LARG_M;
+$('camadas').innerHTML = CAMADAS.map(([c, n]) => `<button type="button" data-c="${c}">${n}</button>`).join('');
+$('camadas').onclick = ev => { const bt = ev.target.closest('button'); if (bt) { est.camada = bt.dataset.c; desenharSelecao(); } };
+$('mapa-hora').addEventListener('input', e => { est.sel = R.t[+e.target.value]; desenharSelecao(); });
 $('secoes').innerHTML = Object.entries(P0.secoes).map(([n, b]) => `<button type="button" data-s="${n}">${n} · ${b} m</button>`).join('');
 $('secoes').onclick = ev => { const bt = ev.target.closest('button'); if (bt) { est.secao = bt.dataset.s; atualizar(); } };
 montarEstacoes();

@@ -263,3 +263,16 @@ python ferramentas/vazao_indaial.py            # baixa e resume
 python ferramentas/vazao_indaial.py --offline  # só resume
 ```
 
+## Vetores de corrente no painel
+
+O painel `pagina/berco2.html` tem um mapa com setas de corrente ao longo do eixo
+do Itajaí-Açu (0 a 6 km da foz), na hora escolhida, para a camada superior, a de
+fundo ou a média vertical. É o modelo unidimensional aplicado a cada seção, com
+a largura medida na Carta 1841; não é um campo bidimensional, e as limitações
+estão escritas no próprio painel. A geometria (margens, eixo, estações) está em
+`dados/mapa_itajai_acu.json`, gerada com o GeoTIFF da carta:
+
+```bash
+python ferramentas/larguras_carta1841.py PASTA_DOS_TIF --mapa
+```
+
