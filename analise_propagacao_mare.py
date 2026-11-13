@@ -7,9 +7,12 @@ Uso:
 
 Fonte: https://monitoramento.defesacivil.itajai.sc.gov.br/monitoramento/rios
 (nível a cada 10 min, últimas 12 h, rede "Telemetria Itajaí"). O site não
-oferece histórico, então cada execução acrescenta as leituras novas a
-dados/niveis_defesacivil_itajai.csv. Rodar a cada poucas horas forma uma
-série longa, que melhora o ajuste e cobre sizígia e quadratura.
+oferece histórico, então cada execução grava as leituras novas num arquivo
+próprio em dados/niveis/ (AAAA-MM-DDTHHMMZ.csv, hora UTC da coleta). Nenhum
+arquivo é editado depois de criado, o que evita conflitos de merge entre a
+coleta automática e outras branches; a leitura junta todos os arquivos e
+descarta repetições. Rodar a cada poucas horas forma uma série longa, que
+melhora o ajuste e cobre sizígia e quadratura.
 
 Para cada estação, ajusta por mínimos quadrados
 
@@ -47,7 +50,8 @@ BLUMENAU = {'codigo': 'BLU', 'nome': 'Rio Itajaí-Açu - Blumenau (AlertaBlu)',
 # Fim do estuário: a maré sobe o Itajaí-Açu até o Salto (barragem da PCH Salto, Blumenau).
 SALTO = ('Salto (Blumenau)', -26.8800, -49.1089)
 ACU = ('DC01', 'DC11', 'BLU')  # pontos medidos no Itajaí-Açu, da foz para montante
-ARQ = Path(__file__).with_name('dados') / 'niveis_defesacivil_itajai.csv'
+PASTA = Path(__file__).with_name('dados') / 'niveis'  # um CSV por coleta
+CABECALHO = ['codigo', 'medido_em', 'nome', 'latitude', 'longitude', 'nivel_rio_m']
 REFERENCIA = 'DC01'  # Rio Itajaí-Açu - ICMBio/CEPSUL, junto à foz e ao porto
 W_M2 = 2 * np.pi / (12.4206012 * 3600)  # rad/s
 R_MIN = 0.05  # razão de amplitude abaixo disso é tratada como sem maré
@@ -77,13 +81,20 @@ def baixar_blumenau():
   return dict(BLUMENAU, serie_12_h=serie)
 
 
-def acumular(estacoes):
-  """Acrescenta ao CSV as leituras ainda não gravadas; retorna quantas entraram."""
-  ARQ.parent.mkdir(exist_ok=True)
-  existentes = set()
-  if ARQ.exists():
-    with ARQ.open() as f:
-      existentes = {(r['codigo'], r['medido_em']) for r in csv.DictReader(f)}
+def _linhas():
+  """Todas as leituras gravadas, sem repetições (a mesma leitura pode estar em dois arquivos)."""
+  vistas = {}
+  for arq in sorted(PASTA.glob('*.csv')):
+    with arq.open() as f:
+      for r in csv.DictReader(f):
+        vistas.setdefault((r['codigo'], r['medido_em']), r)
+  return vistas
+
+
+def acumular(estacoes, agora=None):
+  """Grava as leituras ainda não gravadas num arquivo novo; retorna (quantas, caminho ou None)."""
+  PASTA.mkdir(parents=True, exist_ok=True)
+  existentes = set(_linhas())
   novas = []
   for e in estacoes:
     for p in e.get('serie_12_h') or []:
@@ -94,22 +105,27 @@ def acumular(estacoes):
       if chave not in existentes:
         existentes.add(chave)
         novas.append([*chave, e['nome'], e['latitude'], e['longitude'], p['nivel_rio_m']])
-  novo_arquivo = not ARQ.exists()
-  with ARQ.open('a', newline='') as f:
+  if not novas:
+    return 0, None
+  agora = agora or datetime.now(timezone.utc)
+  arq = PASTA / f'{agora:%Y-%m-%dT%H%MZ}.csv'
+  n = 1
+  while arq.exists():  # duas coletas no mesmo minuto
+    arq = PASTA / f'{agora:%Y-%m-%dT%H%MZ}_{n}.csv'
+    n += 1
+  with arq.open('w', newline='') as f:
     w = csv.writer(f, lineterminator='\n')
-    if novo_arquivo:
-      w.writerow(['codigo', 'medido_em', 'nome', 'latitude', 'longitude', 'nivel_rio_m'])
+    w.writerow(CABECALHO)
     w.writerows(sorted(novas))
-  return len(novas)
+  return len(novas), arq
 
 
 def ler():
   series, meta = {}, {}
-  with ARQ.open() as f:
-    for r in csv.DictReader(f):
-      t = datetime.strptime(r['medido_em'], '%Y-%m-%dT%H:%M:%SZ').replace(tzinfo=timezone.utc)
-      series.setdefault(r['codigo'], []).append((t.timestamp(), float(r['nivel_rio_m'])))
-      meta[r['codigo']] = (r['nome'], float(r['latitude']), float(r['longitude']))
+  for r in _linhas().values():
+    t = datetime.strptime(r['medido_em'], '%Y-%m-%dT%H:%M:%SZ').replace(tzinfo=timezone.utc)
+    series.setdefault(r['codigo'], []).append((t.timestamp(), float(r['nivel_rio_m'])))
+    meta[r['codigo']] = (r['nome'], float(r['latitude']), float(r['longitude']))
   return {c: np.array(sorted(v)) for c, v in series.items()}, meta
 
 
@@ -210,7 +226,8 @@ def main():
       estacoes.append(baixar_blumenau())
     except (OSError, ValueError, KeyError) as erro:
       print(f'Aviso: Blumenau (AlertaBlu) não respondeu: {erro}')
-    print(f'{acumular(estacoes)} leituras novas gravadas em {ARQ}')
+    n, arq = acumular(estacoes)
+    print(f'{n} leituras novas gravadas em {arq}' if n else 'Nenhuma leitura nova.')
   if '--so-coletar' in sys.argv:
     return
   series, meta = ler()

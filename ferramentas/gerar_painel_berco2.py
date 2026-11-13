@@ -9,7 +9,7 @@ A página recebe:
   - os parâmetros físicos de cisalhamento_berco2_zp21.py (profundidade,
     largura, atrito, lambda, vazão, propagação da maré);
   - as séries de nível da Defesa Civil de Itajaí acumuladas em
-    dados/niveis_defesacivil_itajai.csv, com o ajuste de cada estação
+    dados/niveis/, com o ajuste de cada estação
     (razão de amplitude, atraso, zero da régua e tendência).
 
 O modelo físico é recalculado no navegador, então os controles da página
