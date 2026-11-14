@@ -1,5 +1,9 @@
 # 20200613-Univali-Projeto-Integrador-1B
- Repositório criado para reunir os códigos criados para a disciplina
+
+> **Desativado em 14/11/2026.** As ferramentas do Porto de Itajaí (maré,
+> painel do Berço 2, folga sob a quilha, coleta de níveis e vazão) passaram,
+> com o histórico, para `porto/` no repositório `Orbis_Hydro_ITJ2`. A coleta
+> automática roda lá; aqui ela parou. O conteúdo abaixo fica como estava.
 
 ## Maré astronômica do Porto de Itajaí — `mare_itajai.py`
 
