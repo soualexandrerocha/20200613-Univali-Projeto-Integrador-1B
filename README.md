@@ -367,3 +367,39 @@ posições (sem bússola) dá 153–156° V, e a do COG convertido dá cerca de
 154° V. As velocidades também batem: 0,84 m/s pelas posições e pelo SOG.
 
 Os vídeos e as saídas não vão para o repositório.
+
+## Gravações do SEAiq (prático) — `ferramentas/extrair_seaiq.py`
+
+Converte a gravação `.nmea` do SEAiq, o app do kit portátil do prático, em
+três CSV, numa pasta de saída:
+
+- `trajetoria.csv`: uma linha por fixo GNSS (1 s): hora UTC e local
+  (UTC−3), latitude e longitude, qualidade do fixo, SOG (nós e m/s), COG
+  e proa (graus verdadeiros), taxa de giro (°/min) e deriva;
+- `ais_alvos.csv`: cada leitura de alvo AIS que o app gravou (`$PSIQAIS`):
+  hora, MMSI, posição, COG, SOG, proa e giro;
+- `ais_navios.csv`: um navio por MMSI, com nome, indicativo, IMO, tipo,
+  comprimento, boca, calado e destino, decodificados das mensagens AIS 5 e
+  24 (`!AIVDM`). Valor 0 no AIS quer dizer "não informado" e fica vazio.
+
+```bash
+python ferramentas/extrair_seaiq.py GRAVACAO.nmea saida/
+python ferramentas/extrair_seaiq.py GRAVACAO.nmea saida/ --sog-min 1.5 --idade-max 3
+```
+
+**Deriva** é o COG menos a proa, de −180° a +180°, positiva quando o navio
+anda para boreste da proa. Ela soma corrente, vento e o efeito de máquina,
+leme e rebocadores: num navio sob máquina não é a corrente. Abaixo de
+`--sog-min` nós (padrão 1,0) o COG do GNSS fica ruidoso ou some, e a deriva
+fica vazia. A proa e o giro chegam em sentenças separadas do fixo; cada
+linha usa a última leitura com até `--idade-max` segundos (padrão 3).
+
+Sentenças com checksum errado são descartadas. O script avisa as falhas da
+gravação maiores que 2 s.
+
+Na gravação de 13/10/2026 (MSC MARIA MARILYN X, 16:09–17:34 local): 5 069
+fixos, 3,6 mn percorridas, 62 navios no AIS, duas falhas de 9 e 10 s às
+16:42. A deriva, com o navio acima de 1 nó, ficou entre −9,0° e +3,6°, com
+média de +0,4°.
+
+As gravações e as saídas não vão para o repositório.
