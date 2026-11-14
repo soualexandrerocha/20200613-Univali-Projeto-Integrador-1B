@@ -1,0 +1,88 @@
+{
+ "descricao": "Linha do cais público do Porto de Itajaí (berços 1 a 4), margem direita do Itajaí-Açu.",
+ "fontes": [
+  "Quinas: margem sul de dados/mapa_itajai_acu.json (Carta Náutica 1841, DHN; ferramentas/larguras_carta1841.py).",
+  "Berços e trechos: planta da Superintendência do Porto de Itajaí (dados/planta_porto_itajai_spi.jpg), sem escala; usada só para a ordem dos berços e a proporção entre trechos.",
+  "Conferência: gravação SEAiq de 13/10/2026 (MSC MARIA MARILYN X atracado nos berços 3/4): antena a 5 m da linha do cais e proa 300° contra cais a 301°."
+ ],
+ "origem_xy": "DC01 (CEPSUL), x para leste e y para norte, em metros (mesma referência de dados/mapa_itajai_acu.json)",
+ "quinas": {
+  "A": {
+   "lat": -26.901719,
+   "lon": -48.659696,
+   "x": -803,
+   "y": 754,
+   "nota": "extremo de jusante (Berço 1)"
+  },
+  "B": {
+   "lat": -26.900892,
+   "lon": -48.665221,
+   "x": -1351,
+   "y": 846,
+   "nota": "quina entre os berços 2 e 3"
+  },
+  "C": {
+   "lat": -26.898887,
+   "lon": -48.668961,
+   "x": -1722,
+   "y": 1069,
+   "nota": "extremo de montante (Berço 4)"
+  }
+ },
+ "trechos": [
+  {
+   "de": "A",
+   "para": "B",
+   "bercos": [
+    1,
+    2
+   ],
+   "comprimento_m": 556,
+   "rumo_verd": 279.5,
+   "nota": "área arrendada"
+  },
+  {
+   "de": "B",
+   "para": "C",
+   "bercos": [
+    3,
+    4
+   ],
+   "comprimento_m": 433,
+   "rumo_verd": 301.0,
+   "nota": "área primária"
+  }
+ ],
+ "eixo_cais": "s_cais_m: distância ao longo do cais a partir da quina B, positiva para montante (berços 3 e 4) e negativa para jusante (berços 1 e 2).",
+ "bercos": [
+  {
+   "berco": 1,
+   "s_cais_m": [
+    -556,
+    -300
+   ]
+  },
+  {
+   "berco": 2,
+   "s_cais_m": [
+    -300,
+    0
+   ]
+  },
+  {
+   "berco": 3,
+   "s_cais_m": [
+    0,
+    210
+   ]
+  },
+  {
+   "berco": 4,
+   "s_cais_m": [
+    210,
+    433
+   ]
+  }
+ ],
+ "incerteza": "As quinas vêm da carta digitalizada (erro esperado de alguns metros a uma dezena). As divisas 1|2 e 3|4 não aparecem na planta: foram estimadas entre a divisão em partes iguais e o ponto médio entre os rótulos dos berços (1|2: 280 a 320 m a jusante de B; 3|4: 210 a 215 m a montante). Considere ±50 m nessas duas divisas."
+}
