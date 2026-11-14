@@ -403,3 +403,34 @@ fixos, 3,6 mn percorridas, 62 navios no AIS, duas falhas de 9 e 10 s às
 média de +0,4°.
 
 As gravações e as saídas não vão para o repositório.
+
+## Cais do Porto de Itajaí — `dados/cais_porto_itajai.json` e `ferramentas/cais.py`
+
+Referência da linha do cais público (berços 1 a 4) para situar trajetórias,
+vídeos do plotter e gravações do SEAiq. O cais tem dois trechos retos que se
+encontram numa quina entre os berços 2 e 3:
+
+| Trecho | Berços | Comprimento | Rumo (jusante → montante) |
+|---|---|---|---|
+| A → B | 1 e 2 (área arrendada) | 556 m | 280° |
+| B → C | 3 e 4 (área primária) | 433 m | 301° |
+
+Quina B (entre os berços 2 e 3): −26,90089 / −48,66522. As quinas vêm da
+margem sul de `dados/mapa_itajai_acu.json` (Carta 1841). A ordem dos berços
+e a proporção entre os trechos vêm da planta da Superintendência do Porto
+(`dados/planta_porto_itajai_spi.jpg`, sem escala). As divisas 1|2 e 3|4 não
+aparecem na planta e foram estimadas (±50 m): 300 m a jusante e 210 m a
+montante da quina B.
+
+Conferência: na gravação SEAiq de 13/10/2026, o MSC MARIA MARILYN X
+atracado ficou com a antena do kit a 5 m da linha do cais e com proa de 300°,
+contra 301° do cais.
+
+```bash
+python ferramentas/cais.py -26.89937 -48.66796          # um ponto
+python ferramentas/cais.py trajetoria.csv saida.csv     # CSV com colunas lat e lon
+```
+
+Devolve `s_cais_m` (ao longo do cais, a partir da quina B: positivo para
+montante, negativo para jusante), `afast_m` (distância à linha do cais,
+positiva para o rio) e `berco` (o berço em frente, a qualquer distância).
