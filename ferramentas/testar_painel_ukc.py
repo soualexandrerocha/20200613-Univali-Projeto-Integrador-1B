@@ -5,7 +5,8 @@ cálculo independente em Python com mare_itajai.py.
 
 Para vários casos (regras vigentes da NPCP-SC com o adicional do Ofício
 755/2026 e regras alteradas; referenciais NR, outro zero e medida no instante;
-com e sem FWA; manobra instantânea e longa) compara calado
+com e sem FWA; manobra instantânea e longa; nível acima e abaixo do previsto;
+ponto desmarcado e ponto marcado sem profundidade) compara calado
 corrigido, maré necessária e cada janela de início de manobra. Falha se a
 diferença passar de 1 mm, se o número de janelas diferir ou se uma borda
 diferir mais de 1 min.
@@ -29,15 +30,18 @@ VIGENTES = {  # NPCP-SC + Res. SPI 013/2024 + Ofício 755/2026-DelItajaí
     'b1': ('Bacia 1', 0.60, 'm', 0.80), 'b2': ('Bacia 2', 10, 'pct', 0.80), 'be': ('Berços', 0.60, 'm', 0.0),
 }
 CASOS = [
-    dict(ini='2026-11-13T00:00', fim='2026-11-16T00:00', dur=60, margem=0.0, tav=11.30, tar=11.60,
-         rref=1.025, rloc=1.012, fwa=None, trechos=VIGENTES,
+    # Pontos: (nome, trecho, prof, ref, cota, inst[, ativo]). prof None = sem profundidade (aviso).
+    dict(ini='2026-11-13T00:00', fim='2026-11-16T00:00', dur=60, desvio=0.0, tav=11.30, tar=11.60,
+         rref=1.025, rloc=1.012, fwa=None, trechos=VIGENTES, avisos=1,
          pontos=[('Externo', 'ce', 13.40, 'nr', None, None), ('Interno', 'ci', 13.10, 'nr', None, None),
-                 ('Bacia 1', 'b1', 12.80, 'nr', None, None), ('Bacia 2', 'b2', 13.50, 'nr', None, None)]),
-    dict(ini='2027-03-01T06:00', fim='2027-03-08T06:00', dur=0, margem=0.10, tav=11.8, tar=11.8,
+                 ('Bacia 1', 'b1', 12.80, 'nr', None, None), ('Bacia 2', 'b2', 13.50, 'nr', None, None),
+                 ('Berços', 'be', None, 'nr', None, None),
+                 ('Raso desmarcado', 'ci', 11.00, 'nr', None, None, False)]),
+    dict(ini='2027-03-01T06:00', fim='2027-03-08T06:00', dur=0, desvio=-0.10, tav=11.8, tar=11.8, avisos=0,
          rref=1.025, rloc=1.000, fwa=280, trechos={**VIGENTES, 'ci': ('Canal interno', 0.9, 'm', 0.0)},
          pontos=[('Régua', 'ci', 10.95, 'outro', -1.896, None), ('Canal', 'ce', 13.6, 'nr', None, None),
                  ('Berço', 'be', 13.9, 'inst', None, '2027-02-27T10:00')]),
-    dict(ini='2030-07-10T00:00', fim='2030-07-12T00:00', dur=150, margem=0.20, tav=11.8, tar=12.2,
+    dict(ini='2030-07-10T00:00', fim='2030-07-12T00:00', dur=150, desvio=+0.15, tav=11.8, tar=12.2, avisos=0,
          rref=1.020, rloc=1.015, fwa=None, trechos={k: (v[0], v[1], v[2], 0.0) for k, v in VIGENTES.items()},
          pontos=[('A', 'b2', 14.2, 'nr', None, None), ('B', 'be', 13.0, 'outro', 0.4, None)]),
 ]
@@ -54,7 +58,9 @@ def em_python(mare, c):
     else:
         tc = tmax * c['rref'] / c['rloc']
     nec = []
-    for _, trecho, prof, ref, cota, inst in c['pontos']:
+    for nome, trecho, prof, ref, cota, inst, *resto in c['pontos']:
+        if (resto and resto[0] is False) or prof is None:
+            continue
         if ref == 'nr':
             dnr = prof
         elif ref == 'outro':
@@ -64,7 +70,7 @@ def em_python(mare, c):
         _, valor, unidade, adicional = c['trechos'][trecho]
         faq = (valor / 100 * tc if unidade == 'pct' else valor) + adicional
         nec.append(tc + faq - dnr)
-    hnec = max(nec) + c['margem']
+    hnec = max(nec) - c['desvio']
     ini, fim = np.datetime64(c['ini']), np.datetime64(c['fim'])
     n = int((fim - ini) / MIN) + 1
     t = ini + np.arange(n + c['dur']) * MIN
@@ -84,20 +90,21 @@ def main():
     entradas = []
     for c in CASOS:
         entradas.append(dict(
-            ini=local_ms(c['ini']), fim=local_ms(c['fim']), dur=c['dur'], margem=c['margem'],
+            ini=local_ms(c['ini']), fim=local_ms(c['fim']), dur=c['dur'], desvio=c['desvio'],
             tav=c['tav'], tar=c['tar'], rref=c['rref'], rloc=c['rloc'],
             fwa=c['fwa'] if c['fwa'] else None,
             trechos={k: dict(nome=v[0], valor=v[1], unidade=v[2], adicional=v[3]) for k, v in c['trechos'].items()},
-            pontos=[dict(nome=p[0], trecho=p[1], prof=p[2], ref=p[3], cota=p[4], inst=local_ms(p[5]) if p[5] else None)
+            pontos=[dict(nome=p[0], trecho=p[1], prof=p[2], ref=p[3], cota=p[4], inst=local_ms(p[5]) if p[5] else None,
+                         ativo=p[6] if len(p) > 6 else True)
                     for p in c['pontos']]))
     js = (nucleo + ukc + f"""
 const MARE = criarMare({json.dumps(D, separators=(',', ':'))});
 const nul = x => x === null ? NaN : x;
 const E = {json.dumps(entradas)};
 const out = E.map(e => {{
-  e.fwa = nul(e.fwa); e.pontos.forEach(p => {{ p.cota = nul(p.cota); p.inst = nul(p.inst); }});
+  e.fwa = nul(e.fwa); e.pontos.forEach(p => {{ p.prof = nul(p.prof); p.cota = nul(p.cota); p.inst = nul(p.inst); }});
   const R = calcularFolga(MARE, e);
-  return {{erros: R.erros, tc: R.tc, hnec: R.hnec, J: (R.J || []).map(j => [j.a, j.b])}};
+  return {{erros: R.erros, avisos: R.avisos, tc: R.tc, hnec: R.hnec, J: (R.J || []).map(j => [j.a, j.b])}};
 }});
 console.log(JSON.stringify(out));
 """)
@@ -106,6 +113,7 @@ console.log(JSON.stringify(out));
     for i, (c, r) in enumerate(zip(CASOS, res), 1):
         tc, hnec, jp = em_python(mare, c)
         assert not r['erros'], r['erros']
+        assert len(r['avisos']) == c['avisos'], r['avisos']
         jj = [(str(np.datetime64(a, 'ms').astype('datetime64[m]') - np.timedelta64(3, 'h')),
                str(np.datetime64(b, 'ms').astype('datetime64[m]') - np.timedelta64(3, 'h'))) for a, b in r['J']]
         d_tc, d_h = abs(tc - r['tc']), abs(hnec - r['hnec'])

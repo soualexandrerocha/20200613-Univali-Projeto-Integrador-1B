@@ -1,25 +1,29 @@
 // Núcleo da folga estática sob a quilha (sem DOM): usado por pagina/folga_quilha.html
 // e pelo teste ferramentas/testar_painel_ukc.py. Precisa de MARE = criarMare(D).
 //
-// e = {ini, fim, inst dos pontos: ms UTC; dur: min; margem, tav, tar: m; rref, rloc: t/m³;
+// e = {ini, fim, inst dos pontos: ms UTC; dur: min; desvio, tav, tar: m; rref, rloc: t/m³;
 //      fwa: mm (NaN = sem);
 //      trechos: {id: {nome, valor, unidade: 'pct'|'m', adicional: m}};
-//      pontos: [{nome, trecho, prof, ref: 'nr'|'outro'|'inst', cota, inst}]}
+//      pontos: [{nome, trecho, ativo, prof, ref: 'nr'|'outro'|'inst', cota, inst}]}
+//
+// desvio = nível real − maré prevista (+ acima, − abaixo). Pontos com ativo = false
+// ficam de fora; pontos ativos sem profundidade geram aviso e também ficam de fora.
 //
 // Folga exigida no ponto (FAQ) = valor (% do calado corrigido ou m) + adicional
-// do trecho do ponto. UKC(t) = D_NR + maré(t) − margem − T_corrigido. Uma
+// do trecho do ponto. UKC(t) = D_NR + maré(t) + desvio − T_corrigido. Uma
 // manobra que começa em s é permitida se UKC ≥ FAQ em todos os pontos durante
 // [s, s + dur]. Equivale à fórmula da NPCP-SC, CMR = MPO + Hmaré − FAQ.
 function calcularFolga(MARE, e) {
   const H_MS = 3600e3, MIN_MS = 60e3;
   const erros = [];
-  const { ini, fim, dur } = e, margem = Number.isFinite(e.margem) ? e.margem : 0;
+  const { ini, fim, dur } = e, desvio = Number.isFinite(e.desvio) ? e.desvio : 0;
+  const margem = -desvio;   // quanto a maré prevista precisa compensar
+  const avisos = [];
   if (!Number.isFinite(ini) || !Number.isFinite(fim)) erros.push('Informe o início e o fim do período.');
   else if (fim <= ini) erros.push('O fim do período precisa ser depois do início.');
   else if (fim - ini > 31 * 24 * H_MS) erros.push('Use um período de no máximo 31 dias.');
   else if (ini < MARE.ini || fim > MARE.fim) erros.push('O modelo cobre de 2015 a 2050.');
   if (!(dur >= 0)) erros.push('Informe a duração da manobra em minutos (0 se for instantânea).');
-  if (margem < 0) erros.push('A reserva de nível não pode ser negativa.');
   const { tav, tar, rref, rloc, fwa, trechos } = e;
   if (!(tav > 0 && tar > 0)) erros.push('Informe os calados do navio.');
   if (!(rref >= 0.99 && rref <= 1.04) || !(rloc >= 0.99 && rloc <= 1.04)) erros.push('As densidades devem estar entre 0,990 e 1,040 t/m³.');
@@ -29,8 +33,10 @@ function calcularFolga(MARE, e) {
   const pts = [];
   e.pontos.forEach((p, i) => {
     const nome = (p.nome || '').trim() || `Ponto ${i + 1}`;
+    if (p.ativo === false) return;
     if (!trechos[p.trecho]) { erros.push(`${nome}: escolha o trecho.`); return; }
-    if (!(p.prof > 0)) { erros.push(`${nome}: informe a profundidade.`); return; }
+    if (!Number.isFinite(p.prof)) { avisos.push(`${nome}: sem profundidade, ficou fora do cálculo.`); return; }
+    if (!(p.prof > 0)) { erros.push(`${nome}: a profundidade precisa ser maior que zero.`); return; }
     const base = { nome, trecho: p.trecho, prof: p.prof, ref: p.ref };
     if (p.ref === 'nr') pts.push({ ...base, dnr: p.prof });
     else if (p.ref === 'outro') {
@@ -43,8 +49,8 @@ function calcularFolga(MARE, e) {
       pts.push({ ...base, inst: p.inst, hmed: hm, dnr: p.prof - hm });
     }
   });
-  if (!e.pontos.length) erros.push('Inclua pelo menos um ponto de profundidade.');
-  if (erros.length) return { erros };
+  if (!erros.length && !pts.length) erros.push('Marque pelo menos um ponto de verificação com profundidade.');
+  if (erros.length) return { erros, avisos };
 
   // Calado máximo corrigido pela densidade
   const tmax = Math.max(tav, tar), trim = tar - tav;
@@ -96,7 +102,7 @@ function calcularFolga(MARE, e) {
   for (let i = 0; i < nStarts; i++) { hMinP = Math.min(hMinP, h[i]); hMaxP = Math.max(hMaxP, h[i]); }
   const E = MARE.extremos(ini, fim);
 
-  return { erros, tav, tar, tmax, trim, dT, metodo, tc, ukc, faq, margem, durMin, pts, crit, hreq,
+  return { erros, avisos, desvio, tav, tar, tmax, trim, dT, metodo, tc, ukc, faq, margem, durMin, pts, crit, hreq,
            hnec: hreq + margem, h, nStarts, J, total, sens, E, hMinP, hMaxP, ukcAt };
 }
 if (typeof module !== 'undefined') module.exports = { calcularFolga };

@@ -203,12 +203,16 @@ Formulário para calcular a folga estática sob a quilha (UKC) de um navio no
 Porto de Itajaí e os horários em que a manobra pode começar, com a maré
 astronômica de `mare_itajai.py`. Abre no navegador ou no celular, sem Python.
 
-**Entradas:** período e duração da manobra; reserva de nível (vento, maré
-meteorológica, vazão do rio); pontos de profundidade, cada um com seu trecho
-e seu referencial: NR da DHN, outro zero (com a cota desse zero em relação ao
-NR) ou medida no instante (a página desconta a maré daquele instante); calados
-AV/AR ou médio e trim; densidade em que o calado vale e densidade local, com
-FWA opcional; folga abaixo da quilha (FAQ) de cada trecho, editável.
+**Entradas:** período e duração da manobra; diferença entre o nível real e o
+previsto (+ acima, − abaixo), para vento, maré meteorológica e vazão do rio;
+um ponto de verificação fixo para cada trecho (canal externo, canal interno,
+bacias 1 e 2, berços), que não pode ser apagado, só desmarcado, e pontos
+extras apagáveis; em cada ponto, profundidade e referencial: NR da DHN, outro
+zero (com a cota desse zero em relação ao NR) ou medida no instante (a página
+desconta a maré daquele instante). Ponto marcado sem profundidade gera aviso e
+fica fora do cálculo. Também: calados AV/AR ou médio e trim; densidade em que o
+calado vale e densidade local, com FWA opcional; folga abaixo da quilha (FAQ)
+de cada trecho, editável.
 
 **Regras de FAQ preenchidas** (verificadas em 12/11/2026):
 
@@ -240,7 +244,7 @@ FWA opcional; folga abaixo da quilha (FAQ) de cada trecho, editável.
 - FAQ do ponto = valor do trecho (% sobre o maior calado já corrigido, ou m) +
   adicional. A norma diz só "calado do navio"; usar o maior calado corrigido
   é a leitura mais conservadora;
-- UKC(t) = profundidade no NR + maré(t) − reserva − calado corrigido;
+- UKC(t) = profundidade no NR + maré(t) + (nível real − previsto) − calado corrigido;
 - a manobra pode começar em s se UKC ≥ FAQ em todos os pontos durante todo o
   intervalo [s, s + duração], com passo de 1 min.
 
